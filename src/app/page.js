@@ -1,113 +1,152 @@
-import Image from 'next/image'
+"use client";
+
+import { Filter, HelpingHand, Info } from "lucide-react";
+import Link from "next/link";
+import { useState, useEffect } from "react";
 
 export default function Home() {
+  const [initialData, setInitialData] = useState([]);
+  const [data, setData] = useState([]);
+
+  const getData = async () => {
+    const res = await fetch(
+      "https://notion-api.splitbee.io/v1/table/872d317db9c64d3d88195b217cb3dc2f"
+    );
+    const data = await res.json();
+    setInitialData(data);
+
+    return data;
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const handleKeyPress = (e) => {
+    if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+      document.querySelector("input").focus();
+    }
+  };
+
+  const handleSearch = (e) => {
+    const searchQuery = e.target.value.toLowerCase();
+    const filteredData = initialData.filter((item) => {
+      if (searchQuery.length < 2) return false;
+      console.log(item);
+      return (
+        item.Title?.toLowerCase().includes(searchQuery) ||
+        item.Type?.toLowerCase().includes(searchQuery) ||
+        item.Filetype?.toLowerCase().includes(searchQuery) ||
+        item.Description?.toLowerCase().includes(searchQuery) ||
+        item.id?.toLowerCase().includes(searchQuery) ||
+        item.Thumbnails?.[0].url.toLowerCase().includes(searchQuery) ||
+        item.Tags?.map((e) => e.toLowerCase()).includes(searchQuery)
+      );
+    });
+    setData(filteredData);
+  };
+
+  useEffect(() => {
+    document.querySelector("input").focus();
+    document.addEventListener("keydown", handleKeyPress);
+    return () => {
+      document.removeEventListener("keydown", handleKeyPress);
+    };
+  }, []);
+
+  useEffect(() => {
+    document.getElementById("search").focus();
+  }, []);
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/app/page.js</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <main
+      className="flex min-h-screen flex-col items-center justify-between p-12 bg-zinc-900 bg-grid
+    selection:bg-zinc-800 selection:text-prim font-overpass"
+    >
+      <header className="flex-row flex fixed justify-between items-center w-full px-20 z-10">
+        <Link
+          href="/"
+          className="flex gap-2"
+          onClick={() => {
+            setData([]);
+            document.getElementById("search").value = "";
+          }}
+        >
+          {/* <img src="./cc0lib.svg" alt="cc0lib" /> */}
+          <img src="./cc0lib-h.svg" alt="cc0lib" className="w-40" />
+        </Link>
+        {/* {data && data.length <= 1 ? (
+          <p className="font-overpass text-sm ">{data.length} RESULT</p>
+        ) : (
+          <p className="font-overpass text-sm ">{data.length} RESULTS</p>
+        )} */}
+        <ul className="flex gap-4 items-center">
+          <li>
+            <Link
+              href="/info"
+              className="flex flex-row items-center gap-2 group"
+            >
+              <span className="opacity-0 group-hover:opacity-100 duration-250 ease-linear transition-all">
+                info
+              </span>
+              <Info className="w-8 h-8 group-hover:stroke-prim" />
+            </Link>
+          </li>
+        </ul>
+      </header>
+
+      {data && (
+        <div className="masonry sm:masonry-sm md:masonry-md space-y-6 my-16 ">
+          {data.map((item) => {
+            return (
+              <div key={item.id} className="group relative">
+                <img
+                  src={item.Thumbnails?.[0].url}
+                  className="hover:ring-2 hover:ring-offset-1 hover:ring-offset-zinc-900 hover:ring-prim ease-in-out duration-100 rounded-sm"
+                />
+                <h1 className="top-4 right-4 absolute hidden group-hover:block font-chakra text-white backdrop-blur-sm bg-zinc-800 bg-opacity-50 px-3 py-1">
+                  {item.Filetype}
+                </h1>
+              </div>
+            );
+          })}
         </div>
-      </div>
-
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
+      )}
+      <div className="fixed mb-60 bottom-0 z-10 left-0 flex flex-col">
+        <input
+          onChange={handleSearch}
+          id="search"
+          type="text"
+          className="text-white px-6 mx-20 text-8xl bg-transparent focus:outline-none selection:text-sec selection:bg-zinc-800 placeholder:text-zinc-600 focus:backdrop-blur-md drop-shadow-md focus:bg-zinc-800 focus:bg-opacity-50 w-1/2 h-40 focus:rounded-sm peer duration-250 ease-linear transition-all focus:ring-none"
+          placeholder="search here"
         />
+        {/* <span className="px-8 mx-20 -mt-6 text-zinc-700 duration-250 ease-linear transition-all">
+          ctrl+k / cmd+k
+        </span> */}
       </div>
+      <footer className="flex-row flex fixed justify-between items-center w-full px-20 mb-12 bottom-0">
+        {/* <div className="flex flex-row items-center gap-2 group" id="filter">
+          <Filter className="w-8 h-8 group-hover:stroke-prim" />
+          <span className="opacity-0 group-hover:opacity-100 duration-250 ease-linear transition-all">
+            filter
+          </span>
 
-      <div className="mb-32 grid text-center lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800 hover:dark:bg-opacity-30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore the Next.js 13 playground.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
+          <ul className="flex justify-center gap-2 items-center">
+            <li className="hover:text-prim">image</li>
+            <li className="hover:text-prim">video</li>
+            <li className="hover:text-prim">audio</li>
+            <li className="hover:text-prim">gif</li>
+            <li className="hover:text-prim">3d</li>
+          </ul>
+        </div> */}
+        <div></div>
+        <div className="flex flex-row items-center gap-2 group" id="contribute">
+          <span className="opacity-0 group-hover:opacity-100 duration-250 ease-linear transition-all">
+            contribute
+          </span>
+          <HelpingHand className="w-8 h-8 group-hover:stroke-prim" />
+        </div>
+      </footer>
     </main>
-  )
+  );
 }
