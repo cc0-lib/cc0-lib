@@ -69,7 +69,7 @@ const DetailsPage = ({ params }) => {
       </header>
 
       {data && data?.Type === "3D" && data?.Filetype === "GLB" && (
-        <div className="h-auto w-full items-center justify-center">
+        <div className="hidden h-auto w-full items-center justify-center sm:block">
           <Script
             type="module"
             crossOrigin="anonymous"
@@ -104,7 +104,7 @@ const DetailsPage = ({ params }) => {
       {data && data?.Type === "Working Files" && data?.Filetype === "Figma" && (
         <iframe
           src={`https://www.figma.com/embed?embed_host=share&url=${data.File}`}
-          className="h-screen w-full p-16"
+          className="h-screen w-full px-2 py-16 sm:p-16"
           allowFullScreen
         />
       )}
@@ -121,7 +121,7 @@ const DetailsPage = ({ params }) => {
         />
       )}
 
-      {data && data?.Type === "3D" && (
+      {data && (data?.Type === "3D" || data?.Type === "Working Files") && (
         <img
           src={data.Thumbnails[0].url}
           alt=""
@@ -218,7 +218,7 @@ const DetailsPage = ({ params }) => {
               {data?.Tags && data?.Tags.length >= 1 && (
                 <span className="flex flex-row items-start gap-2 lowercase">
                   <span>tags:</span>
-                  <div className="grid grid-cols-4 sm:grid-cols-5">
+                  <div className="grid grid-cols-4 text-center sm:grid-cols-5">
                     {data.Tags.map((tag) => {
                       return (
                         <Link

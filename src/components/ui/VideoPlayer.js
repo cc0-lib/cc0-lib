@@ -53,7 +53,7 @@ const VideoPlayer = ({ data, src, className }) => {
   }, []);
 
   return (
-    <div className="relative w-full px-2 py-16 sm:p-16">
+    <div className="relative w-full px-2 py-16 text-sm sm:p-16 sm:text-lg">
       <video
         src={src}
         alt="video"
@@ -67,10 +67,14 @@ const VideoPlayer = ({ data, src, className }) => {
         className="absolute inset-0 left-0 top-0 flex h-full w-full flex-col items-center justify-between bg-zinc-900 bg-opacity-50 px-2 py-10 font-chakra uppercase opacity-0 transition-all duration-150 ease-in-out hover:opacity-100 sm:px-16 sm:py-12"
       >
         <div className="flex w-full flex-row items-center justify-between p-8">
-          <img src="/cc0lib.svg" alt="cc0lib-logo" className="h-16 w-16" />
+          <img
+            src="/cc0lib.svg"
+            alt="cc0lib-logo"
+            className="h-8 w-8 sm:h-16 sm:w-16"
+          />
           <Maximize
             id="maximize-icon"
-            className="h-8 w-8 hover:cursor-pointer hover:stroke-prim"
+            className="h-4 w-4 hover:cursor-pointer hover:stroke-prim sm:h-8 sm:w-8"
             onClick={toggleFullScreen}
           />
           {/* <span>{data.Filetype}</span> */}
@@ -78,13 +82,13 @@ const VideoPlayer = ({ data, src, className }) => {
         {playing ? (
           <Pause
             id="pause-icon"
-            className="-mt-6 h-16 w-16 hover:cursor-pointer hover:stroke-prim sm:-mt-0"
+            className="-mt-6 h-8 w-8 hover:cursor-pointer hover:stroke-prim sm:-mt-0 sm:h-16 sm:w-16"
             onClick={togglePlay}
           />
         ) : (
           <Play
             id="play-icon"
-            className="-mt-6 h-16 w-16 hover:cursor-pointer hover:stroke-prim sm:-mt-0"
+            className="-mt-6 h-8 w-8 hover:cursor-pointer hover:stroke-prim sm:-mt-0 sm:h-16 sm:w-16"
             onClick={togglePlay}
           />
         )}
