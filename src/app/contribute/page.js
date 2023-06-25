@@ -33,10 +33,10 @@ const ContributePage = () => {
 
       <div className="duration-250 peer mt-64 flex h-40 w-full flex-col bg-transparent p-4 text-prim drop-shadow-md transition-all ease-linear selection:bg-zinc-800 selection:text-sec placeholder:text-zinc-600 focus:rounded-sm focus:bg-zinc-800 focus:bg-opacity-50 focus:outline-none focus:backdrop-blur-md sm:p-16">
         <span className="font-rubik text-6xl">contribute</span>
-        <span className="mt-8 w-1/2 max-w-prose text-lg text-white">
+        <span className="mt-8 w-full max-w-prose text-lg text-white sm:w-1/2">
           got more cc0 content? want to contribute?
         </span>
-        <span className="mt-8 w-1/2 max-w-prose text-lg text-white">
+        <span className="mt-8 w-full max-w-prose text-lg text-white sm:w-1/2">
           mail us: cc0-lib[at]archives.wtf
         </span>
       </div>

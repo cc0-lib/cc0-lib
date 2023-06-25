@@ -104,7 +104,7 @@ const DetailsPage = ({ params }) => {
       {data && data?.Type === "Working Files" && data?.Filetype === "Figma" && (
         <iframe
           src={`https://www.figma.com/embed?embed_host=share&url=${data.File}`}
-          className="h-screen w-full px-2 py-16 sm:p-16"
+          className="hidden h-screen w-full px-2 py-16 sm:block sm:p-16"
           allowFullScreen
         />
       )}
@@ -152,11 +152,11 @@ const DetailsPage = ({ params }) => {
       {data && (
         <div className="flex w-full flex-col items-center justify-between gap-4 p-4 sm:flex-row sm:p-16">
           <div className="duration-250 flex flex-col gap-4 font-spline text-2xl text-white transition-all ease-linear">
-            <span className="-ml-1 font-rubik text-6xl text-prim">
+            <span className="-ml-1 font-rubik text-3xl text-prim">
               {data?.Title}
             </span>
             <span className="max-w-prose text-lg">{data?.Description}</span>
-            <div className="flex w-1/3 flex-col text-xl lowercase">
+            <div className="flex w-1/3 flex-col text-lg lowercase">
               {data?.Source && (
                 <Link
                   href={data?.Source}
