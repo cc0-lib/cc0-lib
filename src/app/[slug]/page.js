@@ -218,7 +218,7 @@ const DetailsPage = ({ params }) => {
               {data?.Tags && data?.Tags.length >= 1 && (
                 <span className="flex flex-row items-start gap-2 lowercase">
                   <span>tags:</span>
-                  <div className="grid grid-cols-4 text-center sm:grid-cols-5">
+                  <div className="grid grid-cols-3 text-center sm:grid-cols-5">
                     {data.Tags.map((tag) => {
                       return (
                         <Link
