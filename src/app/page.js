@@ -156,7 +156,7 @@ export default function Home() {
       className="flex min-h-screen flex-col items-center justify-between bg-zinc-900 bg-grid p-12
     font-spline selection:bg-zinc-800 selection:text-prim"
     >
-      <header className="fixed z-10 flex w-full flex-row items-center justify-between px-20">
+      <header className="fixed z-10 flex w-full flex-row items-center justify-between px-12 sm:px-20">
         <Link
           href="/"
           className="flex gap-2"
@@ -165,8 +165,12 @@ export default function Home() {
             document.getElementById("search").value = "";
           }}
         >
-          {/* <img src="./cc0lib.svg" alt="cc0lib" /> */}
-          <img src="./cc0lib-h.svg" alt="cc0lib" className="w-40" />
+          <img src="./cc0lib.svg" alt="cc0lib" className="block sm:hidden" />
+          <img
+            src="./cc0lib-h.svg"
+            alt="cc0lib"
+            className="hidden w-40 sm:block"
+          />
         </Link>
         {data && data.length > 0 && data.length < 2 && (
           <p className="bg-zinc-800 px-4 py-2 text-center font-chakra text-sm uppercase">
@@ -220,22 +224,25 @@ export default function Home() {
           id="search"
           type="text"
           autoComplete="off"
-          className="duration-250 focus:ring-none peer mx-20 h-40 w-1/2 bg-transparent px-6 font-rubik text-8xl text-white drop-shadow-md transition-all ease-linear selection:bg-zinc-800 selection:text-sec placeholder:text-zinc-600 focus:rounded-sm focus:bg-zinc-800 focus:bg-opacity-50 focus:outline-none focus:backdrop-blur-md"
+          className="duration-250 focus:ring-none peer mx-4 h-20 w-full bg-transparent px-6 font-rubik text-4xl text-white drop-shadow-md transition-all ease-linear selection:bg-zinc-800 selection:text-sec placeholder:text-zinc-600 focus:rounded-sm focus:bg-zinc-800 focus:bg-opacity-50 focus:outline-none focus:backdrop-blur-md sm:mx-20 sm:h-40 sm:w-1/2 sm:text-8xl"
           placeholder="search here"
         />
         {/* <span className="px-8 mx-20 -mt-6 text-zinc-700 duration-250 ease-linear transition-all">
           ctrl+k / cmd+k
         </span> */}
       </div>
-      <footer className="fixed bottom-0 mb-12 flex w-full flex-row items-center justify-between px-20">
-        <div className="group flex flex-row items-center gap-2" id="filter">
+      <footer className="fixed bottom-0 mb-12 flex w-full flex-row items-center justify-between px-12 sm:px-20">
+        <div
+          className="group hidden flex-row items-center gap-2 sm:flex"
+          id="filter"
+        >
           <Filter className="h-8 w-8 group-hover:stroke-prim" />
           {/* <span className="opacity-0 group-hover:opacity-100 duration-250 ease-linear transition-all">
             filter
           </span> */}
 
           {types && (
-            <ul className="group flex flex-row items-center gap-1 lowercase">
+            <ul className="group flex flex-col items-center gap-1 lowercase sm:flex-row">
               {types.map((type) => {
                 return (
                   <li
@@ -252,7 +259,7 @@ export default function Home() {
         </div>
         <div onClick={handleRandomData}>
           <div
-            className="group -ml-12 flex flex-row items-center gap-2"
+            className="group flex flex-row items-center gap-2 sm:-ml-12"
             id="random"
           >
             <Sparkles className="h-8 w-8 group-hover:stroke-prim" />

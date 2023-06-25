@@ -56,17 +56,17 @@ const AudioPlayer = ({ href, className }) => {
   return (
     <div
       id="audio-player"
-      className={`font-chakra uppercase items-center flex flex-row justify-between gap-8 px-8 py-4 w-full ring-2 hover:ring-prim ring-zinc-700 rounded-lg transition-all duration-200 ease-in-out ${className}`}
+      className={`${className} mt-4 flex flex-row items-center justify-between gap-8 rounded-lg px-8 py-4 font-chakra uppercase ring-2 ring-zinc-700 transition-all duration-200 ease-in-out hover:ring-prim`}
     >
       <audio id="c-audio" src={href}></audio>
       <Play
         id="play-icon"
-        className="w-8 h-8 hover:stroke-prim hover:cursor-pointer"
+        className="h-8 w-8 hover:cursor-pointer hover:stroke-prim"
         onClick={playAudio}
       />
       <Pause
         id="pause-icon"
-        className="w-8 h-8 hover:stroke-prim hover:cursor-pointer hidden"
+        className="hidden h-8 w-8 hover:cursor-pointer hover:stroke-prim"
         onClick={pauseAudio}
       />
       <div className="w-full items-center">
@@ -78,7 +78,7 @@ const AudioPlayer = ({ href, className }) => {
           max="100"
           min="0"
           value={progress ? progress : 0}
-          className="w-full rounded-lg h-2 accent-sec touch-manipulation cursor-pointer"
+          className="h-2 w-full cursor-pointer touch-manipulation rounded-lg accent-sec"
         />
       </div>
       <span id="current-time">{currentTime ? currentTime : "0:00"}</span>

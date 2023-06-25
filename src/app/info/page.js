@@ -4,39 +4,43 @@ import Link from "next/link";
 const InfoPage = () => {
   return (
     <main
-      className="flex min-h-screen flex-col items-center justify-between p-12 bg-zinc-900 bg-grid
-    selection:bg-zinc-800 selection:text-prim font-spline"
+      className="flex min-h-screen flex-col items-center justify-between bg-zinc-900 bg-grid p-12
+    font-spline selection:bg-zinc-800 selection:text-prim"
     >
-      <header className="flex-row flex fixed justify-between items-center w-full px-20 z-10">
+      <header className="fixed z-10 flex w-full flex-row items-center justify-between px-12 sm:px-20">
         <Link href="/" className="flex gap-2">
-          {/* <img src="./cc0lib.svg" alt="cc0lib" /> */}
-          <img src="./cc0lib-h.svg" alt="cc0lib" className="w-40" />
+          <img src="./cc0lib.svg" alt="cc0lib" className="block sm:hidden" />
+          <img
+            src="./cc0lib-h.svg"
+            alt="cc0lib"
+            className="hidden w-40 sm:block"
+          />
         </Link>
-        <ul className="flex gap-4 items-center">
+        <ul className="flex items-center gap-4">
           <li>
             <Link
               href="/info"
-              className="flex flex-row items-center gap-2 group"
+              className="group flex flex-row items-center gap-2"
             >
-              <span className="opacity-0 group-hover:opacity-100 duration-250 ease-linear transition-all">
+              <span className="duration-250 opacity-0 transition-all ease-linear group-hover:opacity-100">
                 info
               </span>
-              <Info className="w-8 h-8 group-hover:stroke-prim" />
+              <Info className="h-8 w-8 group-hover:stroke-prim" />
             </Link>
           </li>
         </ul>
       </header>
 
-      <div className="flex flex-col text-prim p-16 mt-64 text-8xl bg-transparent focus:outline-none selection:text-sec selection:bg-zinc-800 placeholder:text-zinc-600 focus:backdrop-blur-md drop-shadow-md focus:bg-zinc-800 focus:bg-opacity-50 w-full h-40 focus:rounded-sm peer duration-250 ease-linear transition-all">
-        <span className="font-rubik">wtf is this?</span>
-        <span className="text-xl mt-8 text-white max-w-prose w-1/2">
+      <div className="duration-250 peer mt-64 flex h-40 w-full flex-col bg-transparent p-4 text-prim  drop-shadow-md transition-all ease-linear selection:bg-zinc-800 selection:text-sec placeholder:text-zinc-600 focus:rounded-sm focus:bg-zinc-800 focus:bg-opacity-50 focus:outline-none focus:backdrop-blur-md sm:p-16">
+        <span className="font-rubik text-6xl">wtf is this?</span>
+        <span className="mt-8 w-1/2 max-w-prose text-lg text-white">
           library of cc0 content for you to refer/use/remix/do whatever with it
         </span>
-        <span className="text-xl mt-8 text-white max-w-prose w-1/2">
+        <span className="mt-8 w-1/2 max-w-prose text-xl text-white">
           donation: cc0-lib.eth
         </span>
       </div>
-      <h1 className="text-white p-16 text-md bg-transparent focus:outline-none selection:text-sec selection:bg-zinc-800 drop-shadow-md duration-250 ease-linear transition-all"></h1>
+      <h1 className="text-md duration-250 bg-transparent p-16 text-white drop-shadow-md transition-all ease-linear selection:bg-zinc-800 selection:text-sec focus:outline-none"></h1>
     </main>
   );
 };

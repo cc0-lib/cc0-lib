@@ -10,6 +10,7 @@ export const metadata = {
   openGraph: {
     title: "CC0-LIB",
     description: "CC0 content library for the masses",
+    image: "/og.png",
     url: "https://cc0-lib.wtf",
     siteName: "CC0-LIB",
     locale: "en_US",
