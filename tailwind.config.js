@@ -21,6 +21,7 @@ module.exports = {
         chakra: ["Chakra Petch", "sans-serif"],
         overpass: ["Overpass", "sans-serif"],
         rubik: ["Rubik", "sans-serif"],
+        spline: ["Spline Sans", "sans-serif"],
       },
     },
   },

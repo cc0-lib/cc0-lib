@@ -1,11 +1,11 @@
 import { Info } from "lucide-react";
 import Link from "next/link";
 
-const InfoPage = () => {
+const ContributePage = () => {
   return (
     <main
       className="flex min-h-screen flex-col items-center justify-between p-12 bg-zinc-900 bg-grid
-    selection:bg-zinc-800 selection:text-prim font-spline"
+        selection:bg-zinc-800 selection:text-prim font-spline"
     >
       <header className="flex-row flex fixed justify-between items-center w-full px-20 z-10">
         <Link href="/" className="flex gap-2">
@@ -28,16 +28,16 @@ const InfoPage = () => {
       </header>
 
       <div className="flex flex-col text-prim p-16 mt-64 text-8xl bg-transparent focus:outline-none selection:text-sec selection:bg-zinc-800 placeholder:text-zinc-600 focus:backdrop-blur-md drop-shadow-md focus:bg-zinc-800 focus:bg-opacity-50 w-full h-40 focus:rounded-sm peer duration-250 ease-linear transition-all">
-        <span className="font-rubik">wtf is this?</span>
+        <span className="font-rubik">contribute</span>
         <span className="text-xl mt-8 text-white max-w-prose w-1/2">
-          library of cc0 content for you to refer/use/remix/do whatever with it
+          got more cc0 content? want to contribute?
         </span>
         <span className="text-xl mt-8 text-white max-w-prose w-1/2">
-          donation: cc0-lib.eth
+          mail us: cc0-lib[at]archives.wtf
         </span>
       </div>
       <h1 className="text-white p-16 text-md bg-transparent focus:outline-none selection:text-sec selection:bg-zinc-800 drop-shadow-md duration-250 ease-linear transition-all"></h1>
     </main>
   );
 };
-export default InfoPage;
+export default ContributePage;
