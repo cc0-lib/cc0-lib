@@ -6,6 +6,7 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata = {
   title: "CC0-LIB",
   description: "CC0 content library",
+  metadataBase: new URL("https://cc0-lib.wtf"),
   openGraph: {
     title: "CC0-LIB",
     description: "CC0 content library for the masses",

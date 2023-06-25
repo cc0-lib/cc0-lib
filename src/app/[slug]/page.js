@@ -96,15 +96,23 @@ const DetailsPage = ({ params }) => {
       )}
 
       {data && data?.Type === "Working Files" && data?.Filetype === "Figma" && (
-        <Iframe
-          url={data.File}
-          sandbox={["allow-scripts", "allow-same-origin", "allow-popups"]}
+        <iframe
+          src={`https://www.figma.com/embed?embed_host=share&url=${data.File}`}
           className="h-screen w-full p-16"
+          allowFullScreen
         />
       )}
 
       {data && data?.Type === "Working Files" && data?.Filetype === "PDF" && (
         <Iframe url={data.File} className="h-screen w-full p-16" />
+      )}
+
+      {data && (data?.Type === "Image" || data?.Type === "GIF") && (
+        <img
+          src={data.Thumbnails[0].url}
+          alt=""
+          className=" h-auto w-full object-cover p-16 shadow-md"
+        />
       )}
 
       {!data && (
