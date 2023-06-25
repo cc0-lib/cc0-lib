@@ -16,8 +16,14 @@ import Script from "next/script";
 
 const getData = async (slug) => {
   const res = await fetch(
-    "https://notion-api.splitbee.io/v1/table/872d317db9c64d3d88195b217cb3dc2f"
+    "https://notion-api.splitbee.io/v1/table/872d317db9c64d3d88195b217cb3dc2f",
+    {
+      next: {
+        revalidate: 60,
+      },
+    }
   );
+
   const data = await res.json();
 
   const filteredData = data.filter((item) => {
