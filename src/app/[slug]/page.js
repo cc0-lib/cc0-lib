@@ -1,9 +1,11 @@
 import { use } from "react";
 import {
+  ArrowDownToLine,
   ArrowUpRight,
   ChevronsDown,
   HelpingHand,
   Info,
+  LinkIcon,
   MoveDown,
   MoveLeft,
   Pause,
@@ -12,6 +14,7 @@ import {
 import Link from "next/link";
 import AudioPlayer from "@/components/ui/AudioPlayer";
 import VideoPlayer from "@/components/ui/VideoPlayer";
+import SocialShare from "@/components/ui/SocialShare";
 import { slugify } from "@/lib/utils";
 import Iframe from "react-iframe";
 import Script from "next/script";
@@ -156,16 +159,16 @@ const DetailsPage = ({ params }) => {
               {data?.Title}
             </span>
             <span className="max-w-prose text-lg">{data?.Description}</span>
-            <div className="place flex w-1/3 flex-col text-lg lowercase">
+            <div className="place flex w-full flex-row justify-between gap-4 text-lg lowercase sm:w-1/3">
               {data?.Source && (
                 <Link
                   href={data?.Source}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex flex-row gap-2 hover:text-prim"
+                  className="group flex flex-row gap-1 hover:text-prim"
                 >
                   source{" "}
-                  <ArrowUpRight className="h-6 w-6 self-center group-hover:stroke-prim" />
+                  <LinkIcon className="h-4 w-4 self-center group-hover:stroke-prim" />
                 </Link>
               )}
               {data?.File && (
@@ -173,10 +176,10 @@ const DetailsPage = ({ params }) => {
                   href={data.File}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex flex-row gap-2 hover:text-prim"
+                  className="group flex flex-row gap-1 hover:text-prim"
                 >
                   {data.Filetype}{" "}
-                  <ArrowUpRight className="h-6 w-6  self-center group-hover:stroke-prim" />
+                  <ArrowDownToLine className="h-4 w-4  self-center group-hover:stroke-prim" />
                 </Link>
               )}
               {!data?.File && data?.Thumbnails[0].url && (
@@ -184,14 +187,16 @@ const DetailsPage = ({ params }) => {
                   href={data.Thumbnails[0].url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex flex-row gap-2 hover:text-prim"
+                  className="group flex flex-row gap-1 hover:text-prim"
                 >
                   {data.Filetype}{" "}
-                  <ArrowUpRight className="h-6 w-6  self-center group-hover:stroke-prim" />
+                  <ArrowDownToLine className="h-4 w-4 self-center group-hover:stroke-prim" />
+                  {/* <ArrowUpRight className="h-6 w-6  self-center group-hover:stroke-prim" /> */}
                 </Link>
               )}
+              <SocialShare data={data} />
             </div>
-            <div className="flex w-full flex-col text-sm text-zinc-400">
+            <div className="flex w-full flex-col gap-1 text-sm text-zinc-400">
               {data?.Type && (
                 <span className="flex flex-row items-center gap-2 lowercase ">
                   <span>type:</span>
