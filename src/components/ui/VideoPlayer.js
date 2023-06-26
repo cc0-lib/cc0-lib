@@ -66,7 +66,7 @@ const VideoPlayer = ({ data, src, className }) => {
         src={src}
         alt="video"
         className={`${className} peer block h-auto w-full object-cover drop-shadow-md sm:hidden`}
-        id="video-player"
+        id="video-player-mobile"
         onClick={togglePlay}
         controls={true}
         autoPlay={true}
