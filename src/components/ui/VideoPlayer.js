@@ -57,14 +57,23 @@ const VideoPlayer = ({ data, src, className }) => {
       <video
         src={src}
         alt="video"
-        className={`${className} peer h-auto w-full object-cover drop-shadow-md `}
+        className={`${className} peer hidden h-auto w-full object-cover drop-shadow-md sm:block`}
         id="video-player"
         onClick={togglePlay}
         autoPlay={true}
       />
+      <video
+        src={src}
+        alt="video"
+        className={`${className} peer block h-auto w-full object-cover drop-shadow-md sm:hidden`}
+        id="video-player"
+        onClick={togglePlay}
+        controls={true}
+        autoPlay={true}
+      />
       <div
         onClick={togglePlay}
-        className="absolute inset-0 left-0 top-0 flex h-full w-full flex-col items-center justify-between bg-zinc-900 bg-opacity-50 px-2 py-10 font-chakra uppercase opacity-0 transition-all duration-150 ease-in-out hover:opacity-100 sm:px-16 sm:py-12"
+        className="absolute inset-0 left-0 top-0 hidden h-full w-full flex-col items-center justify-between bg-zinc-900 bg-opacity-50 px-2 py-10 font-chakra uppercase opacity-0 transition-all duration-150 ease-in-out hover:opacity-100 sm:flex sm:px-16 sm:py-12 "
       >
         <div className="flex w-full flex-row items-center justify-between p-8">
           <img

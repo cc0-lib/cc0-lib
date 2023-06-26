@@ -2,6 +2,7 @@ import "./globals.css";
 import { Inter } from "next/font/google";
 
 const inter = Inter({ subsets: ["latin"] });
+import { Analytics } from "@vercel/analytics/react";
 
 export const metadata = {
   title: "CC0-LIB",
@@ -10,7 +11,7 @@ export const metadata = {
   openGraph: {
     title: "CC0-LIB",
     description: "CC0 content library for the masses",
-    image: "/og.png",
+    image: "https://cc0-lib.wtf/og.png",
     url: "https://cc0-lib.wtf",
     siteName: "CC0-LIB",
     locale: "en_US",
@@ -21,7 +22,10 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${inter.className}`}>{children}</body>
+      <body className={`${inter.className}`}>
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }

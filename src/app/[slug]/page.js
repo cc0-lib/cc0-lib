@@ -151,12 +151,12 @@ const DetailsPage = ({ params }) => {
 
       {data && (
         <div className="flex w-full flex-col items-center justify-between gap-4 p-4 sm:flex-row sm:p-16">
-          <div className="duration-250 flex flex-col gap-4 font-spline text-2xl text-white transition-all ease-linear">
-            <span className="-ml-1 font-rubik text-3xl text-prim">
+          <div className="duration-250 flex w-full flex-col gap-4 font-spline text-2xl text-white transition-all ease-linear">
+            <span className="font-rubik text-3xl text-prim md:-ml-1 md:text-5xl">
               {data?.Title}
             </span>
             <span className="max-w-prose text-lg">{data?.Description}</span>
-            <div className="flex w-1/3 flex-col text-lg lowercase">
+            <div className="place flex w-1/3 flex-col text-lg lowercase">
               {data?.Source && (
                 <Link
                   href={data?.Source}
@@ -164,7 +164,8 @@ const DetailsPage = ({ params }) => {
                   rel="noopener noreferrer"
                   className="group flex flex-row gap-2 hover:text-prim"
                 >
-                  source <ArrowUpRight className="group-hover:stroke-prim" />
+                  source{" "}
+                  <ArrowUpRight className="h-6 w-6 self-center group-hover:stroke-prim" />
                 </Link>
               )}
               {data?.File && (
@@ -175,7 +176,7 @@ const DetailsPage = ({ params }) => {
                   className="group flex flex-row gap-2 hover:text-prim"
                 >
                   {data.Filetype}{" "}
-                  <ArrowUpRight className="group-hover:stroke-prim" />
+                  <ArrowUpRight className="h-6 w-6  self-center group-hover:stroke-prim" />
                 </Link>
               )}
               {!data?.File && data?.Thumbnails[0].url && (
@@ -186,7 +187,7 @@ const DetailsPage = ({ params }) => {
                   className="group flex flex-row gap-2 hover:text-prim"
                 >
                   {data.Filetype}{" "}
-                  <ArrowUpRight className="group-hover:stroke-prim" />
+                  <ArrowUpRight className="h-6 w-6  self-center group-hover:stroke-prim" />
                 </Link>
               )}
             </div>
