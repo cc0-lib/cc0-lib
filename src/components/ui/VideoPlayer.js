@@ -60,7 +60,6 @@ const VideoPlayer = ({ data, src, className }) => {
         className={`${className} peer hidden h-auto w-full object-cover drop-shadow-md sm:block`}
         id="video-player"
         onClick={togglePlay}
-        autoPlay={true}
       />
       <video
         src={src}
@@ -69,7 +68,6 @@ const VideoPlayer = ({ data, src, className }) => {
         id="video-player-mobile"
         onClick={togglePlay}
         controls={true}
-        autoPlay={true}
       />
       <div
         onClick={togglePlay}
