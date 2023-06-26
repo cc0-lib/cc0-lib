@@ -154,7 +154,7 @@ export default function Home() {
   return (
     <main
       className="flex min-h-screen flex-col items-center justify-between bg-zinc-900 bg-grid p-12
-    font-spline selection:bg-zinc-800 selection:text-prim"
+    font-spline text-white selection:bg-zinc-800 selection:text-prim dark:text-white"
     >
       <header className="fixed z-10 flex w-full flex-row items-center justify-between px-12 sm:px-20">
         <Link

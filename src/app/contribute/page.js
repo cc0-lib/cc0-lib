@@ -1,11 +1,11 @@
-import { Info } from "lucide-react";
+import { Info, Send } from "lucide-react";
 import Link from "next/link";
 
 const ContributePage = () => {
   return (
     <main
       className="flex min-h-screen flex-col items-center justify-between bg-zinc-900 bg-grid p-12
-        font-spline selection:bg-zinc-800 selection:text-prim"
+        font-spline text-white selection:bg-zinc-800 selection:text-prim dark:text-white"
     >
       <header className="fixed z-10 flex w-full flex-row items-center justify-between px-12 sm:px-20">
         <Link href="/" className="flex gap-2">
@@ -36,6 +36,15 @@ const ContributePage = () => {
         <span className="mt-8 w-full max-w-prose text-lg text-white sm:w-1/2">
           got more cc0 content? want to contribute?
         </span>
+        <Link
+          href="/submit"
+          className="mt-8 w-full max-w-prose text-lg text-white sm:w-1/2"
+        >
+          <div className="group flex flex-row items-center gap-2 hover:text-prim">
+            <span>submit here</span>
+            <Send className="h-4 w-4 group-hover:stroke-prim" />
+          </div>
+        </Link>
         <span className="mt-8 w-full max-w-prose text-lg text-white sm:w-1/2">
           mail us: cc0-lib[at]archives.wtf
         </span>
