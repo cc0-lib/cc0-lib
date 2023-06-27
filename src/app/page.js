@@ -204,11 +204,11 @@ export default function Home() {
               <Link
                 key={item.id}
                 href={`/${slugify(item.Title)}`}
-                className="group relative flex"
+                className="group relative flex h-auto w-full break-inside-avoid"
               >
                 <img
                   src={item.Thumbnails?.[0].url}
-                  className="h-auto w-full rounded-sm duration-100 ease-in-out hover:ring-2 hover:ring-prim hover:ring-offset-1 hover:ring-offset-zinc-900"
+                  className="h-auto w-full rounded-sm opacity-80 transition-all duration-100 ease-in-out hover:opacity-100 hover:ring-2 hover:ring-prim hover:ring-offset-1 hover:ring-offset-zinc-900"
                 />
                 <h1 className="absolute right-4 top-4 hidden bg-zinc-800 bg-opacity-50 px-3 py-1 font-chakra uppercase text-white backdrop-blur-sm group-hover:block">
                   {item.Filetype}
