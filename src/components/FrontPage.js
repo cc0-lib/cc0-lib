@@ -6,6 +6,7 @@ import { useSearchParams } from "next/navigation";
 import { Filter, HelpingHand, Info, Sparkles } from "lucide-react";
 import { shuffle, slugify } from "@/lib/utils";
 import useLocalStorage from "@/hooks/useLocalStorage";
+import va from "@vercel/analytics";
 
 export default function FrontPage({ initialData }) {
   const searchParams = useSearchParams();
@@ -61,6 +62,7 @@ export default function FrontPage({ initialData }) {
   };
 
   const handleRandomData = () => {
+    va.track("random-data");
     if (initialData) {
       // create a list of tags
       const tagsList = Array.from(

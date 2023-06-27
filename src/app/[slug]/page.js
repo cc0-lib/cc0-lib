@@ -5,6 +5,7 @@ import {
   Info,
   LinkIcon,
   MoveLeft,
+  ThumbsUpIcon,
 } from "lucide-react";
 import Link from "next/link";
 import AudioPlayer from "@/components/ui/AudioPlayer";
@@ -14,6 +15,7 @@ import { slugify } from "@/lib/utils";
 import Iframe from "react-iframe";
 import Script from "next/script";
 import getAllItems from "@/lib/getAllItems";
+import Sentiment from "./sentiment";
 
 const getItem = async (slug) => {
   const data = await getAllItems();
@@ -216,6 +218,9 @@ const DetailsPage = async ({ params }) => {
               )}
               <SocialShare data={data} />
             </div>
+
+            <Sentiment data={data} />
+
             <div className="flex w-full flex-col gap-1 text-sm text-zinc-400">
               {data?.Type && (
                 <span className="flex flex-row items-center gap-2 lowercase ">
