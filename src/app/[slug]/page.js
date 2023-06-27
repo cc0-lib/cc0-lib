@@ -28,7 +28,8 @@ export const generateMetadata = async ({ params }) => {
   return {
     title: `${data.Title} | CC0-LIB`,
     description: data.Description,
-    image: data.Thumbnails[0].url,
+    // image: data.Thumbnails[0].url,
+    image: `https://cc0-lib.wtf/og.png`,
     url: `https://cc0-lib.wtf/${params.slug}`,
     type: "website",
     openGraph: {
@@ -38,7 +39,8 @@ export const generateMetadata = async ({ params }) => {
       type: "website",
       images: [
         {
-          url: data.Thumbnails[0].url,
+          // url: data.Thumbnails[0].url,
+          url: `https://cc0-lib.wtf/og.png`,
           width: 800,
           height: 400,
           alt: data.Title,
@@ -50,7 +52,8 @@ export const generateMetadata = async ({ params }) => {
       card: "summary_large_image",
       title: `${data.Title} | CC0-LIB`,
       description: data.Description,
-      images: [data.Thumbnails[0].url],
+      // images: [data.Thumbnails[0].url],
+      images: [`https://cc0-lib.wtf/og.png`],
     },
   };
 };
