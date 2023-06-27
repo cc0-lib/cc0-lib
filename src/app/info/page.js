@@ -40,7 +40,7 @@ const InfoPage = () => {
           donation:
           <Link
             target="_blank"
-            href="ethereum://0xcC0D45aD21224186e8C0450086aF57f30eD88CC0"
+            href="ethereum:0xcC0D45aD21224186e8C0450086aF57f30eD88CC0"
             className="cursor-pointer text-prim hover:text-white"
           >
             cc0-lib.eth
