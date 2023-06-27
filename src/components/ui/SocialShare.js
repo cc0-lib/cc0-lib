@@ -6,7 +6,9 @@ import { EmailShareButton, TwitterShareButton } from "next-share";
 
 const SocialShare = ({ data, className }) => {
   return (
-    <div className={`${className} group flex w-1/2 flex-row gap-4`}>
+    <div
+      className={`${className} group flex w-1/2 cursor-pointer flex-row gap-4`}
+    >
       <span className="group flex flex-row gap-1 text-lg hover:text-prim">
         <span>share</span>
         <Share className="h-4 w-4 self-center group-hover:stroke-prim" />

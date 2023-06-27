@@ -1,10 +1,11 @@
 "use client";
 
-import { Filter, HelpingHand, Info, Sparkles } from "lucide-react";
-import Link from "next/link";
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import { Filter, HelpingHand, Info, Sparkles } from "lucide-react";
 import { slugify } from "@/lib/utils";
+import useLocalStorage from "@/hooks/useLocalStorage";
 
 export default function Home() {
   const searchParams = useSearchParams();
@@ -13,6 +14,7 @@ export default function Home() {
   const [initialData, setInitialData] = useState(null);
   const [data, setData] = useState(null);
   const [types, setTypes] = useState(null);
+  const [query, setQuery] = useLocalStorage("query", "");
 
   const getData = async () => {
     const res = await fetch(
@@ -45,10 +47,10 @@ export default function Home() {
           item.Filetype?.toLowerCase().includes(searchQuery) ||
           item.Description?.toLowerCase().includes(searchQuery) ||
           item.id?.toLowerCase().includes(searchQuery) ||
-          item.Thumbnails?.[0].url.toLowerCase().includes(searchQuery) ||
           item.Tags?.map((e) => e.toLowerCase()).includes(searchQuery)
         );
       });
+      setQuery(searchQuery);
       setData(filteredData);
     }
   };
@@ -57,16 +59,17 @@ export default function Home() {
     if (initialData) {
       const searchQuery = e?.toLowerCase();
       const filteredData = initialData?.filter((item) => {
+        if (searchQuery.length < 2) return false;
         return (
           item.Title?.toLowerCase().includes(searchQuery) ||
           item.Type?.toLowerCase().includes(searchQuery) ||
           item.Filetype?.toLowerCase().includes(searchQuery) ||
           item.Description?.toLowerCase().includes(searchQuery) ||
           item.id?.toLowerCase().includes(searchQuery) ||
-          item.Thumbnails?.[0].url.toLowerCase().includes(searchQuery) ||
           item.Tags?.map((e) => e.toLowerCase()).includes(searchQuery)
         );
       });
+      setQuery(searchQuery);
       document.getElementById("search").value = e?.toLowerCase();
       setData(filteredData);
     }
@@ -93,7 +96,7 @@ export default function Home() {
         if (!item.Tags) return false;
         return item.Tags.includes(randomTag);
       });
-
+      setQuery(randomTag.toLowerCase());
       document.getElementById("search").value = randomTag.toLowerCase();
       setData(randomTagData);
     }
@@ -102,11 +105,12 @@ export default function Home() {
   const handleFilter = (e) => {
     if (initialData) {
       const filterQuery = e.toLowerCase();
+      setQuery(filterQuery);
       const filteredData = initialData.filter((item) => {
-        if (filterQuery === "all") return true;
         return item.Type?.toLowerCase().includes(filterQuery);
       });
-      document.getElementById("search").value = e.toLowerCase();
+
+      document.getElementById("search").value = filterQuery;
       setData(filteredData);
     }
   };
@@ -130,6 +134,12 @@ export default function Home() {
   useEffect(() => {
     getData();
   }, []);
+
+  useEffect(() => {
+    if (initialData && query) {
+      handleSearchBar(query);
+    }
+  }, [query, initialData]);
 
   useEffect(() => {
     if (initialData && search) {
@@ -157,14 +167,7 @@ export default function Home() {
     font-spline text-white selection:bg-zinc-800 selection:text-prim dark:text-white"
     >
       <header className="fixed z-10 flex w-full flex-row items-center justify-between px-12 sm:px-20">
-        <Link
-          href="/"
-          className="flex gap-2"
-          onClick={() => {
-            setData(null);
-            document.getElementById("search").value = "";
-          }}
-        >
+        <Link href="/" className="flex gap-2">
           <img src="./cc0lib.svg" alt="cc0lib" className="block sm:hidden" />
           <img
             src="./cc0lib-h.svg"
@@ -208,6 +211,7 @@ export default function Home() {
               >
                 <img
                   src={item.Thumbnails?.[0].url}
+                  loading="lazy"
                   className="h-auto w-full rounded-sm opacity-80 transition-all duration-100 ease-in-out hover:opacity-100 hover:ring-2 hover:ring-prim hover:ring-offset-1 hover:ring-offset-zinc-900"
                 />
                 <h1 className="absolute right-4 top-4 hidden bg-zinc-800 bg-opacity-50 px-3 py-1 font-chakra uppercase text-white backdrop-blur-sm group-hover:block">
@@ -224,22 +228,19 @@ export default function Home() {
           id="search"
           type="text"
           autoComplete="off"
-          className="duration-250 focus:ring-none peer mx-4 h-20 w-full bg-transparent px-6 font-rubik text-4xl text-white drop-shadow-md transition-all ease-linear selection:bg-zinc-800 selection:text-sec placeholder:text-zinc-600 focus:rounded-sm focus:bg-zinc-800 focus:bg-opacity-50 focus:outline-none focus:backdrop-blur-md sm:mx-20 sm:h-40 sm:w-1/2 sm:text-8xl"
+          className="duration-250 focus:ring-none peer peer mx-4 h-20 w-full bg-transparent px-6 font-rubik text-4xl text-white drop-shadow-md transition-all ease-linear selection:bg-zinc-800 selection:text-sec placeholder:text-zinc-600 focus:rounded-sm focus:bg-zinc-800 focus:bg-opacity-50 focus:outline-none focus:backdrop-blur-md sm:mx-20 sm:h-40 sm:w-1/2 sm:text-8xl"
           placeholder="search here"
         />
-        {/* <span className="px-8 mx-20 -mt-6 text-zinc-700 duration-250 ease-linear transition-all">
-          ctrl+k / cmd+k
-        </span> */}
+        <span className="duration-250 z-20 mx-20 -mt-6 hidden w-max bg-zinc-900 text-zinc-700 opacity-0 transition-all ease-linear peer-placeholder-shown:opacity-100 peer-focus:opacity-0 sm:block sm:px-8 sm:py-2">
+          ctrl+k / cmd+k to search
+        </span>
       </div>
       <footer className="fixed bottom-0 mb-12 flex w-full flex-row items-center justify-between px-12 sm:px-20">
         <div
-          className="group hidden flex-row items-center gap-2 sm:flex"
+          className="group hidden cursor-pointer flex-row items-center gap-2 sm:flex"
           id="filter"
         >
           <Filter className="h-8 w-8 group-hover:stroke-prim" />
-          {/* <span className="opacity-0 group-hover:opacity-100 duration-250 ease-linear transition-all">
-            filter
-          </span> */}
 
           {types && (
             <ul className="group flex flex-col items-center gap-1 lowercase sm:flex-row">
@@ -259,7 +260,7 @@ export default function Home() {
         </div>
         <div onClick={handleRandomData}>
           <div
-            className="group flex flex-row items-center gap-2 sm:-ml-12"
+            className="group flex cursor-pointer flex-row items-center gap-2 sm:-ml-12"
             id="random"
           >
             <Sparkles className="h-8 w-8 group-hover:stroke-prim" />

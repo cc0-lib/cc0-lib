@@ -1,15 +1,11 @@
 import { use } from "react";
 import {
   ArrowDownToLine,
-  ArrowUpRight,
   ChevronsDown,
   HelpingHand,
   Info,
   LinkIcon,
-  MoveDown,
   MoveLeft,
-  Pause,
-  Play,
 } from "lucide-react";
 import Link from "next/link";
 import AudioPlayer from "@/components/ui/AudioPlayer";

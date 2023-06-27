@@ -36,8 +36,15 @@ const InfoPage = () => {
         <span className="mt-8 w-full max-w-prose text-lg text-white sm:w-1/2">
           library of cc0 content for you to refer/use/remix/do whatever with it
         </span>
-        <span className="mt-8 w-full max-w-prose text-xl text-white sm:w-1/2">
-          donation: cc0-lib.eth
+        <span className="mt-8 flex w-full max-w-prose flex-row gap-2 text-xl text-white sm:w-1/2">
+          donation:
+          <Link
+            target="_blank"
+            href="ethereum:0xcC0D45aD21224186e8C0450086aF57f30eD88CC0"
+            className="cursor-pointer text-prim hover:text-white"
+          >
+            cc0-lib.eth
+          </Link>
         </span>
       </div>
       <h1 className="text-md duration-250 bg-transparent p-16 text-white drop-shadow-md transition-all ease-linear selection:bg-zinc-800 selection:text-sec focus:outline-none"></h1>
