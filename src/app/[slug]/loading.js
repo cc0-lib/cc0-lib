@@ -5,13 +5,18 @@ const LoadingPage = () => {
   return (
     <main
       className="flex min-h-screen flex-col items-center justify-between bg-zinc-900 bg-grid p-12
-font-spline selection:bg-zinc-800 selection:text-prim"
+        font-spline text-white selection:bg-zinc-800 selection:text-prim dark:text-white"
     >
-      <header className="z-10 flex w-full flex-row items-center justify-between px-8">
+      <header className="z-10 flex w-full flex-row items-center justify-between sm:px-8">
         <Link href="/" className="flex gap-2">
-          {/* <img src="./cc0lib.svg" alt="cc0lib" /> */}
-          <img src="./cc0lib-h.svg" alt="cc0lib" className="w-40" />
+          <img src="./cc0lib.svg" alt="cc0lib" className="block sm:hidden" />
+          <img
+            src="./cc0lib-h.svg"
+            alt="cc0lib"
+            className="hidden w-40 sm:block"
+          />
         </Link>
+
         <ul className="flex items-center gap-4">
           <li>
             <Link
@@ -31,7 +36,7 @@ font-spline selection:bg-zinc-800 selection:text-prim"
         LOADING
       </h1>
 
-      <footer className="flex w-full flex-row items-center justify-between px-8">
+      <footer className="mt-4 flex w-full flex-row items-center justify-between sm:px-8">
         <Link href="/">
           <div className="group flex flex-row items-center gap-2" id="back">
             <MoveLeft className="h-8 w-8 group-hover:stroke-prim" />

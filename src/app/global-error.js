@@ -1,7 +1,9 @@
+"use client";
+
 import { HelpingHand, Info, MoveLeft } from "lucide-react";
 import Link from "next/link";
 
-const LoadingPage = () => {
+const GlobalError = () => {
   return (
     <main
       className="flex min-h-screen flex-col items-center justify-between bg-zinc-900 bg-grid p-12
@@ -32,8 +34,8 @@ const LoadingPage = () => {
         </ul>
       </header>
 
-      <h1 className="bg-zinc-800 px-6 py-4 font-chakra text-5xl uppercase text-sec sm:text-9xl">
-        LOADING
+      <h1 className="bg-zinc-800 px-6 py-4 font-chakra text-5xl uppercase text-orange-500 sm:text-9xl">
+        ERROR
       </h1>
 
       <footer className="mt-4 flex w-full flex-row items-center justify-between sm:px-8">
@@ -60,4 +62,4 @@ const LoadingPage = () => {
     </main>
   );
 };
-export default LoadingPage;
+export default GlobalError;
