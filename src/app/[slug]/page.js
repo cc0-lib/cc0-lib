@@ -1,4 +1,3 @@
-import { use } from "react";
 import {
   ArrowDownToLine,
   ChevronsDown,
@@ -14,28 +13,53 @@ import SocialShare from "@/components/ui/SocialShare";
 import { slugify } from "@/lib/utils";
 import Iframe from "react-iframe";
 import Script from "next/script";
+import getAllItems from "@/lib/getAllItems";
 
-const getData = async (slug) => {
-  const res = await fetch(
-    "https://notion-api.splitbee.io/v1/table/872d317db9c64d3d88195b217cb3dc2f",
-    {
-      next: {
-        revalidate: 60,
-      },
-    }
-  );
-
-  const data = await res.json();
-
+const getItem = async (slug) => {
+  const data = await getAllItems();
   const filteredData = data.filter((item) => {
     return slugify(item.Title) === slug;
   });
-
   return filteredData[0];
 };
 
-const DetailsPage = ({ params }) => {
-  const data = use(getData(params.slug));
+export const generateMetadata = async ({ params }) => {
+  const data = await getItem(params.slug);
+  return {
+    title: `${data.Title} | CC0-LIB`,
+    description: data.Description,
+    // image: data.Thumbnails[0].url,
+    image: `https://cc0-lib.wtf/og.png`,
+    url: `https://cc0-lib.wtf/${params.slug}`,
+    type: "website",
+    openGraph: {
+      title: `${data.Title} | CC0-LIB`,
+      description: data.Description,
+      url: `https://cc0-lib.wtf/${params.slug}`,
+      type: "website",
+      images: [
+        {
+          // url: data.Thumbnails[0].url,
+          url: `https://cc0-lib.wtf/og.png`,
+          width: 800,
+          height: 400,
+          alt: data.Title,
+        },
+      ],
+      locale: "en_US",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${data.Title} | CC0-LIB`,
+      description: data.Description,
+      // images: [data.Thumbnails[0].url],
+      images: [`https://cc0-lib.wtf/og.png`],
+    },
+  };
+};
+
+const DetailsPage = async ({ params }) => {
+  const data = await getItem(params.slug);
 
   return (
     <main
