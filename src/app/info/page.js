@@ -42,7 +42,7 @@ const InfoPage = () => {
             href="/leaderboard"
             className="cursor-pointer text-lg text-white hover:text-prim"
           >
-            who's the greatest contributor? click here to find out
+            who&apos;s the greatest contributor? click here to find out
           </Link>
         </span>
         <span className="mt-8 font-rubik text-6xl">donation</span>
