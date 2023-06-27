@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Filter, HelpingHand, Info, Sparkles } from "lucide-react";
-import { slugify } from "@/lib/utils";
+import { shuffle, slugify } from "@/lib/utils";
 import useLocalStorage from "@/hooks/useLocalStorage";
 
 export default function FrontPage({ initialData }) {
@@ -31,12 +31,12 @@ export default function FrontPage({ initialData }) {
           item.Type?.toLowerCase().includes(searchQuery) ||
           item.Filetype?.toLowerCase().includes(searchQuery) ||
           item.Description?.toLowerCase().includes(searchQuery) ||
-          item.id?.toLowerCase().includes(searchQuery) ||
           item.Tags?.map((e) => e.toLowerCase()).includes(searchQuery)
         );
       });
       setQuery(searchQuery);
-      setData(filteredData);
+      const finalData = shuffle(filteredData);
+      setData(finalData);
     }
   };
 
@@ -50,13 +50,13 @@ export default function FrontPage({ initialData }) {
           item.Type?.toLowerCase().includes(searchQuery) ||
           item.Filetype?.toLowerCase().includes(searchQuery) ||
           item.Description?.toLowerCase().includes(searchQuery) ||
-          item.id?.toLowerCase().includes(searchQuery) ||
           item.Tags?.map((e) => e.toLowerCase()).includes(searchQuery)
         );
       });
       setQuery(searchQuery);
       document.getElementById("search").value = e?.toLowerCase();
-      setData(filteredData);
+      const finalData = shuffle(filteredData);
+      setData(finalData);
     }
   };
 
@@ -83,7 +83,8 @@ export default function FrontPage({ initialData }) {
       });
       setQuery(randomTag.toLowerCase());
       document.getElementById("search").value = randomTag.toLowerCase();
-      setData(randomTagData);
+      const finalData = shuffle(randomTagData);
+      setData(finalData);
     }
   };
 
@@ -97,7 +98,8 @@ export default function FrontPage({ initialData }) {
 
       setQuery(filterQuery);
       document.getElementById("search").value = filterQuery;
-      setData(filteredData);
+      const finalData = shuffle(filteredData);
+      setData(finalData);
     }
   };
 
