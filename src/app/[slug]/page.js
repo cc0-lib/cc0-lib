@@ -219,8 +219,6 @@ const DetailsPage = async ({ params }) => {
               <SocialShare data={data} />
             </div>
 
-            <Sentiment data={data} />
-
             <div className="flex w-full flex-col gap-1 text-sm text-zinc-400">
               {data?.Type && (
                 <span className="flex flex-row items-center gap-2 lowercase ">
@@ -265,7 +263,9 @@ const DetailsPage = async ({ params }) => {
                 </span>
               )}
             </div>
+            <Sentiment data={data} />
           </div>
+
           {(data?.Type === "Image" ||
             data?.Type === "GIF" ||
             data?.Type === "Working Files" ||

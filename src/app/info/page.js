@@ -36,12 +36,21 @@ const InfoPage = () => {
         <span className="mt-8 w-full max-w-prose text-lg text-white sm:w-1/2">
           library of cc0 content for you to refer/use/remix/do whatever with it
         </span>
-        <span className="mt-8 flex w-full max-w-prose flex-row gap-2 text-xl text-white sm:w-1/2">
-          donation:
+        <span className="mt-8 font-rubik text-6xl">leaderboard</span>
+        <span className="mt-8 w-full max-w-prose text-lg text-white sm:w-1/2">
+          <Link
+            href="/leaderboard"
+            className="cursor-pointer text-lg text-white hover:text-prim"
+          >
+            who's the greatest contributor? click here to find out
+          </Link>
+        </span>
+        <span className="mt-8 font-rubik text-6xl">donation</span>
+        <span className="mt-8 flex w-full max-w-prose flex-row gap-2 text-lg text-white sm:w-1/2">
           <Link
             target="_blank"
             href="ethereum:0xcC0D45aD21224186e8C0450086aF57f30eD88CC0"
-            className="cursor-pointer text-prim hover:text-white"
+            className="cursor-pointer text-white hover:text-prim"
           >
             cc0-lib.eth
           </Link>
