@@ -50,7 +50,7 @@ const InfoPage = () => {
             href="/leaderboard"
             className="flex flex-row items-center gap-2 text-lg text-white hover:text-prim"
           >
-            click here to find out <TrophyIcon className="h-8 w-8" />
+            click here to find out <TrophyIcon className="h-5 w-5" />
           </Link>
         </span>
         <span className="font-rubik text-4xl sm:text-6xl">donation</span>

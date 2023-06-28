@@ -40,22 +40,22 @@ const LeaderboardPage = async () => {
       </header>
 
       <div className="flex flex-col items-center gap-4">
-        <h1 className="bg-zinc-800 px-6 py-4 font-chakra text-5xl uppercase text-white sm:text-8xl">
+        <h1 className="bg-zinc-800 px-6 py-4 font-chakra text-4xl uppercase text-white sm:text-8xl">
           Leaderboard
         </h1>
-        <h1 className="bg-zinc-800 px-4 py-2 font-chakra text-3xl uppercase text-white sm:text-6xl">
+        <h1 className="bg-zinc-800 px-4 py-2 font-chakra text-2xl uppercase text-white sm:text-6xl">
           TOP 10 Contributors
         </h1>
       </div>
 
-      <div className="flex w-full max-w-md flex-col gap-4">
+      <div className="flex w-full max-w-sm flex-col gap-4">
         <div className="flex flex-col items-center justify-center gap-4 font-chakra uppercase">
           {top10.map((item, index) => (
             <div
               key={item.ens}
               className="flex w-full flex-row items-center justify-between rounded-lg bg-zinc-800 px-4 py-2"
             >
-              <div className="flex w-full flex-row items-center justify-between gap-6 text-2xl sm:gap-16">
+              <div className="flex w-full flex-row items-center justify-between gap-6 text-lg sm:gap-16 sm:text-2xl">
                 <div className="flex w-60 flex-row gap-4 text-zinc-500">
                   <span>{index + 1}.</span>
                   <span className="truncate text-prim">{item.ens}</span>
@@ -68,9 +68,9 @@ const LeaderboardPage = async () => {
             </div>
           ))}
         </div>
-        <div className="w-max-sm flex w-full flex-row justify-evenly gap-4 p-8 text-center text-lg">
+        <div className="w-max-sm text-md flex w-full flex-row justify-evenly gap-4 p-8 text-center text-zinc-400 sm:text-lg">
           <span>not in the list?</span>
-          <Link href="/submit" className=" text-white">
+          <Link href="/submit">
             <div className="group flex w-full flex-row items-center gap-2 hover:text-prim">
               <span>submit here</span>
               <Send className="h-4 w-4 group-hover:stroke-prim" />
