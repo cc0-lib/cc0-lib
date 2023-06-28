@@ -3,9 +3,11 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { Filter, HelpingHand, Info, Sparkles } from "lucide-react";
+import { Filter, Heart, HelpingHand, Info, Sparkles } from "lucide-react";
 import { shuffle, slugify } from "@/lib/utils";
 import useLocalStorage from "@/hooks/useLocalStorage";
+import va from "@vercel/analytics";
+import getLikedItems from "@/lib/getLikedItems";
 
 export default function FrontPage({ initialData }) {
   const searchParams = useSearchParams();
@@ -61,6 +63,7 @@ export default function FrontPage({ initialData }) {
   };
 
   const handleRandomData = () => {
+    va.track("random-data");
     if (initialData) {
       // create a list of tags
       const tagsList = Array.from(
@@ -103,6 +106,16 @@ export default function FrontPage({ initialData }) {
     }
   };
 
+  const handleLikedItems = () => {
+    const likedItems = getLikedItems();
+    const filteredData = initialData.filter((item) => {
+      return likedItems.includes(slugify(item.Title.toLowerCase()));
+    });
+    document.getElementById("search").value = "fav";
+    const finalData = shuffle(filteredData);
+    setData(finalData);
+  };
+
   useEffect(() => {
     if (initialData) {
       // create a list of types
@@ -116,6 +129,12 @@ export default function FrontPage({ initialData }) {
         )
       );
       setTypes(typesList);
+    }
+  }, [initialData]);
+
+  useEffect(() => {
+    if (initialData && !search && !query) {
+      handleSearchBar("cc0");
     }
   }, [initialData]);
 
@@ -171,11 +190,22 @@ export default function FrontPage({ initialData }) {
         )}
         <ul className="flex items-center gap-4">
           <li>
+            <div
+              className="group flex cursor-pointer flex-row items-center gap-2"
+              onClick={handleLikedItems}
+            >
+              <span className=" duration-250 hidden opacity-0 transition-all ease-linear group-hover:opacity-100 sm:block">
+                fav
+              </span>
+              <Heart className="h-8 w-8 group-hover:stroke-prim" />
+            </div>
+          </li>
+          <li>
             <Link
               href="/info"
               className="group flex flex-row items-center gap-2"
             >
-              <span className="duration-250 opacity-0 transition-all ease-linear group-hover:opacity-100">
+              <span className="duration-250 hidden opacity-0 transition-all ease-linear group-hover:opacity-100 sm:block">
                 info
               </span>
               <Info className="h-8 w-8 group-hover:stroke-prim" />
