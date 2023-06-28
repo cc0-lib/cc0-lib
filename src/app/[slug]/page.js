@@ -15,7 +15,7 @@ import { slugify } from "@/lib/utils";
 import Iframe from "react-iframe";
 import Script from "next/script";
 import getAllItems from "@/lib/getAllItems";
-import Sentiment from "./sentiment";
+import Sentiment from "@/components/sentiment";
 
 const getItem = async (slug) => {
   const data = await getAllItems();

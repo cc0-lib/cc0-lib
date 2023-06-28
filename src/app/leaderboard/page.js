@@ -1,6 +1,6 @@
 import getAllItems from "@/lib/getAllItems";
 import { handleENSLeaderboard } from "@/lib/utils";
-import { HelpingHand, Info, MoveLeft, ScrollIcon } from "lucide-react";
+import { HelpingHand, Info, MoveLeft, ScrollIcon, Send } from "lucide-react";
 import Link from "next/link";
 
 const LeaderboardPage = async () => {
@@ -43,12 +43,12 @@ const LeaderboardPage = async () => {
         <h1 className="bg-zinc-800 px-6 py-4 font-chakra text-5xl uppercase text-white sm:text-8xl">
           Leaderboard
         </h1>
-        <h1 className="bg-zinc-800 px-6 py-4 font-chakra text-3xl uppercase text-white sm:text-6xl">
-          TOP 10
+        <h1 className="bg-zinc-800 px-4 py-2 font-chakra text-3xl uppercase text-white sm:text-6xl">
+          TOP 10 Contributors
         </h1>
       </div>
 
-      <div>
+      <div className="flex w-full max-w-md flex-col gap-4">
         <div className="flex flex-col items-center justify-center gap-4 font-chakra uppercase">
           {top10.map((item, index) => (
             <div
@@ -67,6 +67,15 @@ const LeaderboardPage = async () => {
               </div>
             </div>
           ))}
+        </div>
+        <div className="w-max-sm flex w-full flex-row justify-evenly gap-4 p-8 text-center text-lg">
+          <span>not in the list?</span>
+          <Link href="/submit" className=" text-white">
+            <div className="group flex w-full flex-row items-center gap-2 hover:text-prim">
+              <span>submit here</span>
+              <Send className="h-4 w-4 group-hover:stroke-prim" />
+            </div>
+          </Link>
         </div>
       </div>
 
