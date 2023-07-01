@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Filter, Heart, HelpingHand, Info, Sparkles } from "lucide-react";
-import { shuffle, slugify } from "@/lib/utils";
+import { shuffle as shuffleArray, slugify } from "@/lib/utils";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import va from "@vercel/analytics";
 import getLikedItems from "@/lib/getLikedItems";
@@ -37,7 +37,7 @@ export default function FrontPage({ initialData }) {
         );
       });
       setQuery(searchQuery);
-      const finalData = shuffle(filteredData);
+      const finalData = shuffleArray(filteredData);
       setData(finalData);
     }
   };
@@ -57,7 +57,7 @@ export default function FrontPage({ initialData }) {
       });
       setQuery(searchQuery);
       document.getElementById("search").value = e?.toLowerCase();
-      const finalData = shuffle(filteredData);
+      const finalData = shuffleArray(filteredData);
       setData(finalData);
     }
   };
@@ -86,7 +86,7 @@ export default function FrontPage({ initialData }) {
       });
       setQuery(randomTag.toLowerCase());
       document.getElementById("search").value = randomTag.toLowerCase();
-      const finalData = shuffle(randomTagData);
+      const finalData = shuffleArray(randomTagData);
       setData(finalData);
     }
   };
@@ -101,7 +101,7 @@ export default function FrontPage({ initialData }) {
 
       setQuery(filterQuery);
       document.getElementById("search").value = filterQuery;
-      const finalData = shuffle(filteredData);
+      const finalData = shuffleArray(filteredData);
       setData(finalData);
     }
   };
@@ -112,7 +112,7 @@ export default function FrontPage({ initialData }) {
       return likedItems.includes(slugify(item.Title.toLowerCase()));
     });
     document.getElementById("search").value = "fav";
-    const finalData = shuffle(filteredData);
+    const finalData = shuffleArray(filteredData);
     setData(finalData);
   };
 

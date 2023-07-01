@@ -28,15 +28,15 @@ const getItem = async (slug) => {
 export const generateMetadata = async ({ params }) => {
   const data = await getItem(params.slug);
   return {
-    title: `${data.Title} | CC0-LIB`,
-    description: data.Description,
+    title: `${data?.Title} | CC0-LIB`,
+    description: data?.Description,
     // image: data.Thumbnails[0].url,
     image: `https://cc0-lib.wtf/og.png`,
     url: `https://cc0-lib.wtf/${params.slug}`,
     type: "website",
     openGraph: {
-      title: `${data.Title} | CC0-LIB`,
-      description: data.Description,
+      title: `${data?.Title} | CC0-LIB`,
+      description: data?.Description,
       url: `https://cc0-lib.wtf/${params.slug}`,
       type: "website",
       images: [
@@ -45,15 +45,15 @@ export const generateMetadata = async ({ params }) => {
           url: `https://cc0-lib.wtf/og.png`,
           width: 800,
           height: 400,
-          alt: data.Title,
+          alt: data?.Title,
         },
       ],
       locale: "en_US",
     },
     twitter: {
       card: "summary_large_image",
-      title: `${data.Title} | CC0-LIB`,
-      description: data.Description,
+      title: `${data?.Title} | CC0-LIB`,
+      description: data?.Description,
       // images: [data.Thumbnails[0].url],
       images: [`https://cc0-lib.wtf/og.png`],
     },
@@ -135,7 +135,7 @@ const DetailsPage = async ({ params }) => {
       )}
 
       {data && data?.Type === "Working Files" && data?.Filetype === "PDF" && (
-        <Iframe url={data.File} className="h-screen w-full p-16" />
+        <Iframe url={data.File} className="h-screen w-full px-0 py-8 sm:p-16" />
       )}
 
       {data && (data?.Type === "Image" || data?.Type === "GIF") && (
