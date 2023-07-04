@@ -6,12 +6,13 @@ import {
   LinkIcon,
   MoveLeft,
   ThumbsUpIcon,
+  User,
 } from "lucide-react";
 import Link from "next/link";
 import AudioPlayer from "@/components/ui/AudioPlayer";
 import VideoPlayer from "@/components/ui/VideoPlayer";
 import SocialShare from "@/components/ui/SocialShare";
-import { slugify } from "@/lib/utils";
+import { shortDomainName, slugify } from "@/lib/utils";
 import Iframe from "react-iframe";
 import Script from "next/script";
 import getAllItems from "@/lib/getAllItems";
@@ -177,6 +178,22 @@ const DetailsPage = async ({ params }) => {
       {data && (
         <div className="flex w-full flex-col items-center justify-between gap-4 p-4 sm:flex-row sm:p-16">
           <div className="duration-250 flex w-full flex-col gap-4 font-spline text-2xl text-white transition-all ease-linear">
+            <span className=" flex flex-row gap-2 text-sm text-zinc-400">
+              <User className="h-4 w-4 self-center" />
+              {data?.ENS ? (
+                <Link
+                  href={data?.["Social Link"]}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex flex-row gap-1 hover:text-prim"
+                >
+                  {data?.ENS}{" "}
+                </Link>
+              ) : (
+                <span>cc0-lib</span>
+              )}
+            </span>
+
             <span className="font-rubik text-3xl text-prim md:-ml-1 md:text-5xl">
               {data?.Title}
             </span>
@@ -189,7 +206,7 @@ const DetailsPage = async ({ params }) => {
                   rel="noopener noreferrer"
                   className="group flex flex-row gap-1 hover:text-prim"
                 >
-                  source{" "}
+                  {shortDomainName(data?.Source)}{" "}
                   <LinkIcon className="h-4 w-4 self-center group-hover:stroke-prim" />
                 </Link>
               )}

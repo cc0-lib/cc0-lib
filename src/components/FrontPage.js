@@ -1,10 +1,17 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { Filter, Heart, HelpingHand, Info, Sparkles } from "lucide-react";
-import { shuffle as shuffleArray, slugify } from "@/lib/utils";
+import {
+  Heart,
+  HelpingHand,
+  Info,
+  LayoutDashboard,
+  Sparkles,
+  XCircle,
+} from "lucide-react";
+import { shuffle, slugify } from "@/lib/utils";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import va from "@vercel/analytics";
 import getLikedItems from "@/lib/getLikedItems";
@@ -16,6 +23,8 @@ export default function FrontPage({ initialData }) {
   const [data, setData] = useState(null);
   const [types, setTypes] = useState(null);
   const [query, setQuery] = useLocalStorage("query", "");
+
+  const filterPanelRef = useRef(null);
 
   const handleKeyPress = (e) => {
     if ((e.metaKey || e.ctrlKey) && e.key === "k") {
@@ -33,12 +42,19 @@ export default function FrontPage({ initialData }) {
           item.Type?.toLowerCase().includes(searchQuery) ||
           item.Filetype?.toLowerCase().includes(searchQuery) ||
           item.Description?.toLowerCase().includes(searchQuery) ||
+          item.ENS?.toLowerCase().includes(searchQuery) ||
           item.Tags?.map((e) => e.toLowerCase()).includes(searchQuery)
         );
       });
       setQuery(searchQuery);
-      const finalData = shuffleArray(filteredData);
-      setData(finalData);
+
+      if (searchQuery === "cc0") {
+        const finalData = shuffle(initialData);
+        setData(finalData);
+      } else {
+        const finalData = shuffle(filteredData);
+        setData(finalData);
+      }
     }
   };
 
@@ -52,13 +68,20 @@ export default function FrontPage({ initialData }) {
           item.Type?.toLowerCase().includes(searchQuery) ||
           item.Filetype?.toLowerCase().includes(searchQuery) ||
           item.Description?.toLowerCase().includes(searchQuery) ||
+          item.ENS?.toLowerCase().includes(searchQuery) ||
           item.Tags?.map((e) => e.toLowerCase()).includes(searchQuery)
         );
       });
       setQuery(searchQuery);
       document.getElementById("search").value = e?.toLowerCase();
-      const finalData = shuffleArray(filteredData);
-      setData(finalData);
+
+      if (searchQuery === "cc0") {
+        const finalData = shuffle(initialData);
+        setData(finalData);
+      } else {
+        const finalData = shuffle(filteredData);
+        setData(finalData);
+      }
     }
   };
 
@@ -86,8 +109,14 @@ export default function FrontPage({ initialData }) {
       });
       setQuery(randomTag.toLowerCase());
       document.getElementById("search").value = randomTag.toLowerCase();
-      const finalData = shuffleArray(randomTagData);
-      setData(finalData);
+
+      if (randomTag === "cc0") {
+        const finalData = shuffle(randomTagData);
+        setData(finalData);
+      } else {
+        const finalData = shuffle(randomTagData);
+        setData(finalData);
+      }
     }
   };
 
@@ -99,10 +128,17 @@ export default function FrontPage({ initialData }) {
         return item.Type?.toLowerCase().includes(filterQuery);
       });
 
-      setQuery(filterQuery);
-      document.getElementById("search").value = filterQuery;
-      const finalData = shuffleArray(filteredData);
-      setData(finalData);
+      if (filterQuery === "all") {
+        setQuery("cc0");
+        document.getElementById("search").value = "cc0";
+        const finalData = shuffle(initialData);
+        setData(finalData);
+      } else {
+        setQuery(filterQuery);
+        document.getElementById("search").value = filterQuery;
+        const finalData = shuffle(filteredData);
+        setData(finalData);
+      }
     }
   };
 
@@ -112,7 +148,7 @@ export default function FrontPage({ initialData }) {
       return likedItems.includes(slugify(item.Title.toLowerCase()));
     });
     document.getElementById("search").value = "fav";
-    const finalData = shuffleArray(filteredData);
+    const finalData = shuffle(filteredData);
     setData(finalData);
   };
 
@@ -128,6 +164,8 @@ export default function FrontPage({ initialData }) {
             .filter((e) => e)
         )
       );
+      // add 'cc0' to the list of types
+      typesList.push("all");
       setTypes(typesList);
     }
   }, [initialData]);
@@ -162,7 +200,7 @@ export default function FrontPage({ initialData }) {
     if (!search) {
       document.getElementById("search").focus();
     }
-  }, []);
+  }, [search]);
 
   return (
     <main
@@ -225,6 +263,7 @@ export default function FrontPage({ initialData }) {
               >
                 <img
                   src={item.Thumbnails?.[0].url}
+                  alt={item.Title}
                   loading="lazy"
                   className="h-auto w-full rounded-sm opacity-80 transition-all duration-100 ease-in-out hover:opacity-100 hover:ring-2 hover:ring-prim hover:ring-offset-1 hover:ring-offset-zinc-900"
                 />
@@ -251,13 +290,22 @@ export default function FrontPage({ initialData }) {
       </div>
       <footer className="fixed bottom-0 mb-12 flex w-full flex-row items-center justify-between px-12 sm:px-20">
         <div
+          className="group flex cursor-pointer flex-col items-center gap-2 sm:hidden"
+          id="filterMobile"
+          onClick={() => {
+            filterPanelRef.current.classList.remove("hidden");
+          }}
+        >
+          <LayoutDashboard className="h-8 w-8 group-hover:stroke-prim" />
+        </div>
+        <div
           className="group hidden cursor-pointer flex-row items-center gap-2 sm:flex"
           id="filter"
         >
-          <Filter className="h-8 w-8 group-hover:stroke-prim" />
+          <LayoutDashboard className="h-8 w-8 group-hover:stroke-prim" />
 
           {types && (
-            <ul className="group flex flex-col items-center gap-1 lowercase sm:flex-row">
+            <ul className="group hidden flex-col items-center gap-1 lowercase sm:flex sm:flex-row">
               {types.map((type) => {
                 return (
                   <li
@@ -278,7 +326,7 @@ export default function FrontPage({ initialData }) {
             id="random"
           >
             <Sparkles className="h-8 w-8 group-hover:stroke-prim" />
-            <span className="duration-250 opacity-0 transition-all ease-linear group-hover:opacity-100">
+            <span className="duration-250 hidden opacity-0 transition-all ease-linear group-hover:opacity-100 sm:block">
               random
             </span>
           </div>
@@ -288,13 +336,48 @@ export default function FrontPage({ initialData }) {
             className="group flex flex-row items-center gap-2"
             id="contribute"
           >
-            <span className="duration-250 opacity-0 transition-all ease-linear group-hover:opacity-100">
+            <span className="duration-250 hidden opacity-0 transition-all ease-linear group-hover:opacity-100 sm:block">
               contribute
             </span>
             <HelpingHand className="h-8 w-8 group-hover:stroke-prim" />
           </div>
         </Link>
       </footer>
+
+      <div
+        ref={filterPanelRef}
+        className="fixed inset-0 left-0 top-0 z-30 hidden h-full w-screen flex-col bg-zinc-800/90 backdrop-blur-sm sm:hidden"
+      >
+        <div className="h-screen max-w-full ">
+          {types && (
+            <ul className="flex h-screen w-full flex-col items-center justify-center gap-4 ">
+              {types.map((type) => {
+                return (
+                  <li
+                    key={type}
+                    onClick={() => {
+                      filterPanelRef.current.classList.add("hidden");
+                      handleFilter(type);
+                    }}
+                    className=" text-4xl lowercase hover:text-prim"
+                  >
+                    {type}
+                  </li>
+                );
+              })}
+            </ul>
+          )}
+
+          <div
+            onClick={() => {
+              filterPanelRef.current.classList.add("hidden");
+            }}
+            className="absolute right-10 top-12 cursor-pointer"
+          >
+            <XCircle className="h-10 w-10 justify-center" />
+          </div>
+        </div>
+      </div>
     </main>
   );
 }

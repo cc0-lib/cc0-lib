@@ -1,9 +1,17 @@
-import { HelpingHand, Info, MoveLeft, TrophyIcon } from "lucide-react";
+import {
+  GitCommit,
+  HelpingHand,
+  Info,
+  MoveLeft,
+  Star,
+  TrophyIcon,
+} from "lucide-react";
 import Link from "next/link";
+import Log from "./log";
 
 export const generateMetadata = async () => {
-  const title = `Info | CC0-LIB`;
-  const description = "What is CC0-LIB";
+  const title = `Log | CC0-LIB`;
+  const description = "Changelog - Release notes";
   const image = `https://cc0-lib.wtf/og.png`;
   const url = `https://cc0-lib.wtf/info`;
 
@@ -37,7 +45,9 @@ export const generateMetadata = async () => {
   };
 };
 
-const InfoPage = () => {
+const log = Log();
+
+const LogPage = () => {
   return (
     <main
       className="flex min-h-screen flex-col items-center justify-between bg-zinc-900 bg-grid p-12
@@ -68,43 +78,30 @@ const InfoPage = () => {
         </ul>
       </header>
 
-      <div className="duration-250 peer flex w-full flex-col gap-8 bg-transparent px-4 py-16 text-prim  drop-shadow-md transition-all ease-linear selection:bg-zinc-800 selection:text-sec placeholder:text-zinc-600 focus:rounded-sm focus:bg-zinc-800 focus:bg-opacity-50 focus:outline-none focus:backdrop-blur-md sm:p-16">
-        <span className="font-rubik text-4xl sm:text-6xl">wtf is this?</span>
-        <span className="w-full max-w-prose text-lg text-white sm:w-1/2">
-          library of cc0 content for you to refer/use/remix/do whatever with it
-        </span>
-        <span className="font-rubik text-4xl sm:text-6xl">
-          who worked on this?
-        </span>
-        <span className=" w-full max-w-prose text-lg text-white sm:w-1/2">
-          the same team that brought you archives.wtf
-        </span>
-        <span className="font-rubik text-4xl sm:text-6xl">changelog</span>
-        <span className=" w-full max-w-prose text-lg text-white sm:w-1/2">
-          <Link href="/log" className="text-white hover:text-prim">
-            click here to see what&apos;s new
-          </Link>
-        </span>
-        <span className="font-rubik text-4xl sm:text-6xl">leaderboard</span>
-        <span className="flex w-full max-w-prose flex-col gap-2 text-lg text-white sm:w-1/2">
-          who&apos;s the greatest contributor?
-          <Link
-            href="/leaderboard"
-            className="flex flex-row items-center gap-2 text-lg text-white hover:text-prim"
-          >
-            click here to find out <TrophyIcon className="h-5 w-5" />
-          </Link>
-        </span>
-        <span className="font-rubik text-4xl sm:text-6xl">donation</span>
-        <span className="flex w-full max-w-prose flex-row gap-2 text-lg text-white sm:w-1/2">
-          <Link
-            target="_blank"
-            href="ethereum:0xcC0D45aD21224186e8C0450086aF57f30eD88CC0"
-            className="cursor-pointer text-white hover:text-prim"
-          >
-            cc0-lib.eth
-          </Link>
-        </span>
+      <div className="focus:outline-noneation-250 focus:bg-zinc-8 peer flex w-full flex-col gap-8 bg-transparent px-4 py-16 text-white drop-shadow-md transition-all ease-linear selection:bg-zinc-800 selection:text-sec placeholder:text-zinc-600 focus:rounded-sm focus:bg-opacity-50 focus:backdrop-blur-md sm:p-16">
+        <h1 className="font-rubik text-4xl text-prim dark:text-prim sm:text-6xl">
+          changelog
+        </h1>
+        <p className="w-full max-w-prose text-lg text-white">
+          this is a list of all the changes that have been made to the website.
+        </p>
+        <div className="flex flex-col gap-8">
+          {log.map((item) => (
+            <div key={item.version} className="flex flex-col gap-2">
+              <h2 className="text-2xl text-prim sm:text-3xl">{item.version}</h2>
+              <p className="text-md sm:text-lg">{item.date}</p>
+
+              <ul className="text-md flex flex-col gap-2 sm:text-lg">
+                {item.changes.map((change) => (
+                  <li key={change} className="flex flex-row items-center gap-2">
+                    <GitCommit className="h-4 w-4" />
+                    <p className="w-full max-w-prose text-white">{change}</p>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
       </div>
 
       <footer className="mt-4 flex w-full flex-row items-center justify-between sm:px-8">
@@ -131,4 +128,4 @@ const InfoPage = () => {
     </main>
   );
 };
-export default InfoPage;
+export default LogPage;

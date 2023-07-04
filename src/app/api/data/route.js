@@ -14,9 +14,28 @@ export async function GET(request) {
 
   const allowedKeys = ["title", "tag", "type", "fileType", "ens"];
 
+  const createResponse = (query, items) => {
+    const uniqueTypes = [...new Set(items.map((item) => item.Type))];
+    const uniqueTags = [...new Set(items.map((item) => item.Tags).flat())];
+    const uniqueFileTypes = [...new Set(items.map((item) => item.Filetype))];
+
+    const data = {
+      query: query,
+      count: items.length,
+      types: uniqueTypes,
+      fileTypes: uniqueFileTypes,
+      tags: uniqueTags,
+      date: new Date().toISOString(),
+      data: items,
+    };
+
+    return data;
+  };
+
   if (spKey && !allowedKeys.includes(spKey)) {
     return NextResponse.json({
-      message: "Invalid search parameter",
+      message:
+        "Invalid search parameter. use either title, tag, type, fileType or ens",
     });
   }
 
@@ -25,7 +44,8 @@ export async function GET(request) {
       item.Title.toLowerCase().includes(title)
     );
     if (items.length > 0) {
-      return NextResponse.json(items);
+      const data = createResponse(title, items);
+      return NextResponse.json(data);
     }
     return NextResponse.json({
       message: `No item found with title ${title}`,
@@ -37,7 +57,8 @@ export async function GET(request) {
       item.Tags.map((tag) => tag.toLowerCase()).includes(tag)
     );
     if (items.length > 0) {
-      return NextResponse.json(items);
+      const data = createResponse(tag, items);
+      return NextResponse.json(data);
     }
     return NextResponse.json({
       message: `No item found with tag ${tag}`,
@@ -48,7 +69,8 @@ export async function GET(request) {
     const items = data.filter((item) => item.Type.toLowerCase().includes(type));
 
     if (items.length > 0) {
-      return NextResponse.json(items);
+      const data = createResponse(type, items);
+      return NextResponse.json(data);
     }
     return NextResponse.json({
       message: `No item found with type ${type}`,
@@ -61,7 +83,8 @@ export async function GET(request) {
     );
 
     if (items.length > 0) {
-      return NextResponse.json(items);
+      const data = createResponse(fileType, items);
+      return NextResponse.json(data);
     }
     return NextResponse.json({
       message: `No item found with filetype ${fileType}`,
@@ -72,10 +95,17 @@ export async function GET(request) {
     const items = data.filter((item) => item.ENS?.toLowerCase().includes(ens));
 
     if (items.length > 0) {
-      return NextResponse.json(items);
+      const data = createResponse(ens, items);
+      return NextResponse.json(data);
     }
     return NextResponse.json({
       message: `No item found with ENS ${ens}`,
+    });
+  }
+
+  if (!data) {
+    return NextResponse.json({
+      message: "No data found",
     });
   }
 

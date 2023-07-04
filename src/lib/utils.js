@@ -52,3 +52,13 @@ export const handleENSLeaderboard = (sourceData) => {
     full: sortedEnsCount,
   };
 };
+
+export const shortDomainName = (source) => {
+  const domain = source
+    .replace("http://", "")
+    .replace("https://", "")
+    .replace("www.", "")
+    .split("/")[0];
+
+  return domain;
+};
