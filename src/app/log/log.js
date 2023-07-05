@@ -48,7 +48,7 @@ const Log = () => {
     {
       version: "v2.5",
       changes: [
-        "public api endpoint at cco-lib.wtf/api/data",
+        "public api endpoint at cc0-lib.wtf/api/data",
         "api query for title, tag, type, filetype and even ens",
         "api return more info like query, tags, count and types",
         "robots and sitemap",
@@ -62,6 +62,7 @@ const Log = () => {
         "mobile category",
         "search by contributor ens",
         "change category icon",
+        "privacy policy and disclaimer",
       ],
     },
   ];

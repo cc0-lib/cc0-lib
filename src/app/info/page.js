@@ -105,6 +105,18 @@ const InfoPage = () => {
             cc0-lib.eth
           </Link>
         </span>
+        <span className="font-rubik text-4xl sm:text-6xl">privacy policy</span>
+        <span className=" w-full max-w-prose text-lg text-white sm:w-1/2">
+          <Link href="/privacy" className="text-white hover:text-prim">
+            click here to read our privacy policy
+          </Link>
+        </span>
+        <span className="font-rubik text-4xl sm:text-6xl">disclaimer</span>
+        <span className=" w-full max-w-prose text-lg text-white sm:w-1/2">
+          <Link href="/disclaimer" className="text-white hover:text-prim">
+            click here to read our disclaimer
+          </Link>
+        </span>
       </div>
 
       <footer className="mt-4 flex w-full flex-row items-center justify-between sm:px-8">

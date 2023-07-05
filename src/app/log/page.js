@@ -13,7 +13,7 @@ export const generateMetadata = async () => {
   const title = `Log | CC0-LIB`;
   const description = "Changelog - Release notes";
   const image = `https://cc0-lib.wtf/og.png`;
-  const url = `https://cc0-lib.wtf/info`;
+  const url = `https://cc0-lib.wtf/log`;
 
   return {
     title: title,
