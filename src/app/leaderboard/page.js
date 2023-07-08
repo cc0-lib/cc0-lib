@@ -1,5 +1,4 @@
-import getAllItems from "@/lib/getAllItems";
-import { handleENSLeaderboard } from "@/lib/utils";
+import { getAllItems, handleENSLeaderboard } from "@/lib/utils";
 import { HelpingHand, Info, MoveLeft, ScrollIcon, Send } from "lucide-react";
 import Link from "next/link";
 

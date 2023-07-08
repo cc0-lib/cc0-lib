@@ -12,9 +12,9 @@ import {
   XCircle,
 } from "lucide-react";
 import { shuffle, slugify } from "@/lib/utils";
-import useLocalStorage from "@/hooks/useLocalStorage";
+import useLocalStorage from "@/hooks/use-local-storage";
 import va from "@vercel/analytics";
-import getLikedItems from "@/lib/getLikedItems";
+import { getLikedItems } from "@/lib/utils";
 
 export default function FrontPage({ initialData }) {
   const searchParams = useSearchParams();
@@ -25,10 +25,11 @@ export default function FrontPage({ initialData }) {
   const [query, setQuery] = useLocalStorage("query", "");
 
   const filterPanelRef = useRef(null);
+  const inputRef = useRef(null);
 
   const handleKeyPress = (e) => {
     if ((e.metaKey || e.ctrlKey) && e.key === "k") {
-      document.querySelector("input").focus();
+      inputRef.current.focus();
     }
   };
 
@@ -73,7 +74,7 @@ export default function FrontPage({ initialData }) {
         );
       });
       setQuery(searchQuery);
-      document.getElementById("search").value = e?.toLowerCase();
+      inputRef.current.value = e?.toLowerCase();
 
       if (searchQuery === "cc0") {
         const finalData = shuffle(initialData);
@@ -108,7 +109,7 @@ export default function FrontPage({ initialData }) {
         return item.Tags.includes(randomTag);
       });
       setQuery(randomTag.toLowerCase());
-      document.getElementById("search").value = randomTag.toLowerCase();
+      inputRef.current.value = randomTag.toLowerCase();
 
       if (randomTag === "cc0") {
         const finalData = shuffle(randomTagData);
@@ -130,12 +131,12 @@ export default function FrontPage({ initialData }) {
 
       if (filterQuery === "all") {
         setQuery("cc0");
-        document.getElementById("search").value = "cc0";
+        inputRef.current.value = "cc0";
         const finalData = shuffle(initialData);
         setData(finalData);
       } else {
         setQuery(filterQuery);
-        document.getElementById("search").value = filterQuery;
+        inputRef.current.value = filterQuery;
         const finalData = shuffle(filteredData);
         setData(finalData);
       }
@@ -147,7 +148,7 @@ export default function FrontPage({ initialData }) {
     const filteredData = initialData.filter((item) => {
       return likedItems.includes(slugify(item.Title.toLowerCase()));
     });
-    document.getElementById("search").value = "fav";
+    inputRef.current.value = "fav";
     const finalData = shuffle(filteredData);
     setData(finalData);
   };
@@ -189,7 +190,7 @@ export default function FrontPage({ initialData }) {
   }, [search, initialData]);
 
   useEffect(() => {
-    document.querySelector("input").focus();
+    inputRef.current.focus();
     document.addEventListener("keydown", handleKeyPress);
     return () => {
       document.removeEventListener("keydown", handleKeyPress);
@@ -198,7 +199,7 @@ export default function FrontPage({ initialData }) {
 
   useEffect(() => {
     if (!search) {
-      document.getElementById("search").focus();
+      inputRef.current.focus();
     }
   }, [search]);
 
@@ -278,6 +279,7 @@ export default function FrontPage({ initialData }) {
       <div className="fixed bottom-0 left-0 z-10 mb-60 flex flex-col">
         <input
           onChange={handleSearch}
+          ref={inputRef}
           id="search"
           type="text"
           autoComplete="off"

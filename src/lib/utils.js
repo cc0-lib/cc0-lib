@@ -62,3 +62,44 @@ export const shortDomainName = (source) => {
 
   return domain;
 };
+
+export const getLikedItems = () => {
+  if (typeof window === "undefined") return [];
+  const localStorage = window.localStorage;
+  // console.log(localStorage);
+  //get from local storage, filter from key that has sentiment and value of like
+  const sentimentItems = Object.keys(localStorage).filter((key) => {
+    return key.includes("sentiment");
+  });
+
+  const likedItems = sentimentItems
+    .filter((key) => {
+      const isLiked = JSON.parse(localStorage.getItem(key));
+      return isLiked === "like";
+    })
+    .map((key) => {
+      //remove -sentiment from key
+      const slug = key.replace("-sentiment", "");
+      //get the title from local storage
+      return slug;
+    });
+
+  return likedItems;
+};
+
+export const getAllItems = async () => {
+  const res = await fetch(
+    "https://notion-api.splitbee.io/v1/table/872d317db9c64d3d88195b217cb3dc2f",
+    {
+      next: {
+        revalidate: 60,
+      },
+    }
+  );
+  if (!res.ok) {
+    throw new Error("Failed to fetch data from DB");
+  }
+  const data = await res.json();
+
+  return data;
+};

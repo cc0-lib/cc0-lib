@@ -1,7 +1,27 @@
-import getAllItems from "@/lib/getAllItems";
+import { Ratelimit } from "@upstash/ratelimit";
+import kv from "@vercel/kv";
+import { getAllItems } from "@/lib/utils";
 import { NextResponse } from "next/server";
 
+const rateLimit = new Ratelimit({
+  redis: kv,
+  analytics: true,
+  limiter: Ratelimit.slidingWindow(10, "10s"),
+});
+
 export async function GET(request) {
+  const id = request.ip ?? "anonymous";
+  const limit = await rateLimit.limit(id ?? "anonymous");
+
+  if (limit.remaining <= 0) {
+    return NextResponse.json(
+      {
+        message: "Rate limit exceeded",
+      },
+      { status: 429 }
+    );
+  }
+
   const data = await getAllItems();
   const { searchParams } = new URL(request.url);
   const title = searchParams.get("title");
@@ -33,10 +53,13 @@ export async function GET(request) {
   };
 
   if (spKey && !allowedKeys.includes(spKey)) {
-    return NextResponse.json({
-      message:
-        "Invalid search parameter. use either title, tag, type, fileType or ens",
-    });
+    return NextResponse.json(
+      {
+        message:
+          "Invalid search parameter. use either title, tag, type, fileType or ens",
+      },
+      { status: 400 }
+    );
   }
 
   if (title) {
@@ -47,9 +70,12 @@ export async function GET(request) {
       const data = createResponse(title, items);
       return NextResponse.json(data);
     }
-    return NextResponse.json({
-      message: `No item found with title ${title}`,
-    });
+    return NextResponse.json(
+      {
+        message: `No item found with title ${title}`,
+      },
+      { status: 400 }
+    );
   }
 
   if (tag) {
@@ -60,9 +86,12 @@ export async function GET(request) {
       const data = createResponse(tag, items);
       return NextResponse.json(data);
     }
-    return NextResponse.json({
-      message: `No item found with tag ${tag}`,
-    });
+    return NextResponse.json(
+      {
+        message: `No item found with tag ${tag}`,
+      },
+      { status: 400 }
+    );
   }
 
   if (type) {
@@ -72,9 +101,12 @@ export async function GET(request) {
       const data = createResponse(type, items);
       return NextResponse.json(data);
     }
-    return NextResponse.json({
-      message: `No item found with type ${type}`,
-    });
+    return NextResponse.json(
+      {
+        message: `No item found with type ${type}`,
+      },
+      { status: 400 }
+    );
   }
 
   if (fileType) {
@@ -86,9 +118,12 @@ export async function GET(request) {
       const data = createResponse(fileType, items);
       return NextResponse.json(data);
     }
-    return NextResponse.json({
-      message: `No item found with filetype ${fileType}`,
-    });
+    return NextResponse.json(
+      {
+        message: `No item found with filetype ${fileType}`,
+      },
+      { status: 400 }
+    );
   }
 
   if (ens) {
@@ -98,15 +133,21 @@ export async function GET(request) {
       const data = createResponse(ens, items);
       return NextResponse.json(data);
     }
-    return NextResponse.json({
-      message: `No item found with ENS ${ens}`,
-    });
+    return NextResponse.json(
+      {
+        message: `No item found with ENS ${ens}`,
+      },
+      { status: 400 }
+    );
   }
 
   if (!data) {
-    return NextResponse.json({
-      message: "No data found",
-    });
+    return NextResponse.json(
+      {
+        message: "No data found",
+      },
+      { status: 400 }
+    );
   }
 
   return NextResponse.json(data);

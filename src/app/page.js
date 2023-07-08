@@ -1,5 +1,5 @@
-import FrontPage from "@/components/FrontPage";
-import getAllItems from "@/lib/getAllItems";
+import { getAllItems } from "@/lib/utils";
+import FrontPage from "./front-page";
 
 export const generateMetadata = async () => {
   const title = `CC0-LIB`;

@@ -1,5 +1,4 @@
-import getAllItems from "@/lib/getAllItems";
-import { slugify } from "@/lib/utils";
+import { slugify, getAllItems } from "@/lib/utils";
 
 const url = "https://cc0-lib.wtf";
 
@@ -10,12 +9,19 @@ export const sitemap = async () => {
     lastModified: new Date().toISOString(),
   }));
 
-  const pages = ["", "leaderboard", "info", "contribute", "submit"].map(
-    (page) => ({
-      url: `${url}/${page}`,
-      lastModified: new Date().toISOString(),
-    })
-  );
+  const pages = [
+    "",
+    "leaderboard",
+    "info",
+    "contribute",
+    "submit",
+    "disclaimer",
+    "log",
+    "privacy",
+  ].map((page) => ({
+    url: `${url}/${page}`,
+    lastModified: new Date().toISOString(),
+  }));
 
   return [...pages, ...items];
 };

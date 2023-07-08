@@ -5,24 +5,25 @@ import {
   Info,
   LinkIcon,
   MoveLeft,
-  ThumbsUpIcon,
   User,
 } from "lucide-react";
 import Link from "next/link";
-import AudioPlayer from "@/components/ui/AudioPlayer";
-import VideoPlayer from "@/components/ui/VideoPlayer";
-import SocialShare from "@/components/ui/SocialShare";
-import { shortDomainName, slugify } from "@/lib/utils";
+import AudioPlayer from "@/components/ui/audio-player";
+import VideoPlayer from "@/components/ui/video-player";
+import SocialShare from "@/components/ui/social-share";
+import { getAllItems, shortDomainName, slugify } from "@/lib/utils";
 import Iframe from "react-iframe";
 import Script from "next/script";
-import getAllItems from "@/lib/getAllItems";
 import Sentiment from "@/components/sentiment";
+import { notFound } from "next/navigation";
 
 const getItem = async (slug) => {
   const data = await getAllItems();
+
   const filteredData = data.filter((item) => {
     return slugify(item.Title) === slug;
   });
+
   return filteredData[0];
 };
 
@@ -63,6 +64,10 @@ export const generateMetadata = async ({ params }) => {
 
 const DetailsPage = async ({ params }) => {
   const data = await getItem(params.slug);
+
+  if (!data) {
+    notFound();
+  }
 
   return (
     <main

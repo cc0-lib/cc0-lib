@@ -1,16 +1,10 @@
 "use client";
 
-import {
-  FlagIcon,
-  HeartIcon,
-  ThumbsDownIcon,
-  ThumbsUpIcon,
-} from "lucide-react";
+import { FlagIcon, HeartIcon } from "lucide-react";
 import va from "@vercel/analytics";
 import { useEffect, useState } from "react";
-import useLocalStorage from "@/hooks/useLocalStorage";
+import useLocalStorage from "@/hooks/use-local-storage";
 import { slugify } from "@/lib/utils";
-import getLikedItems from "@/lib/getLikedItems";
 
 const Sentiment = (data) => {
   const [liked, setLiked] = useState(false);
