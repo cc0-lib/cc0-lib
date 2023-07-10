@@ -63,6 +63,7 @@ const Log = () => {
         "search by contributor ens",
         "change category icon",
         "privacy policy and disclaimer",
+        "file download improved with proper file name and extension",
       ],
     },
   ];
