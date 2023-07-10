@@ -76,12 +76,14 @@ const InfoPage = () => {
 
         <span className="font-rubik text-4xl sm:text-6xl">what is cc0</span>
         <span className=" w-full max-w-prose text-lg text-white sm:w-1/2">
-          <Link
+          <a
             href="https://creativecommons.org/publicdomain/zero/1.0"
+            target="_blank"
+            rel="noreferrer noopener"
             className="text-white hover:text-prim"
           >
             click here to learn more about creative commons zero
-          </Link>
+          </a>
         </span>
         <span className="font-rubik text-4xl sm:text-6xl">
           who worked on this?
