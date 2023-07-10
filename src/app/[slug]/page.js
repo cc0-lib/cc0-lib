@@ -16,6 +16,8 @@ import Iframe from "react-iframe";
 import Script from "next/script";
 import Sentiment from "@/components/sentiment";
 import { notFound } from "next/navigation";
+import DownloadFile from "@/components/dl";
+import CopyToClipboard from "@/components/copy";
 
 const getItem = async (slug) => {
   const data = await getAllItems();
@@ -215,17 +217,12 @@ const DetailsPage = async ({ params }) => {
                   <LinkIcon className="h-4 w-4 self-center group-hover:stroke-prim" />
                 </Link>
               )}
-              {data?.File && (
-                <Link
-                  href={data.File}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex flex-row gap-1 hover:text-prim"
-                >
-                  {data.Filetype}{" "}
-                  <ArrowDownToLine className="h-4 w-4  self-center group-hover:stroke-prim" />
-                </Link>
-              )}
+
+              {data?.File && <DownloadFile data={data} />}
+              {/* {!data?.File && data?.Thumbnails[0].url && (
+                <CopyToClipboard data={data} />
+              )} */}
+
               {!data?.File && data?.Thumbnails[0].url && (
                 <Link
                   href={data.Thumbnails[0].url}
@@ -235,7 +232,6 @@ const DetailsPage = async ({ params }) => {
                 >
                   {data.Filetype}{" "}
                   <ArrowDownToLine className="h-4 w-4 self-center group-hover:stroke-prim" />
-                  {/* <ArrowUpRight className="h-6 w-6  self-center group-hover:stroke-prim" /> */}
                 </Link>
               )}
               <SocialShare data={data} />
