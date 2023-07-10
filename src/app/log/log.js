@@ -64,6 +64,7 @@ const Log = () => {
         "change category icon",
         "privacy policy and disclaimer",
         "file download improved with proper file name and extension",
+        "animation when downloading file",
       ],
     },
   ];

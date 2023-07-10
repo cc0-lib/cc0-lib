@@ -73,6 +73,16 @@ const InfoPage = () => {
         <span className="w-full max-w-prose text-lg text-white sm:w-1/2">
           library of cc0 content for you to refer/use/remix/do whatever with it
         </span>
+
+        <span className="font-rubik text-4xl sm:text-6xl">what is cc0</span>
+        <span className=" w-full max-w-prose text-lg text-white sm:w-1/2">
+          <Link
+            href="https://creativecommons.org/publicdomain/zero/1.0"
+            className="text-white hover:text-prim"
+          >
+            click here to learn more about creative commons zero
+          </Link>
+        </span>
         <span className="font-rubik text-4xl sm:text-6xl">
           who worked on this?
         </span>

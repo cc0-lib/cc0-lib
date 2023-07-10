@@ -103,3 +103,22 @@ export const getAllItems = async () => {
 
   return data;
 };
+
+export const blobSize = (blob) => {
+  let blobSize = blob.size / 1024;
+  if (blob.size < 1048576 && blob.size > 1024) {
+    blobSize = blobSize.toFixed(2) + " Kb";
+  }
+
+  if (blob.size > 1048576) {
+    blobSize = blob.size / 1048576;
+    blobSize = blobSize.toFixed(2) + " Mb";
+  }
+
+  if (blob.size > 1073741824) {
+    blobSize = blob.size / 1073741824;
+    blobSize = blobSize.toFixed(2) + " Gb";
+  }
+
+  return blobSize;
+};
