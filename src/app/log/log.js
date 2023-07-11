@@ -67,6 +67,7 @@ const Log = () => {
         "animation when downloading file",
         "refactor search by type, tag and format",
         "site-wide ui and ux improvement",
+        "audio player only show if format supported by device",
       ],
     },
   ];

@@ -131,7 +131,11 @@ const DetailsPage = async ({ params }) => {
       )}
 
       {data && data?.Type === "Audio" && (
-        <AudioPlayer href={data.File} className="w-full sm:w-3/5" />
+        <AudioPlayer
+          format={data.Filetype}
+          href={data.File}
+          className="w-full sm:w-3/5"
+        />
       )}
 
       {data && data?.Type === "Working Files" && data?.Filetype === "Figma" && (
@@ -205,7 +209,7 @@ const DetailsPage = async ({ params }) => {
               {data?.Title}
             </span>
             <span className="max-w-prose text-lg">{data?.Description}</span>
-            <div className="place flex w-full flex-row justify-between gap-4 text-lg lowercase sm:w-1/3">
+            <div className="place flex w-full flex-row justify-between gap-4 text-base lowercase sm:w-1/3 sm:text-lg">
               {data?.Source && (
                 <Link
                   href={data?.Source}
