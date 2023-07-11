@@ -65,6 +65,8 @@ const Log = () => {
         "privacy policy and disclaimer",
         "file download improved with proper file name and extension",
         "animation when downloading file",
+        "refactor search by type, tag and format",
+        "site-wide ui and ux improvement",
       ],
     },
   ];

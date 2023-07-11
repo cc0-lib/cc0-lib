@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import {
@@ -36,123 +36,144 @@ export default function FrontPage({ initialData }) {
     }
   };
 
-  const handleSearch = (e) => {
-    if (initialData) {
-      const searchQuery = e.target.value.toLowerCase();
-      const filteredData = initialData.filter((item) => {
-        if (searchQuery.length < 2) return false;
-        return (
-          item.Title?.toLowerCase().includes(searchQuery) ||
-          item.Type?.toLowerCase().includes(searchQuery) ||
-          item.Filetype?.toLowerCase().includes(searchQuery) ||
-          item.Description?.toLowerCase().includes(searchQuery) ||
-          item.ENS?.toLowerCase().includes(searchQuery) ||
-          item.Tags?.map((e) => e.toLowerCase()).includes(searchQuery)
-        );
-      });
-      setQuery(searchQuery);
+  const handleSearch = useCallback(
+    (e) => {
+      const searchQuery = e.target.value;
+      if (initialData) {
+        const filteredData = initialData.filter((item) => {
+          const lowerCaseSearchQuery = searchQuery.toLowerCase();
+          if (lowerCaseSearchQuery.length < 2) return false;
+          return (
+            item.Title?.toLowerCase().includes(lowerCaseSearchQuery) ||
+            item.Type?.toLowerCase().includes(lowerCaseSearchQuery) ||
+            item.Filetype?.toLowerCase().includes(lowerCaseSearchQuery) ||
+            item.Description?.toLowerCase().includes(lowerCaseSearchQuery) ||
+            item.ENS?.toLowerCase().includes(lowerCaseSearchQuery) ||
+            item.Tags?.map((e) => e.toLowerCase()).includes(
+              lowerCaseSearchQuery
+            )
+          );
+        });
+        setQuery(searchQuery);
 
-      if (searchQuery === "cc0") {
-        const finalData = shuffle(initialData);
-        setData(finalData);
-      } else {
-        const finalData = shuffle(filteredData);
-        setData(finalData);
+        if (searchQuery === "cc0") {
+          const finalData = shuffle(initialData);
+          setData(finalData);
+        } else {
+          const finalData = shuffle(filteredData);
+          setData(finalData);
+        }
       }
-    }
-  };
+    },
+    [setQuery, initialData]
+  );
 
-  const handleSearchBar = (e) => {
-    if (initialData) {
-      const searchQuery = e?.toLowerCase();
-      const filteredData = initialData?.filter((item) => {
-        if (searchQuery.length < 2) return false;
-        return (
-          item.Title?.toLowerCase().includes(searchQuery) ||
-          item.Type?.toLowerCase().includes(searchQuery) ||
-          item.Filetype?.toLowerCase().includes(searchQuery) ||
-          item.Description?.toLowerCase().includes(searchQuery) ||
-          item.ENS?.toLowerCase().includes(searchQuery) ||
-          item.Tags?.map((e) => e.toLowerCase()).includes(searchQuery)
-        );
-      });
-      setQuery(searchQuery);
-      inputRef.current.value = e?.toLowerCase();
+  const handleSearchBar = useCallback(
+    (searchQuery) => {
+      if (initialData) {
+        const filteredData = initialData?.filter((item) => {
+          const lowerCaseSearchQuery = searchQuery.toLowerCase();
+          if (lowerCaseSearchQuery.length < 2) return false;
+          return (
+            item.Title?.toLowerCase().includes(lowerCaseSearchQuery) ||
+            item.Type?.toLowerCase().includes(lowerCaseSearchQuery) ||
+            item.Filetype?.toLowerCase().includes(lowerCaseSearchQuery) ||
+            item.Description?.toLowerCase().includes(lowerCaseSearchQuery) ||
+            item.ENS?.toLowerCase().includes(lowerCaseSearchQuery) ||
+            item.Tags?.map((e) => e.toLowerCase()).includes(
+              lowerCaseSearchQuery
+            )
+          );
+        });
+        setQuery(searchQuery);
+        inputRef.current.value = searchQuery.toLowerCase();
 
-      if (searchQuery === "cc0") {
-        const finalData = shuffle(initialData);
-        setData(finalData);
-      } else {
-        const finalData = shuffle(filteredData);
-        setData(finalData);
+        if (searchQuery === "cc0") {
+          const finalData = shuffle(initialData);
+          setData(finalData);
+        } else {
+          const finalData = shuffle(filteredData);
+          setData(finalData);
+        }
       }
-    }
-  };
+    },
+    [setQuery, initialData]
+  );
 
-  const handleTagSearch = (e) => {
-    if (initialData) {
-      const searchQuery = e?.toLowerCase();
-      const filteredData = initialData?.filter((item) => {
-        if (searchQuery.length < 2) return false;
-        return item.Tags?.map((e) => e.toLowerCase()).includes(searchQuery);
-      });
-      setQuery(searchQuery);
-      inputRef.current.value = e?.toLowerCase();
+  const handleTagSearch = useCallback(
+    (searchQuery) => {
+      if (initialData) {
+        const filteredData = initialData?.filter((item) => {
+          const lowerCaseSearchQuery = searchQuery.toLowerCase();
+          if (lowerCaseSearchQuery.length < 2) return false;
+          return item.Tags?.map((e) => e.toLowerCase()).includes(
+            lowerCaseSearchQuery
+          );
+        });
+        setQuery(searchQuery);
+        inputRef.current.value = searchQuery.toLowerCase();
 
-      if (searchQuery === "cc0") {
-        const finalData = shuffle(initialData);
-        setData(finalData);
-      } else {
-        const finalData = shuffle(filteredData);
-        setData(finalData);
+        if (searchQuery === "cc0") {
+          const finalData = shuffle(initialData);
+          setData(finalData);
+        } else {
+          const finalData = shuffle(filteredData);
+          setData(finalData);
+        }
       }
-    }
-  };
+    },
+    [setQuery, initialData]
+  );
 
-  const handleFormatSearch = (e) => {
-    if (initialData) {
-      const searchQuery = e?.toLowerCase();
-      const filteredData = initialData?.filter((item) => {
-        if (searchQuery.length < 2) return false;
-        return item.Filetype?.toLowerCase().includes(searchQuery);
-      });
-      setQuery(searchQuery);
-      inputRef.current.value = e?.toLowerCase();
+  const handleFormatSearch = useCallback(
+    (searchQuery) => {
+      if (initialData) {
+        const filteredData = initialData?.filter((item) => {
+          const lowerCaseSearchQuery = searchQuery.toLowerCase();
+          if (lowerCaseSearchQuery.length < 2) return false;
+          return item.Filetype?.toLowerCase().includes(lowerCaseSearchQuery);
+        });
+        setQuery(searchQuery);
+        inputRef.current.value = searchQuery.toLowerCase();
 
-      if (searchQuery === "cc0") {
-        const finalData = shuffle(initialData);
-        setData(finalData);
-      } else {
-        const finalData = shuffle(filteredData);
-        setData(finalData);
+        if (searchQuery === "cc0") {
+          const finalData = shuffle(initialData);
+          setData(finalData);
+        } else {
+          const finalData = shuffle(filteredData);
+          setData(finalData);
+        }
       }
-    }
-  };
+    },
+    [setQuery, initialData]
+  );
 
-  const handleTypeSearch = (e) => {
-    if (initialData) {
-      const searchQuery = e?.toLowerCase();
-      const filteredData = initialData?.filter((item) => {
-        if (searchQuery.length < 2) return false;
-        return item.Type?.toLowerCase().includes(searchQuery);
-      });
-      setQuery(searchQuery);
-      inputRef.current.value = e?.toLowerCase();
+  const handleTypeSearch = useCallback(
+    (searchQuery) => {
+      if (initialData) {
+        const filteredData = initialData?.filter((item) => {
+          const lowerCaseSearchQuery = searchQuery.toLowerCase();
+          if (lowerCaseSearchQuery.length < 2) return false;
+          return item.Type?.toLowerCase().includes(lowerCaseSearchQuery);
+        });
+        setQuery(searchQuery);
+        inputRef.current.value = searchQuery.toLowerCase();
 
-      if (searchQuery === "cc0" || searchQuery === "all") {
-        const finalData = shuffle(initialData);
-        setData(finalData);
-      } else {
-        const finalData = shuffle(filteredData);
-        setData(finalData);
+        if (searchQuery === "cc0" || searchQuery === "all") {
+          const finalData = shuffle(initialData);
+          setData(finalData);
+        } else {
+          const finalData = shuffle(filteredData);
+          setData(finalData);
+        }
       }
-    }
-  };
+    },
+    [setQuery, initialData]
+  );
 
   const handleRandomData = () => {
     va.track("random-data");
     if (initialData) {
-      // create a list of tags
       const tagsList = Array.from(
         new Set(
           initialData
@@ -196,7 +217,6 @@ export default function FrontPage({ initialData }) {
 
   useEffect(() => {
     if (initialData) {
-      // create a list of types
       const typesList = Array.from(
         new Set(
           initialData
@@ -206,54 +226,46 @@ export default function FrontPage({ initialData }) {
             .filter((e) => e)
         )
       );
-      // add 'cc0' to the list of types
       typesList.push("all");
       setTypes(typesList);
     }
   }, [initialData]);
 
   useEffect(() => {
-    if (
-      initialData &&
-      !search &&
-      !query &&
-      !tagSearch &&
-      !formatSearch &&
-      !typeSearch
-    ) {
+    if (initialData) {
       handleSearchBar("cc0");
     }
-  }, [initialData]);
+  }, [initialData, handleSearchBar]);
 
   useEffect(() => {
-    if (initialData && query) {
+    if (initialData && query && !typeSearch && !formatSearch && !tagSearch) {
       handleSearchBar(query);
     }
-  }, [query, initialData]);
+  }, [initialData, query, handleSearchBar]);
 
   useEffect(() => {
     if (initialData && search) {
       handleSearchBar(search);
     }
-  }, [search, initialData]);
+  }, [initialData, search, handleSearchBar]);
 
   useEffect(() => {
     if (initialData && tagSearch) {
       handleTagSearch(tagSearch);
     }
-  }, [tagSearch, initialData]);
+  }, [initialData, tagSearch, handleTagSearch]);
 
   useEffect(() => {
     if (initialData && formatSearch) {
       handleFormatSearch(formatSearch);
     }
-  }, [formatSearch, initialData]);
+  }, [initialData, formatSearch, handleFormatSearch]);
 
   useEffect(() => {
     if (initialData && typeSearch) {
       handleTypeSearch(typeSearch);
     }
-  }, [typeSearch, initialData]);
+  }, [initialData, typeSearch, handleTypeSearch]);
 
   useEffect(() => {
     inputRef.current.focus();
@@ -346,6 +358,7 @@ export default function FrontPage({ initialData }) {
         <input
           onChange={handleSearch}
           ref={inputRef}
+          value={query}
           id="search"
           type="text"
           autoComplete="off"
