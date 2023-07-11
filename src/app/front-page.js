@@ -19,6 +19,9 @@ import { getLikedItems } from "@/lib/utils";
 export default function FrontPage({ initialData }) {
   const searchParams = useSearchParams();
   const search = searchParams.get("search");
+  const tagSearch = searchParams.get("tag");
+  const formatSearch = searchParams.get("format");
+  const typeSearch = searchParams.get("type");
 
   const [data, setData] = useState(null);
   const [types, setTypes] = useState(null);
@@ -86,6 +89,66 @@ export default function FrontPage({ initialData }) {
     }
   };
 
+  const handleTagSearch = (e) => {
+    if (initialData) {
+      const searchQuery = e?.toLowerCase();
+      const filteredData = initialData?.filter((item) => {
+        if (searchQuery.length < 2) return false;
+        return item.Tags?.map((e) => e.toLowerCase()).includes(searchQuery);
+      });
+      setQuery(searchQuery);
+      inputRef.current.value = e?.toLowerCase();
+
+      if (searchQuery === "cc0") {
+        const finalData = shuffle(initialData);
+        setData(finalData);
+      } else {
+        const finalData = shuffle(filteredData);
+        setData(finalData);
+      }
+    }
+  };
+
+  const handleFormatSearch = (e) => {
+    if (initialData) {
+      const searchQuery = e?.toLowerCase();
+      const filteredData = initialData?.filter((item) => {
+        if (searchQuery.length < 2) return false;
+        return item.Filetype?.toLowerCase().includes(searchQuery);
+      });
+      setQuery(searchQuery);
+      inputRef.current.value = e?.toLowerCase();
+
+      if (searchQuery === "cc0") {
+        const finalData = shuffle(initialData);
+        setData(finalData);
+      } else {
+        const finalData = shuffle(filteredData);
+        setData(finalData);
+      }
+    }
+  };
+
+  const handleTypeSearch = (e) => {
+    if (initialData) {
+      const searchQuery = e?.toLowerCase();
+      const filteredData = initialData?.filter((item) => {
+        if (searchQuery.length < 2) return false;
+        return item.Type?.toLowerCase().includes(searchQuery);
+      });
+      setQuery(searchQuery);
+      inputRef.current.value = e?.toLowerCase();
+
+      if (searchQuery === "cc0" || searchQuery === "all") {
+        const finalData = shuffle(initialData);
+        setData(finalData);
+      } else {
+        const finalData = shuffle(filteredData);
+        setData(finalData);
+      }
+    }
+  };
+
   const handleRandomData = () => {
     va.track("random-data");
     if (initialData) {
@@ -121,28 +184,6 @@ export default function FrontPage({ initialData }) {
     }
   };
 
-  const handleFilter = (e) => {
-    if (initialData) {
-      const filterQuery = e.toLowerCase();
-
-      const filteredData = initialData.filter((item) => {
-        return item.Type?.toLowerCase().includes(filterQuery);
-      });
-
-      if (filterQuery === "all") {
-        setQuery("cc0");
-        inputRef.current.value = "cc0";
-        const finalData = shuffle(initialData);
-        setData(finalData);
-      } else {
-        setQuery(filterQuery);
-        inputRef.current.value = filterQuery;
-        const finalData = shuffle(filteredData);
-        setData(finalData);
-      }
-    }
-  };
-
   const handleLikedItems = () => {
     const likedItems = getLikedItems();
     const filteredData = initialData.filter((item) => {
@@ -172,7 +213,14 @@ export default function FrontPage({ initialData }) {
   }, [initialData]);
 
   useEffect(() => {
-    if (initialData && !search && !query) {
+    if (
+      initialData &&
+      !search &&
+      !query &&
+      !tagSearch &&
+      !formatSearch &&
+      !typeSearch
+    ) {
       handleSearchBar("cc0");
     }
   }, [initialData]);
@@ -190,6 +238,24 @@ export default function FrontPage({ initialData }) {
   }, [search, initialData]);
 
   useEffect(() => {
+    if (initialData && tagSearch) {
+      handleTagSearch(tagSearch);
+    }
+  }, [tagSearch, initialData]);
+
+  useEffect(() => {
+    if (initialData && formatSearch) {
+      handleFormatSearch(formatSearch);
+    }
+  }, [formatSearch, initialData]);
+
+  useEffect(() => {
+    if (initialData && typeSearch) {
+      handleTypeSearch(typeSearch);
+    }
+  }, [typeSearch, initialData]);
+
+  useEffect(() => {
     inputRef.current.focus();
     document.addEventListener("keydown", handleKeyPress);
     return () => {
@@ -198,10 +264,10 @@ export default function FrontPage({ initialData }) {
   }, []);
 
   useEffect(() => {
-    if (!search) {
+    if (!search || !tagSearch || !formatSearch || !typeSearch) {
       inputRef.current.focus();
     }
-  }, [search]);
+  }, [search, tagSearch, formatSearch, typeSearch]);
 
   return (
     <main
@@ -310,13 +376,13 @@ export default function FrontPage({ initialData }) {
             <ul className="group hidden flex-col items-center gap-1 lowercase sm:flex sm:flex-row">
               {types.map((type) => {
                 return (
-                  <li
+                  <Link
                     key={type}
-                    onClick={() => handleFilter(type)}
+                    href={`/?type=${type.toLowerCase()}`}
                     className="opacity-0 hover:text-prim group-hover:opacity-100"
                   >
                     {type}
-                  </li>
+                  </Link>
                 );
               })}
             </ul>
@@ -355,16 +421,16 @@ export default function FrontPage({ initialData }) {
             <ul className="flex h-screen w-full flex-col items-center justify-center gap-4 ">
               {types.map((type) => {
                 return (
-                  <li
+                  <Link
                     key={type}
                     onClick={() => {
                       filterPanelRef.current.classList.add("hidden");
-                      handleFilter(type);
                     }}
+                    href={`/?type=${type.toLowerCase()}`}
                     className=" text-4xl lowercase hover:text-prim"
                   >
                     {type}
-                  </li>
+                  </Link>
                 );
               })}
             </ul>

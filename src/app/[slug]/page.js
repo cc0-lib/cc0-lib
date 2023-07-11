@@ -243,7 +243,7 @@ const DetailsPage = async ({ params }) => {
                   <span>type:</span>
 
                   <Link
-                    href={`/?search=${data.Type}`}
+                    href={`/?type=${data.Type.toLowerCase()}`}
                     className="hover:text-prim"
                   >
                     {data.Type}
@@ -255,7 +255,7 @@ const DetailsPage = async ({ params }) => {
                   <span>format:</span>
 
                   <Link
-                    href={`/?search=${data.Filetype}`}
+                    href={`/?format=${data.Filetype.toLowerCase()}`}
                     className="hover:text-prim"
                   >
                     {data.Filetype}
@@ -269,7 +269,7 @@ const DetailsPage = async ({ params }) => {
                     {data.Tags.map((tag) => {
                       return (
                         <Link
-                          href={`/?search=${tag}`}
+                          href={`/?tag=${tag.toLowerCase()}`}
                           key={tag}
                           className="sm:py-1/12 px-1 py-0 hover:text-prim sm:px-2"
                         >
