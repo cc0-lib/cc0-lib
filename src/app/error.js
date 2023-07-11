@@ -34,9 +34,11 @@ const Error = () => {
         </ul>
       </header>
 
-      <h1 className="bg-zinc-800 px-6 py-4 font-chakra text-5xl uppercase text-orange-500 sm:text-9xl">
-        ERROR
-      </h1>
+      <Link href="/">
+        <h1 className="bg-zinc-800 px-12 py-6 font-chakra text-5xl uppercase text-orange-600 hover:bg-orange-600 hover:text-zinc-800 sm:text-9xl">
+          ERROR
+        </h1>
+      </Link>
 
       <footer className="mt-4 flex w-full flex-row items-center justify-between sm:px-8">
         <Link href="/">

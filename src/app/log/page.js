@@ -1,12 +1,19 @@
-import { getAllItems, handleENSLeaderboard } from "@/lib/utils";
-import { HelpingHand, Info, MoveLeft, ScrollIcon, Send } from "lucide-react";
+import {
+  GitCommit,
+  HelpingHand,
+  Info,
+  MoveLeft,
+  Star,
+  TrophyIcon,
+} from "lucide-react";
 import Link from "next/link";
+import Log from "./log";
 
 export const generateMetadata = async () => {
-  const title = `Leaderboard | CC0-LIB`;
-  const description = "Check who contributed the most to CC0-LIB";
+  const title = `Log | CC0-LIB`;
+  const description = "Changelog - Release notes";
   const image = `https://cc0-lib.wtf/og.png`;
-  const url = `https://cc0-lib.wtf/leaderboard`;
+  const url = `https://cc0-lib.wtf/log`;
 
   return {
     title: title,
@@ -38,16 +45,13 @@ export const generateMetadata = async () => {
   };
 };
 
-const LeaderboardPage = async () => {
-  const data = await getAllItems();
+const log = Log();
 
-  const top10 = handleENSLeaderboard(data).top10;
-  const full = handleENSLeaderboard(data).full;
-
+const LogPage = () => {
   return (
     <main
       className="flex min-h-screen flex-col items-center justify-between bg-zinc-900 bg-grid p-12
-        font-spline text-white selection:bg-zinc-800 selection:text-prim dark:text-white"
+    font-spline text-white selection:bg-zinc-800 selection:text-prim dark:text-white"
     >
       <header className="z-10 flex w-full flex-row items-center justify-between sm:px-8">
         <Link href="/" className="flex gap-2">
@@ -74,43 +78,29 @@ const LeaderboardPage = async () => {
         </ul>
       </header>
 
-      <div className="flex flex-col items-center gap-4">
-        <h1 className="bg-zinc-800 px-6 py-4 font-chakra text-4xl uppercase text-white sm:text-8xl">
-          Leaderboard
+      <div className="focus:outline-noneation-250 focus:bg-zinc-8 peer flex w-full flex-col gap-8 bg-transparent px-4 py-16 text-white drop-shadow-md transition-all ease-linear selection:bg-zinc-800 selection:text-sec placeholder:text-zinc-600 focus:rounded-sm focus:bg-opacity-50 focus:backdrop-blur-md sm:p-16">
+        <h1 className="font-rubik text-4xl text-prim dark:text-prim sm:text-6xl">
+          changelog
         </h1>
-        <h1 className="bg-zinc-800 px-4 py-2 font-chakra text-2xl uppercase text-white sm:text-6xl">
-          TOP 10 Contributors
-        </h1>
-      </div>
+        <p className="w-full max-w-prose text-lg text-white">
+          this is a list of all the changes that have been made to the website.
+        </p>
+        <div className="flex flex-col gap-8">
+          {log.map((item) => (
+            <div key={item.version} className="flex flex-col gap-2">
+              <h2 className="text-2xl text-prim sm:text-3xl">{item.version}</h2>
+              <p className="text-md sm:text-lg">{item.date}</p>
 
-      <div className="flex w-full max-w-sm flex-col gap-4">
-        <div className="flex flex-col items-center justify-center gap-4 font-chakra uppercase">
-          {top10.map((item, index) => (
-            <div
-              key={item.ens}
-              className="flex w-full flex-row items-center justify-between rounded-lg bg-zinc-800 px-4 py-2"
-            >
-              <div className="flex w-full flex-row items-center justify-between gap-6 text-lg sm:gap-16 sm:text-2xl">
-                <div className="flex w-60 flex-row gap-4 text-zinc-500">
-                  <span>{index + 1}.</span>
-                  <span className="truncate text-prim">{item.ens}</span>
-                </div>
-                <span className="flex flex-row items-center gap-1 justify-self-end text-zinc-500">
-                  [<span className="h-6-w-6 text-white">{item.count}</span>
-                  <ScrollIcon className="h-6 w-6 stroke-white" />]
-                </span>
-              </div>
+              <ul className="text-md flex flex-col gap-2 sm:text-lg">
+                {item.changes.map((change) => (
+                  <li key={change} className="flex flex-row items-center gap-2">
+                    <GitCommit className="h-4 w-4" />
+                    <p className="w-full max-w-prose text-white">{change}</p>
+                  </li>
+                ))}
+              </ul>
             </div>
           ))}
-        </div>
-        <div className="w-max-sm text-md flex w-full flex-row justify-evenly gap-4 p-8 text-center text-zinc-400 sm:text-lg">
-          <span>not in the list?</span>
-          <Link href="/submit">
-            <div className="group flex w-full flex-row items-center gap-2 hover:text-prim">
-              <span>submit here</span>
-              <Send className="h-4 w-4 group-hover:stroke-prim" />
-            </div>
-          </Link>
         </div>
       </div>
 
@@ -138,4 +128,4 @@ const LeaderboardPage = async () => {
     </main>
   );
 };
-export default LeaderboardPage;
+export default LogPage;

@@ -5,38 +5,42 @@ import {
   Info,
   LinkIcon,
   MoveLeft,
-  ThumbsUpIcon,
+  User,
 } from "lucide-react";
 import Link from "next/link";
-import AudioPlayer from "@/components/ui/AudioPlayer";
-import VideoPlayer from "@/components/ui/VideoPlayer";
-import SocialShare from "@/components/ui/SocialShare";
-import { slugify } from "@/lib/utils";
+import AudioPlayer from "@/components/ui/audio-player";
+import VideoPlayer from "@/components/ui/video-player";
+import SocialShare from "@/components/ui/social-share";
+import { getAllItems, shortDomainName, slugify } from "@/lib/utils";
 import Iframe from "react-iframe";
 import Script from "next/script";
-import getAllItems from "@/lib/getAllItems";
 import Sentiment from "@/components/sentiment";
+import { notFound } from "next/navigation";
+import DownloadFile from "@/components/dl";
+import CopyToClipboard from "@/components/copy";
 
 const getItem = async (slug) => {
   const data = await getAllItems();
+
   const filteredData = data.filter((item) => {
     return slugify(item.Title) === slug;
   });
+
   return filteredData[0];
 };
 
 export const generateMetadata = async ({ params }) => {
   const data = await getItem(params.slug);
   return {
-    title: `${data.Title} | CC0-LIB`,
-    description: data.Description,
+    title: `${data?.Title} | CC0-LIB`,
+    description: data?.Description,
     // image: data.Thumbnails[0].url,
     image: `https://cc0-lib.wtf/og.png`,
     url: `https://cc0-lib.wtf/${params.slug}`,
     type: "website",
     openGraph: {
-      title: `${data.Title} | CC0-LIB`,
-      description: data.Description,
+      title: `${data?.Title} | CC0-LIB`,
+      description: data?.Description,
       url: `https://cc0-lib.wtf/${params.slug}`,
       type: "website",
       images: [
@@ -45,15 +49,15 @@ export const generateMetadata = async ({ params }) => {
           url: `https://cc0-lib.wtf/og.png`,
           width: 800,
           height: 400,
-          alt: data.Title,
+          alt: data?.Title,
         },
       ],
       locale: "en_US",
     },
     twitter: {
       card: "summary_large_image",
-      title: `${data.Title} | CC0-LIB`,
-      description: data.Description,
+      title: `${data?.Title} | CC0-LIB`,
+      description: data?.Description,
       // images: [data.Thumbnails[0].url],
       images: [`https://cc0-lib.wtf/og.png`],
     },
@@ -62,6 +66,10 @@ export const generateMetadata = async ({ params }) => {
 
 const DetailsPage = async ({ params }) => {
   const data = await getItem(params.slug);
+
+  if (!data) {
+    notFound();
+  }
 
   return (
     <main
@@ -123,7 +131,11 @@ const DetailsPage = async ({ params }) => {
       )}
 
       {data && data?.Type === "Audio" && (
-        <AudioPlayer href={data.File} className="w-full sm:w-3/5" />
+        <AudioPlayer
+          format={data.Filetype}
+          href={data.File}
+          className="w-full sm:w-3/5"
+        />
       )}
 
       {data && data?.Type === "Working Files" && data?.Filetype === "Figma" && (
@@ -135,7 +147,7 @@ const DetailsPage = async ({ params }) => {
       )}
 
       {data && data?.Type === "Working Files" && data?.Filetype === "PDF" && (
-        <Iframe url={data.File} className="h-screen w-full p-16" />
+        <Iframe url={data.File} className="h-screen w-full px-0 py-8 sm:p-16" />
       )}
 
       {data && (data?.Type === "Image" || data?.Type === "GIF") && (
@@ -177,11 +189,27 @@ const DetailsPage = async ({ params }) => {
       {data && (
         <div className="flex w-full flex-col items-center justify-between gap-4 p-4 sm:flex-row sm:p-16">
           <div className="duration-250 flex w-full flex-col gap-4 font-spline text-2xl text-white transition-all ease-linear">
+            <span className=" flex flex-row gap-2 text-sm text-zinc-400">
+              <User className="h-4 w-4 self-center" />
+              {data?.ENS ? (
+                <Link
+                  href={data?.["Social Link"]}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex flex-row gap-1 hover:text-prim"
+                >
+                  {data?.ENS}{" "}
+                </Link>
+              ) : (
+                <span>cc0-lib</span>
+              )}
+            </span>
+
             <span className="font-rubik text-3xl text-prim md:-ml-1 md:text-5xl">
               {data?.Title}
             </span>
             <span className="max-w-prose text-lg">{data?.Description}</span>
-            <div className="place flex w-full flex-row justify-between gap-4 text-lg lowercase sm:w-1/3">
+            <div className="place flex w-full flex-row justify-between gap-4 text-base lowercase sm:w-1/3 sm:text-lg">
               {data?.Source && (
                 <Link
                   href={data?.Source}
@@ -189,21 +217,16 @@ const DetailsPage = async ({ params }) => {
                   rel="noopener noreferrer"
                   className="group flex flex-row gap-1 hover:text-prim"
                 >
-                  source{" "}
+                  {shortDomainName(data?.Source)}{" "}
                   <LinkIcon className="h-4 w-4 self-center group-hover:stroke-prim" />
                 </Link>
               )}
-              {data?.File && (
-                <Link
-                  href={data.File}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex flex-row gap-1 hover:text-prim"
-                >
-                  {data.Filetype}{" "}
-                  <ArrowDownToLine className="h-4 w-4  self-center group-hover:stroke-prim" />
-                </Link>
-              )}
+
+              {data?.File && <DownloadFile data={data} />}
+              {/* {!data?.File && data?.Thumbnails[0].url && (
+                <CopyToClipboard data={data} />
+              )} */}
+
               {!data?.File && data?.Thumbnails[0].url && (
                 <Link
                   href={data.Thumbnails[0].url}
@@ -213,7 +236,6 @@ const DetailsPage = async ({ params }) => {
                 >
                   {data.Filetype}{" "}
                   <ArrowDownToLine className="h-4 w-4 self-center group-hover:stroke-prim" />
-                  {/* <ArrowUpRight className="h-6 w-6  self-center group-hover:stroke-prim" /> */}
                 </Link>
               )}
               <SocialShare data={data} />
@@ -225,7 +247,7 @@ const DetailsPage = async ({ params }) => {
                   <span>type:</span>
 
                   <Link
-                    href={`/?search=${data.Type}`}
+                    href={`/?type=${data.Type.toLowerCase()}`}
                     className="hover:text-prim"
                   >
                     {data.Type}
@@ -237,7 +259,7 @@ const DetailsPage = async ({ params }) => {
                   <span>format:</span>
 
                   <Link
-                    href={`/?search=${data.Filetype}`}
+                    href={`/?format=${data.Filetype.toLowerCase()}`}
                     className="hover:text-prim"
                   >
                     {data.Filetype}
@@ -251,7 +273,7 @@ const DetailsPage = async ({ params }) => {
                     {data.Tags.map((tag) => {
                       return (
                         <Link
-                          href={`/?search=${tag}`}
+                          href={`/?tag=${tag.toLowerCase()}`}
                           key={tag}
                           className="sm:py-1/12 px-1 py-0 hover:text-prim sm:px-2"
                         >
