@@ -51,7 +51,7 @@ const Log = () => {
         "public api endpoint at cc0-lib.wtf/api/data",
         "api query for title, tag, type, filetype and even ens",
         "api return more info like query, tags, count and types",
-        "robots and sitemap",
+        "robots and sitemap.xml",
         "pdf file support",
         "better copy for social sharing",
         "changelog page",
@@ -68,6 +68,8 @@ const Log = () => {
         "refactor search by type, tag and format",
         "site-wide ui and ux improvement",
         "audio player only show if format supported by device",
+        "added guide for bulk submission",
+        "sitemap page with all contents in text format",
       ],
     },
   ];

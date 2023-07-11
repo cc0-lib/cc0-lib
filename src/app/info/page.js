@@ -76,35 +76,77 @@ const InfoPage = () => {
 
         <span className="font-rubik text-4xl sm:text-6xl">what is cc0</span>
         <span className=" w-full max-w-prose text-lg text-white sm:w-1/2">
-          <a
+          learn more about{" "}
+          <Link
             href="https://creativecommons.org/publicdomain/zero/1.0"
             target="_blank"
             rel="noreferrer noopener"
-            className="text-white hover:text-prim"
+            className="bg-zinc-800 text-prim underline hover:bg-prim hover:text-zinc-800"
           >
-            click here to learn more about creative commons zero
-          </a>
+            creative commons zero
+          </Link>
         </span>
         <span className="font-rubik text-4xl sm:text-6xl">
           who worked on this?
         </span>
         <span className=" w-full max-w-prose text-lg text-white sm:w-1/2">
-          the same team that brought you archives.wtf
+          the same team that brought you{" "}
+          <Link
+            href="https://archives.wtf"
+            target="_blank"
+            rel="noreferrer noopener"
+            className="bg-zinc-800 text-prim underline hover:bg-prim hover:text-zinc-800"
+          >
+            archives.wtf
+          </Link>{" "}
+          -{" "}
+          <Link
+            href="https://twitter.com/thevoadz"
+            target="_blank"
+            rel="noreferrer noopener"
+            className="bg-zinc-800 text-prim underline hover:bg-prim hover:text-zinc-800"
+          >
+            voadz
+          </Link>{" "}
+          and{" "}
+          <Link
+            href="https://twitter.com/0xNeroOne"
+            target="_blank"
+            rel="noreferrer noopener"
+            className="bg-zinc-800 text-prim underline hover:bg-prim hover:text-zinc-800"
+          >
+            neroone
+          </Link>
         </span>
         <span className="font-rubik text-4xl sm:text-6xl">changelog</span>
         <span className=" w-full max-w-prose text-lg text-white sm:w-1/2">
-          <Link href="/log" className="text-white hover:text-prim">
-            click here to see what&apos;s new
+          check{" "}
+          <Link
+            href="/log"
+            className="bg-zinc-800 text-prim underline hover:bg-prim hover:text-zinc-800"
+          >
+            what&apos;s new
           </Link>
         </span>
+
         <span className="font-rubik text-4xl sm:text-6xl">leaderboard</span>
-        <span className="flex w-full max-w-prose flex-col gap-2 text-lg text-white sm:w-1/2">
-          who&apos;s the greatest contributor?
+        <span className=" w-full max-w-prose text-lg text-white sm:w-1/2">
+          who&apos;s the greatest contributor? find out{" "}
           <Link
             href="/leaderboard"
-            className="flex flex-row items-center gap-2 text-lg text-white hover:text-prim"
+            className="bg-zinc-800 text-prim underline hover:bg-prim hover:text-zinc-800"
           >
-            click here to find out <TrophyIcon className="h-5 w-5" />
+            here
+          </Link>
+        </span>
+        <span className="font-rubik text-4xl sm:text-6xl">contribute</span>
+        <span className=" w-full max-w-prose text-lg text-white sm:w-1/2">
+          contribute{" "}
+          <Link
+            href="/contribute"
+            className="bg-zinc-800 text-prim underline hover:bg-prim hover:text-zinc-800"
+          >
+            here
           </Link>
         </span>
         <span className="font-rubik text-4xl sm:text-6xl">donation</span>
@@ -112,21 +154,38 @@ const InfoPage = () => {
           <Link
             target="_blank"
             href="ethereum:0xcC0D45aD21224186e8C0450086aF57f30eD88CC0"
-            className="cursor-pointer text-white hover:text-prim"
+            className="bg-zinc-800 text-prim underline hover:bg-prim hover:text-zinc-800"
           >
             cc0-lib.eth
           </Link>
         </span>
+        <span className="font-rubik text-4xl sm:text-6xl">sitemap</span>
+        <span className=" w-full max-w-prose text-lg text-white sm:w-1/2">
+          <Link
+            href="/sitemap"
+            className="bg-zinc-800 text-prim underline hover:bg-prim hover:text-zinc-800"
+          >
+            explore
+          </Link>
+        </span>
         <span className="font-rubik text-4xl sm:text-6xl">privacy policy</span>
         <span className=" w-full max-w-prose text-lg text-white sm:w-1/2">
-          <Link href="/privacy" className="text-white hover:text-prim">
-            click here to read our privacy policy
+          read our{" "}
+          <Link
+            href="/privacy"
+            className="bg-zinc-800 text-prim underline hover:bg-prim hover:text-zinc-800"
+          >
+            privacy policy
           </Link>
         </span>
         <span className="font-rubik text-4xl sm:text-6xl">disclaimer</span>
         <span className=" w-full max-w-prose text-lg text-white sm:w-1/2">
-          <Link href="/disclaimer" className="text-white hover:text-prim">
-            click here to read our disclaimer
+          read our{" "}
+          <Link
+            href="/disclaimer"
+            className="bg-zinc-800 text-prim underline hover:bg-prim hover:text-zinc-800"
+          >
+            disclaimer
           </Link>
         </span>
       </div>
