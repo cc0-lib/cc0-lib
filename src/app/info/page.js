@@ -168,6 +168,16 @@ const InfoPage = () => {
             explore
           </Link>
         </span>
+        <span className="font-rubik text-4xl sm:text-6xl">public api</span>
+        <span className=" w-full max-w-prose text-lg text-white sm:w-1/2">
+          want to proliferate cc0 content? use our{" "}
+          <Link
+            href="/api"
+            className="bg-zinc-800 text-prim underline hover:bg-prim hover:text-zinc-800"
+          >
+            public api
+          </Link>
+        </span>
         <span className="font-rubik text-4xl sm:text-6xl">privacy policy</span>
         <span className=" w-full max-w-prose text-lg text-white sm:w-1/2">
           read our{" "}

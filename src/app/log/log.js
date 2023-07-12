@@ -79,6 +79,13 @@ const Log = () => {
         "leaderboard page now link to contributor's social and contributions",
       ],
     },
+    {
+      version: "v2.7",
+      changes: [
+        "add /api page for API documentation",
+        "add static pages to sitemap",
+      ],
+    },
   ];
 
   return log.reverse();

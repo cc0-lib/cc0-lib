@@ -150,5 +150,6 @@ export async function GET(request) {
     );
   }
 
-  return NextResponse.json(data);
+  const res = createResponse("", data);
+  return NextResponse.json(res);
 }

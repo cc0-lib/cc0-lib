@@ -81,6 +81,20 @@ const SiteMapPage = async () => {
     )
   );
 
+  const staticPages = shuffle([
+    "leaderboard",
+    "info",
+    "sitemap",
+    "log",
+    "api",
+    "about",
+    "disclaimer",
+    "privacy",
+    "/",
+    "contribute",
+    "submit",
+  ]);
+
   return (
     <main
       className="flex min-h-screen flex-col items-center justify-between bg-zinc-900 bg-grid p-12
@@ -119,6 +133,15 @@ const SiteMapPage = async () => {
             {data.length} items in the library +++
           </span>
         )}
+        {staticPages.map((page) => (
+          <Link
+            href={`/${page.toLowerCase()}`}
+            className="mr-2 break-all text-2xl lowercase text-zinc-600 hover:text-prim sm:text-4xl"
+            key={page}
+          >
+            {page}
+          </Link>
+        ))}
         {typeList.map((type) => (
           <Link
             href={`/?type=${type.toLowerCase()}`}
