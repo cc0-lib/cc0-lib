@@ -44,11 +44,17 @@ export const handleENSLeaderboard = (sourceData) => {
       return item.ENS.includes(ens.ens);
     });
 
-    return { ens: ens.ens, data: data };
+    const count = sourceData.filter((item) => {
+      if (!item.ENS) return false;
+      return item.ENS.includes(ens.ens);
+    }).length;
+
+    return { ens: ens.ens, data: data, count: count };
   });
 
   return {
     top10: topEns,
+    top10Data: topEnsData,
     full: sortedEnsCount,
   };
 };

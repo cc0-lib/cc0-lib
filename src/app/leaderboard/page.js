@@ -42,6 +42,7 @@ const LeaderboardPage = async () => {
   const data = await getAllItems();
 
   const top10 = handleENSLeaderboard(data).top10;
+  const top10Data = handleENSLeaderboard(data).top10Data;
   const full = handleENSLeaderboard(data).full;
 
   return (
@@ -83,9 +84,9 @@ const LeaderboardPage = async () => {
         </h1>
       </div>
 
-      <div className="flex w-full max-w-sm flex-col gap-4">
+      <div className="mt-12 flex w-full max-w-sm flex-col gap-4">
         <div className="flex flex-col items-center justify-center gap-4 font-chakra uppercase">
-          {top10.map((item, index) => (
+          {top10Data.map((item, index) => (
             <div
               key={item.ens}
               className="flex w-full flex-row items-center justify-between rounded-lg bg-zinc-800 px-4 py-2"
@@ -93,12 +94,25 @@ const LeaderboardPage = async () => {
               <div className="flex w-full flex-row items-center justify-between gap-6 text-lg sm:gap-16 sm:text-2xl">
                 <div className="flex w-60 flex-row gap-4 text-zinc-500">
                   <span>{index + 1}.</span>
-                  <span className="truncate text-prim">{item.ens}</span>
+                  <Link
+                    href={item.data[0]["Social Link"]}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="truncate text-prim hover:bg-prim hover:text-zinc-700"
+                  >
+                    {item.ens}
+                  </Link>
                 </div>
-                <span className="flex flex-row items-center gap-1 justify-self-end text-zinc-500">
-                  [<span className="h-6-w-6 text-white">{item.count}</span>
-                  <ScrollIcon className="h-6 w-6 stroke-white" />]
-                </span>
+                <Link href={`/?search=${item.ens}`}>
+                  <span className="group flex flex-row items-center gap-1 justify-self-end text-zinc-500 hover:bg-prim hover:text-zinc-700 ">
+                    [
+                    <span className="h-6-w-6 text-white group-hover:text-zinc-700">
+                      {JSON.stringify(item.count)}
+                    </span>
+                    <ScrollIcon className="h-6 w-6 stroke-white group-hover:stroke-zinc-700" />
+                    ]
+                  </span>
+                </Link>
               </div>
             </div>
           ))}
@@ -113,7 +127,6 @@ const LeaderboardPage = async () => {
           </Link>
         </div>
       </div>
-
       <footer className="mt-4 flex w-full flex-row items-center justify-between sm:px-8">
         <Link href="/">
           <div className="group flex flex-row items-center gap-2" id="back">

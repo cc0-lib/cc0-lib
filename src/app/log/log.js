@@ -72,6 +72,13 @@ const Log = () => {
         "sitemap page with all contents in text format",
       ],
     },
+    {
+      version: "v2.6",
+      changes: [
+        "fixed visual bug on leaderboard page",
+        "leaderboard page now link to contributor's social and contributions",
+      ],
+    },
   ];
 
   return log.reverse();
