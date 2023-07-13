@@ -136,7 +136,7 @@ const Point = ({ title, subs }) => {
       <span className=" text-xl text-prim">{title}</span>
 
       {subs.map((sub) => (
-        <span>
+        <span key={sub[0]}>
           <Dot className="inline-block h-4 w-4" />
           {sub}
         </span>
