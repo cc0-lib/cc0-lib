@@ -20,6 +20,7 @@ export const sitemap = async () => {
     "privacy",
     "api",
     "sitemap",
+    "random",
   ].map((page) => ({
     url: `${url}/${page}`,
     lastModified: new Date().toISOString(),

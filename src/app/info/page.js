@@ -129,6 +129,17 @@ const InfoPage = () => {
           </Link>
         </span>
 
+        <span className="font-rubik text-4xl sm:text-6xl">fun mode</span>
+        <span className=" w-full max-w-prose text-lg text-white sm:w-1/2">
+          browse{" "}
+          <Link
+            href="/random"
+            className="bg-zinc-800 text-prim underline hover:bg-prim hover:text-zinc-800"
+          >
+            here
+          </Link>
+        </span>
+
         <span className="font-rubik text-4xl sm:text-6xl">leaderboard</span>
         <span className=" w-full max-w-prose text-lg text-white sm:w-1/2">
           who&apos;s the greatest contributor? find out{" "}

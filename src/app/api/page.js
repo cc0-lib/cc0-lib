@@ -67,6 +67,29 @@ const sampleData = {
     },
   ],
 };
+const sampleRandomData = {
+  image: {
+    url: "https://sample.com/sample.svg",
+  },
+  data: {
+    id: "data1",
+    Source: "https://example.com",
+    Type: "type1",
+    "Social Link": "https://twisder.com/example",
+    ENS: "example.eth",
+    Description: "Sample description",
+    Thumbnails: [
+      {
+        name: "sample.svg",
+        url: "https://sample.com/sample.svg",
+        rawUrl: "https://sample.com/sample.svg",
+      },
+    ],
+    Tags: ["tag1", "tag2", "tag3"],
+    ID: 370,
+    Title: "sample title",
+  },
+};
 
 const APIPage = () => {
   return (
@@ -109,8 +132,9 @@ const APIPage = () => {
           items based on various parameters such as title, tag, type, filetype,
           and ENS.
         </p>
+        <span className="h-4 w-full border-b-2 border-zinc-800"></span>
         <h1 className="font-rubik text-4xl text-prim dark:text-prim sm:text-6xl">
-          endpoint
+          main endpoint
         </h1>
         <pre className="w-max max-w-prose bg-zinc-800  p-2 text-base normal-case text-white sm:p-4 sm:text-lg">
           GET /api/data
@@ -205,7 +229,7 @@ const APIPage = () => {
             <pre className="w-max max-w-prose bg-zinc-800 text-base normal-case text-white sm:text-lg">
               data
             </pre>
-            An array of the actual items returned.
+            : An array of the actual items returned.
           </li>
         </ul>
         <h1 className="font-rubik text-4xl text-prim dark:text-prim sm:text-6xl">
@@ -213,6 +237,48 @@ const APIPage = () => {
         </h1>
         <pre className=" w-full max-w-prose overflow-clip bg-zinc-800 p-4 text-xs normal-case text-white sm:text-lg">
           <span className="">{JSON.stringify(sampleData, null, 2)}</span>
+        </pre>
+
+        <span className="h-4 w-full border-b-2 border-zinc-800"></span>
+        <h1 className="font-rubik text-4xl text-prim dark:text-prim sm:text-6xl">
+          random endpoint
+        </h1>
+        <pre className="w-max max-w-prose bg-zinc-800  p-2 text-base normal-case text-white sm:p-4 sm:text-lg">
+          GET /api/random
+        </pre>
+        <p className="w-full max-w-prose text-lg text-white">
+          this random endpoint will return a random item from the library. no
+          query parameters needed.
+        </p>
+        <h1 className="font-rubik text-4xl text-prim dark:text-prim sm:text-6xl">
+          Rate Limiting
+        </h1>
+        <p className="w-full max-w-prose text-base text-white sm:text-lg">
+          To ensure fair usage and optimal performance, the API enforces rate
+          limiting. Each user is limited to 5 requests per 10 seconds.{" "}
+        </p>
+        <h1 className="font-rubik text-4xl text-prim dark:text-prim sm:text-6xl">
+          Response Structure
+        </h1>
+        <ul className="flex flex-col gap-2 text-sm sm:text-base">
+          <li className="flex  flex-col gap-2 sm:flex-row sm:items-center">
+            <pre className="w-max max-w-prose bg-zinc-800 text-base normal-case text-white sm:text-lg">
+              image
+            </pre>
+            : The image url of the random item returned.
+          </li>
+          <li className="flex  flex-col gap-2 sm:flex-row sm:items-center">
+            <pre className="w-max max-w-prose bg-zinc-800 text-base normal-case text-white sm:text-lg">
+              data
+            </pre>
+            : The actual item returned.
+          </li>
+        </ul>
+        <h1 className="font-rubik text-4xl text-prim dark:text-prim sm:text-6xl">
+          example response
+        </h1>
+        <pre className=" w-full max-w-prose overflow-clip bg-zinc-800 p-4 text-xs normal-case text-white sm:text-lg">
+          <span className="">{JSON.stringify(sampleRandomData, null, 2)}</span>
         </pre>
       </div>
 

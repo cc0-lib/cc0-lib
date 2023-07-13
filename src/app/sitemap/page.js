@@ -93,6 +93,7 @@ const SiteMapPage = async () => {
     "/",
     "contribute",
     "submit",
+    "random",
   ]);
 
   return (

@@ -4,8 +4,9 @@ import { blobSize, slugify } from "@/lib/utils";
 import { ArrowDownToLine, XCircle } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import * as Toast from "@radix-ui/react-toast";
+import Link from "next/link";
 
-const DownloadFile = ({ data }) => {
+const DownloadFile = ({ data, showExtension }) => {
   const [filetype, setFiletype] = useState(null);
   const [isDownloading, setIsDownloading] = useState(false);
   const [open, setOpen] = useState(false);
@@ -13,7 +14,8 @@ const DownloadFile = ({ data }) => {
 
   const timerRef = useRef(null);
 
-  const restrictedFiletypes = ["figma", "gif"];
+  const restrictedFiletypes = ["figma"];
+  const restrictedTypes = ["Image", "GIF"];
 
   const click = async () => {
     try {
@@ -23,12 +25,8 @@ const DownloadFile = ({ data }) => {
       setOpen(false);
       setIsDownloading(true);
 
-      // setTimeout(() => {
-      //   setError("Download timed out. Please try again.");
-      //   throw new Error("Download timed out. Please try again.");
-      // }, 2000);
-
       const res = await fetch(data?.File);
+
       const blob = await res.blob();
       const size = blobSize(blob);
 
@@ -59,7 +57,8 @@ const DownloadFile = ({ data }) => {
     if (
       restrictedFiletypes
         .map((type) => type.toLowerCase())
-        .includes(data?.Filetype.toLowerCase())
+        .includes(data?.Filetype.toLowerCase()) ||
+      restrictedTypes.includes(data?.Type)
     ) {
       setFiletype(null);
     } else {
@@ -80,7 +79,7 @@ const DownloadFile = ({ data }) => {
             disabled={isDownloading && !error}
             className="group -mr-4 flex flex-row gap-1 hover:text-prim"
           >
-            {data.Filetype.toLowerCase()}{" "}
+            {showExtension && data.Filetype.toLowerCase()}{" "}
             <ArrowDownToLine
               className={`h-4 w-4 self-center group-hover:stroke-prim ${
                 isDownloading && !error
@@ -127,6 +126,24 @@ const DownloadFile = ({ data }) => {
           </Toast.Root>
           <Toast.Viewport className="fixed inset-0 z-50 flex flex-col items-end justify-end p-4" />
         </Toast.Provider>
+      )}
+
+      {restrictedTypes.includes(data?.Type) && (
+        <Link
+          href={data?.Thumbnails[0].url}
+          target="_blank"
+          rel="noreferrer noopener"
+          className="group flex flex-row gap-1 hover:text-prim"
+        >
+          {showExtension && data.Filetype.toLowerCase()}{" "}
+          <ArrowDownToLine
+            className={`h-4 w-4 self-center group-hover:stroke-prim ${
+              isDownloading && !error
+                ? "animate-pulse stroke-prim"
+                : "animate-none"
+            }`}
+          />
+        </Link>
       )}
     </>
   );

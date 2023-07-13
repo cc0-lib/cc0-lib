@@ -222,12 +222,13 @@ const DetailsPage = async ({ params }) => {
                 </Link>
               )}
 
-              {data?.File && <DownloadFile data={data} />}
+              {/* {data?.File && <DownloadFile data={data} />} */}
+              <DownloadFile data={data} showExtension={true} />
               {/* {!data?.File && data?.Thumbnails[0].url && (
                 <CopyToClipboard data={data} />
               )} */}
 
-              {!data?.File && data?.Thumbnails[0].url && (
+              {/* {!data?.File && data?.Thumbnails[0].url && (
                 <Link
                   href={data.Thumbnails[0].url}
                   target="_blank"
@@ -237,7 +238,7 @@ const DetailsPage = async ({ params }) => {
                   {data.Filetype}{" "}
                   <ArrowDownToLine className="h-4 w-4 self-center group-hover:stroke-prim" />
                 </Link>
-              )}
+              )} */}
               <SocialShare data={data} />
             </div>
 

@@ -82,8 +82,16 @@ const Log = () => {
     {
       version: "v2.7",
       changes: [
-        "add /api page for API documentation",
-        "add static pages to sitemap",
+        "added /api page for API documentation",
+        "added static pages to sitemap",
+      ],
+    },
+    {
+      version: "v2.8",
+      changes: [
+        "added /random page for fun browsing experience",
+        "added a new api route /api/random for random content",
+        "updated api docs page with new route",
       ],
     },
   ];
