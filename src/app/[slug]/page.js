@@ -1,12 +1,4 @@
-import {
-  ArrowDownToLine,
-  ChevronsDown,
-  HelpingHand,
-  Info,
-  LinkIcon,
-  MoveLeft,
-  User,
-} from "lucide-react";
+import { ChevronsDown, LinkIcon, User } from "lucide-react";
 import Link from "next/link";
 import AudioPlayer from "@/components/ui/audio-player";
 import VideoPlayer from "@/components/ui/video-player";
@@ -17,7 +9,7 @@ import Script from "next/script";
 import Sentiment from "@/components/sentiment";
 import { notFound } from "next/navigation";
 import DownloadFile from "@/components/dl";
-import CopyToClipboard from "@/components/copy";
+import Container from "@/components/ui/container";
 
 const getItem = async (slug) => {
   const data = await getAllItems();
@@ -72,35 +64,7 @@ const DetailsPage = async ({ params }) => {
   }
 
   return (
-    <main
-      className="flex min-h-screen flex-col items-center justify-between bg-zinc-900 bg-grid p-12
-    font-spline text-white selection:bg-zinc-800 selection:text-prim dark:text-white"
-    >
-      <header className="z-10 flex w-full flex-row items-center justify-between sm:px-8">
-        <Link href="/" className="flex gap-2">
-          <img src="./cc0lib.svg" alt="cc0lib" className="block sm:hidden" />
-          <img
-            src="./cc0lib-h.svg"
-            alt="cc0lib"
-            className="hidden w-40 sm:block"
-          />
-        </Link>
-
-        <ul className="flex items-center gap-4">
-          <li>
-            <Link
-              href="/info"
-              className="group flex flex-row items-center gap-2"
-            >
-              <span className="duration-250 opacity-0 transition-all ease-linear group-hover:opacity-100">
-                info
-              </span>
-              <Info className="h-8 w-8 group-hover:stroke-prim" />
-            </Link>
-          </li>
-        </ul>
-      </header>
-
+    <Container>
       {data && data?.Type === "3D" && data?.Filetype === "GLB" && (
         <div className="hidden h-auto w-full items-center justify-center sm:block">
           <Script
@@ -154,7 +118,7 @@ const DetailsPage = async ({ params }) => {
         <img
           src={data.Thumbnails[0].url}
           alt=""
-          className=" h-auto w-full object-cover px-2 py-16 shadow-md sm:p-16"
+          className=" h-auto w-3/4 object-cover px-2 py-16 shadow-md sm:p-16"
         />
       )}
 
@@ -221,24 +185,7 @@ const DetailsPage = async ({ params }) => {
                   <LinkIcon className="h-4 w-4 self-center group-hover:stroke-prim" />
                 </Link>
               )}
-
-              {/* {data?.File && <DownloadFile data={data} />} */}
               <DownloadFile data={data} showExtension={true} />
-              {/* {!data?.File && data?.Thumbnails[0].url && (
-                <CopyToClipboard data={data} />
-              )} */}
-
-              {/* {!data?.File && data?.Thumbnails[0].url && (
-                <Link
-                  href={data.Thumbnails[0].url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex flex-row gap-1 hover:text-prim"
-                >
-                  {data.Filetype}{" "}
-                  <ArrowDownToLine className="h-4 w-4 self-center group-hover:stroke-prim" />
-                </Link>
-              )} */}
               <SocialShare data={data} />
             </div>
 
@@ -317,29 +264,7 @@ const DetailsPage = async ({ params }) => {
           )}
         </div>
       )}
-
-      <footer className="mt-4 flex w-full flex-row items-center justify-between sm:px-8">
-        <Link href="/">
-          <div className="group flex flex-row items-center gap-2" id="back">
-            <MoveLeft className="h-8 w-8 group-hover:stroke-prim" />
-            <span className="duration-250 opacity-0 transition-all ease-linear group-hover:opacity-100">
-              back
-            </span>
-          </div>
-        </Link>
-        <Link href="/contribute">
-          <div
-            className="group flex flex-row items-center gap-2"
-            id="contribute"
-          >
-            <span className="duration-250 opacity-0 transition-all ease-linear group-hover:opacity-100">
-              contribute
-            </span>
-            <HelpingHand className="h-8 w-8 group-hover:stroke-prim" />
-          </div>
-        </Link>
-      </footer>
-    </main>
+    </Container>
   );
 };
 export default DetailsPage;

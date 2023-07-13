@@ -1,13 +1,6 @@
-import {
-  GitCommit,
-  HelpingHand,
-  Info,
-  MoveLeft,
-  Star,
-  TrophyIcon,
-} from "lucide-react";
-import Link from "next/link";
+import { GitCommit } from "lucide-react";
 import Log from "./log";
+import Container from "@/components/ui/container";
 
 export const generateMetadata = async () => {
   const title = `Log | CC0-LIB`;
@@ -49,35 +42,7 @@ const log = Log();
 
 const LogPage = () => {
   return (
-    <main
-      className="flex min-h-screen flex-col items-center justify-between bg-zinc-900 bg-grid p-12
-    font-spline text-white selection:bg-zinc-800 selection:text-prim dark:text-white"
-    >
-      <header className="z-10 flex w-full flex-row items-center justify-between sm:px-8">
-        <Link href="/" className="flex gap-2">
-          <img src="./cc0lib.svg" alt="cc0lib" className="block sm:hidden" />
-          <img
-            src="./cc0lib-h.svg"
-            alt="cc0lib"
-            className="hidden w-40 sm:block"
-          />
-        </Link>
-
-        <ul className="flex items-center gap-4">
-          <li>
-            <Link
-              href="/info"
-              className="group flex flex-row items-center gap-2"
-            >
-              <span className="duration-250 opacity-0 transition-all ease-linear group-hover:opacity-100">
-                info
-              </span>
-              <Info className="h-8 w-8 group-hover:stroke-prim" />
-            </Link>
-          </li>
-        </ul>
-      </header>
-
+    <Container>
       <div className="focus:outline-noneation-250 focus:bg-zinc-8 peer flex w-full flex-col gap-8 bg-transparent px-4 py-16 text-white drop-shadow-md transition-all ease-linear selection:bg-zinc-800 selection:text-sec placeholder:text-zinc-600 focus:rounded-sm focus:bg-opacity-50 focus:backdrop-blur-md sm:p-16">
         <h1 className="font-rubik text-4xl text-prim dark:text-prim sm:text-6xl">
           changelog
@@ -103,29 +68,7 @@ const LogPage = () => {
           ))}
         </div>
       </div>
-
-      <footer className="mt-4 flex w-full flex-row items-center justify-between sm:px-8">
-        <Link href="/">
-          <div className="group flex flex-row items-center gap-2" id="back">
-            <MoveLeft className="h-8 w-8 group-hover:stroke-prim" />
-            <span className="duration-250 opacity-0 transition-all ease-linear group-hover:opacity-100">
-              back
-            </span>
-          </div>
-        </Link>
-        <Link href="/contribute">
-          <div
-            className="group flex flex-row items-center gap-2"
-            id="contribute"
-          >
-            <span className="duration-250 opacity-0 transition-all ease-linear group-hover:opacity-100">
-              contribute
-            </span>
-            <HelpingHand className="h-8 w-8 group-hover:stroke-prim" />
-          </div>
-        </Link>
-      </footer>
-    </main>
+    </Container>
   );
 };
 export default LogPage;

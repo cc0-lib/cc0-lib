@@ -282,10 +282,7 @@ export default function FrontPage({ initialData }) {
   }, [search, tagSearch, formatSearch, typeSearch]);
 
   return (
-    <main
-      className="flex min-h-screen flex-col items-center justify-between bg-zinc-900 bg-grid p-12
-    font-spline text-white selection:bg-zinc-800 selection:text-prim dark:text-white"
-    >
+    <>
       <header className="fixed z-10 flex w-full flex-row items-center justify-between px-12 sm:px-20">
         <Link href="/" className="flex gap-2">
           <img src="./cc0lib.svg" alt="cc0lib" className="block sm:hidden" />
@@ -459,6 +456,6 @@ export default function FrontPage({ initialData }) {
           </div>
         </div>
       </div>
-    </main>
+    </>
   );
 }

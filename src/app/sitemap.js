@@ -1,3 +1,4 @@
+import { staticPages } from "@/lib/constant";
 import { slugify, getAllItems } from "@/lib/utils";
 
 const url = "https://cc0-lib.wtf";
@@ -9,19 +10,7 @@ export const sitemap = async () => {
     lastModified: new Date().toISOString(),
   }));
 
-  const pages = [
-    "",
-    "leaderboard",
-    "info",
-    "contribute",
-    "submit",
-    "disclaimer",
-    "log",
-    "privacy",
-    "api",
-    "sitemap",
-    "random",
-  ].map((page) => ({
+  const pages = staticPages.map((page) => ({
     url: `${url}/${page}`,
     lastModified: new Date().toISOString(),
   }));

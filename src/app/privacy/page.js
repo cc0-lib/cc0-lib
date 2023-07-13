@@ -1,5 +1,5 @@
-import { BookOpen, Dot, HelpingHand, Info, MoveLeft } from "lucide-react";
-import Link from "next/link";
+import Container from "@/components/ui/container";
+import { BookOpen, Dot } from "lucide-react";
 
 export const generateMetadata = async () => {
   const title = `Privacy Policy | CC0-LIB`;
@@ -39,35 +39,7 @@ export const generateMetadata = async () => {
 
 const PrivacyPage = () => {
   return (
-    <main
-      className="flex min-h-screen flex-col items-center justify-between bg-zinc-900 bg-grid p-12
-      font-spline text-white selection:bg-zinc-800 selection:text-prim dark:text-white"
-    >
-      <header className="z-10 flex w-full flex-row items-center justify-between sm:px-8">
-        <Link href="/" className="flex gap-2">
-          <img src="./cc0lib.svg" alt="cc0lib" className="block sm:hidden" />
-          <img
-            src="./cc0lib-h.svg"
-            alt="cc0lib"
-            className="hidden w-40 sm:block"
-          />
-        </Link>
-
-        <ul className="flex items-center gap-4">
-          <li>
-            <Link
-              href="/info"
-              className="group flex flex-row items-center gap-2"
-            >
-              <span className="duration-250 opacity-0 transition-all ease-linear group-hover:opacity-100">
-                info
-              </span>
-              <Info className="h-8 w-8 group-hover:stroke-prim" />
-            </Link>
-          </li>
-        </ul>
-      </header>
-
+    <Container>
       <div className="focus:outline-noneation-250 focus:bg-zinc-8 peer flex w-full flex-col gap-8 bg-transparent px-4 py-16 text-white drop-shadow-md transition-all ease-linear selection:bg-zinc-800 selection:text-sec placeholder:text-zinc-600 focus:rounded-sm focus:bg-opacity-50 focus:backdrop-blur-md sm:p-16">
         <h1 className="font-rubik text-4xl text-prim dark:text-prim sm:text-6xl">
           <BookOpen className="inline-block h-10 w-10" /> Privacy Policy
@@ -81,121 +53,70 @@ const PrivacyPage = () => {
             personal information when you access and use our platform. By using
             cc0-lib.wtf, you consent to the practices described in this policy.
           </span>
-          <span className=" text-xl text-prim">Information We Collect</span>
-          <span>
-            <Dot className="inline-block h-4 w-4" />
-            Personal Information: We do not collect any personally identifiable
-            information about you unless you voluntarily provide it to us
-            through forms or communication channels on cc0-lib.wtf.
-          </span>
-          <span>
-            <Dot className="inline-block h-4 w-4" />
-            Non-Personal Information: We may collect non-personal information,
-            such as your IP address, browser type, device information, and usage
-            data, to analyze trends, administer the site, and gather demographic
-            information.
-          </span>
 
-          <span className=" text-xl text-prim">Use of Information</span>
-          <span>
-            <Dot className="inline-block h-4 w-4" />
-            Personal Information: Any personal information you provide may be
-            used to respond to your inquiries, improve our services, and
-            communicate with you.
-          </span>
-          <span>
-            <Dot className="inline-block h-4 w-4" />
-            Non-Personal Information: Non-personal information is used for
-            statistical analysis, website administration, and to enhance user
-            experience.
-          </span>
+          <Point
+            title="Information We Collect"
+            subs={[
+              "Personal Information: We do not collect any personally identifiable information about you unless you voluntarily provide it to us through forms or communication channels on cc0-lib.wtf.",
+              "Non-Personal Information: We may collect non-personal information, such as your IP address, browser type, device information, and usage data, to analyze trends, administer the site, and gather demographic information.",
+            ]}
+          />
 
-          <span className=" text-xl text-prim">
-            Cookies and Tracking Technologies
-          </span>
-          <span>
-            <Dot className="inline-block h-4 w-4" />
-            cc0-lib.wtf uses cookies and similar tracking technologies to
-            enhance your browsing experience. Cookies are small files stored on
-            your device that enable certain features and functionalities. You
-            can manage your cookie preferences through your browser settings.
-          </span>
-          <span>
-            <Dot className="inline-block h-4 w-4" />
-            We may also use third-party analytics services that utilize cookies
-            and other tracking technologies to collect and analyze
-            non-personally identifiable information regarding website usage
-            patterns.
-          </span>
+          <Point
+            title="Use of Information"
+            subs={[
+              "Personal Information: Any personal information you provide may be used to respond to your inquiries, improve our services, and communicate with you.",
+              "Non-Personal Information: Non-personal information is used for statistical analysis, website administration, and to enhance user experience.",
+            ]}
+          />
 
-          <span className=" text-xl text-prim">Disclosure of Information</span>
-          <span>
-            <Dot className="inline-block h-4 w-4" />
-            We highly value your privacy and do not sell, trade, or rent your
-            personal information to third parties for marketing purposes.
-          </span>
-          <span>
-            <Dot className="inline-block h-4 w-4" />
-            We may share your personal information with trusted third parties
-            who assist us in operating our website, conducting business, or
-            providing services. These third parties are required to maintain the
-            confidentiality of your information.
-          </span>
-          <span>
-            <Dot className="inline-block h-4 w-4" />
-            We may disclose your information if required by law or in good faith
-            belief that such action is necessary to protect our rights, comply
-            with legal processes, or protect the safety and security of our
-            users.
-          </span>
-          <span>
-            <Dot className="inline-block h-4 w-4" />
-            We will only disclose your personal information outside the scope
-            mentioned above with your explicit consent or as otherwise permitted
-            by applicable privacy laws.
-          </span>
+          <Point
+            title="Cookies and Tracking Technologies"
+            subs={[
+              "cc0-lib.wtf uses cookies and similar tracking technologies to enhance your browsing experience. Cookies are small files stored on your device that enable certain features and functionalities. You can manage your cookie preferences through your browser settings.",
+              "We may also use third-party analytics services that utilize cookies and other tracking technologies to collect and analyze non-personally identifiable information regarding website usage patterns.",
+            ]}
+          />
 
-          <span className=" text-xl text-prim">
-            Links to Third-Party Websites
-          </span>
-          <span>
-            <Dot className="inline-block h-4 w-4" />
-            cc0-lib.wtf may contain links to third-party websites. We are not
-            responsible for the privacy practices or content of such websites.
-            We encourage you to review the privacy policies of third-party sites
-            before providing any personal information.
-          </span>
+          <Point
+            title="Disclosure of Information"
+            subs={[
+              "We highly value your privacy and do not sell, trade, or rent your personal information to third parties for marketing purposes.",
+              "We may share your personal information with trusted third parties who assist us in operating our website, conducting business, or providing services. These third parties are required to maintain the confidentiality of your information.",
+              "We may disclose your information if required by law or in good faith belief that such action is necessary to protect our rights, comply with legal processes, or protect the safety and security of our users.",
+              "We will only disclose your personal information outside the scope mentioned above with your explicit consent or as otherwise permitted by applicable privacy laws.",
+            ]}
+          />
 
-          <span className=" text-xl text-prim">Security</span>
-          <span>
-            <Dot className="inline-block h-4 w-4" />
-            We implement reasonable security measures to protect the
-            confidentiality and integrity of any personal information we
-            collect. However, no data transmission over the internet or
-            electronic storage can be guaranteed to be 100% secure. We cannot
-            ensure or warrant the security of any information you transmit to
-            us.
-          </span>
+          <Point
+            title="Links to Third-Party Websites"
+            subs={[
+              "cc0-lib.wtf may contain links to third-party websites. We are not responsible for the privacy practices or content of such websites. We encourage you to review the privacy policies of third-party sites before providing any personal information.",
+            ]}
+          />
 
-          <span className=" text-xl text-prim">Children’s Privacy</span>
-          <span>
-            <Dot className="inline-block h-4 w-4" />
-            cc0-lib.wtf is not intended for individuals under the age of 13. We
-            do not knowingly collect or solicit personal information from
-            children. If we become aware that we have collected personal
-            information from a child without parental consent, we will promptly
-            delete it from our records.
-          </span>
+          <Point
+            title="Security"
+            subs={[
+              "We implement reasonable security measures to protect the confidentiality and integrity of any personal information we collect. However, no data transmission over the internet or electronic storage can be guaranteed to be 100% secure. We cannot ensure or warrant the security of any information you transmit to us.",
+            ]}
+          />
 
-          <span className=" text-xl text-prim">
-            Changes to the Privacy Policy
-          </span>
-          <span>
-            <Dot className="inline-block h-4 w-4" />
-            This Privacy Policy may be updated from time to time. Any changes
-            will be posted on this page, along with the effective date of the
-            revised policy.
-          </span>
+          <Point
+            title="Children’s Privacy"
+            subs={[
+              "cc0-lib.wtf is not intended for individuals under the age of 13. We do not knowingly collect or solicit personal information from children. If we become aware that we have collected personal information from a child without parental consent, we will promptly delete it from our records.",
+            ]}
+          />
+
+          <Point
+            title="Changes to the Privacy Policy"
+            subs={[
+              "This Privacy Policy may be updated from time to time. Any changes will be posted on this page, along with the effective date of the revised policy.",
+            ]}
+          />
+
+          <Divider />
 
           <span className="mt-4">
             If you have any questions or concerns regarding this privacy policy,
@@ -204,29 +125,26 @@ const PrivacyPage = () => {
           <span>Last updated: 5th July 2023</span>
         </p>
       </div>
-
-      <footer className="mt-4 flex w-full flex-row items-center justify-between sm:px-8">
-        <Link href="/">
-          <div className="group flex flex-row items-center gap-2" id="back">
-            <MoveLeft className="h-8 w-8 group-hover:stroke-prim" />
-            <span className="duration-250 opacity-0 transition-all ease-linear group-hover:opacity-100">
-              back
-            </span>
-          </div>
-        </Link>
-        <Link href="/contribute">
-          <div
-            className="group flex flex-row items-center gap-2"
-            id="contribute"
-          >
-            <span className="duration-250 opacity-0 transition-all ease-linear group-hover:opacity-100">
-              contribute
-            </span>
-            <HelpingHand className="h-8 w-8 group-hover:stroke-prim" />
-          </div>
-        </Link>
-      </footer>
-    </main>
+    </Container>
   );
 };
 export default PrivacyPage;
+
+const Point = ({ title, subs }) => {
+  return (
+    <>
+      <span className=" text-xl text-prim">{title}</span>
+
+      {subs.map((sub) => (
+        <span>
+          <Dot className="inline-block h-4 w-4" />
+          {sub}
+        </span>
+      ))}
+    </>
+  );
+};
+
+const Divider = () => {
+  return <span className="h-4 w-full border-b-2 border-zinc-800"></span>;
+};

@@ -94,6 +94,10 @@ const Log = () => {
         "updated api docs page with new route",
       ],
     },
+    {
+      version: "v2.9",
+      changes: ["code refactor for better readability"],
+    },
   ];
 
   return log.reverse();

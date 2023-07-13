@@ -1,12 +1,7 @@
 import DownloadFile from "@/components/dl";
+import Container from "@/components/ui/container";
 import { getAllItems, slugify } from "@/lib/utils";
-import {
-  HelpingHand,
-  Info,
-  MoreHorizontal,
-  MoveLeft,
-  RefreshCcw,
-} from "lucide-react";
+import { MoreHorizontal, RefreshCcw } from "lucide-react";
 import { revalidatePath } from "next/cache";
 import Link from "next/link";
 
@@ -78,35 +73,7 @@ const RandomPage = async () => {
   };
 
   return (
-    <main
-      className="flex min-h-screen flex-col items-center justify-between bg-zinc-900 bg-grid p-12
-    font-spline text-white selection:bg-zinc-800 selection:text-prim dark:text-white"
-    >
-      <header className="z-10 flex w-full flex-row items-center justify-between sm:px-8">
-        <Link href="/" className="flex gap-2">
-          <img src="./cc0lib.svg" alt="cc0lib" className="block sm:hidden" />
-          <img
-            src="./cc0lib-h.svg"
-            alt="cc0lib"
-            className="hidden w-40 sm:block"
-          />
-        </Link>
-
-        <ul className="flex items-center gap-4">
-          <li>
-            <Link
-              href="/info"
-              className="group flex flex-row items-center gap-2"
-            >
-              <span className="duration-250 opacity-0 transition-all ease-linear group-hover:opacity-100">
-                info
-              </span>
-              <Info className="h-8 w-8 group-hover:stroke-prim" />
-            </Link>
-          </li>
-        </ul>
-      </header>
-
+    <Container>
       <div className="flex flex-col items-center justify-center gap-8 p-2">
         <div className="items-center">
           <img
@@ -137,29 +104,7 @@ const RandomPage = async () => {
           </div>
         </div>
       </div>
-
-      <footer className="mt-4 flex w-full flex-row items-center justify-between sm:px-8">
-        <Link href="/">
-          <div className="group flex flex-row items-center gap-2" id="back">
-            <MoveLeft className="h-8 w-8 group-hover:stroke-prim" />
-            <span className="duration-250 opacity-0 transition-all ease-linear group-hover:opacity-100">
-              back
-            </span>
-          </div>
-        </Link>
-        <Link href="/contribute">
-          <div
-            className="group flex flex-row items-center gap-2"
-            id="contribute"
-          >
-            <span className="duration-250 opacity-0 transition-all ease-linear group-hover:opacity-100">
-              contribute
-            </span>
-            <HelpingHand className="h-8 w-8 group-hover:stroke-prim" />
-          </div>
-        </Link>
-      </footer>
-    </main>
+    </Container>
   );
 };
 export default RandomPage;
