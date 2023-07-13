@@ -118,6 +118,29 @@ const InfoPage = () => {
             neroone
           </Link>
         </span>
+
+        <span className="font-rubik text-4xl sm:text-6xl">leaderboard</span>
+        <span className=" w-full max-w-prose text-lg text-white sm:w-1/2">
+          who&apos;s the greatest contributor? find out{" "}
+          <Link
+            href="/leaderboard"
+            className="bg-zinc-800 text-prim underline hover:bg-prim hover:text-zinc-800"
+          >
+            here
+          </Link>
+        </span>
+
+        <span className="font-rubik text-4xl sm:text-6xl">contribute</span>
+        <span className=" w-full max-w-prose text-lg text-white sm:w-1/2">
+          contribute{" "}
+          <Link
+            href="/contribute"
+            className="bg-zinc-800 text-prim underline hover:bg-prim hover:text-zinc-800"
+          >
+            here
+          </Link>
+        </span>
+
         <span className="font-rubik text-4xl sm:text-6xl">changelog</span>
         <span className=" w-full max-w-prose text-lg text-white sm:w-1/2">
           check{" "}
@@ -126,6 +149,16 @@ const InfoPage = () => {
             className="bg-zinc-800 text-prim underline hover:bg-prim hover:text-zinc-800"
           >
             what&apos;s new
+          </Link>
+        </span>
+
+        <span className="font-rubik text-4xl sm:text-6xl">sitemap</span>
+        <span className=" w-full max-w-prose text-lg text-white sm:w-1/2">
+          <Link
+            href="/sitemap"
+            className="bg-zinc-800 text-prim underline hover:bg-prim hover:text-zinc-800"
+          >
+            explore
           </Link>
         </span>
 
@@ -140,45 +173,6 @@ const InfoPage = () => {
           </Link>
         </span>
 
-        <span className="font-rubik text-4xl sm:text-6xl">leaderboard</span>
-        <span className=" w-full max-w-prose text-lg text-white sm:w-1/2">
-          who&apos;s the greatest contributor? find out{" "}
-          <Link
-            href="/leaderboard"
-            className="bg-zinc-800 text-prim underline hover:bg-prim hover:text-zinc-800"
-          >
-            here
-          </Link>
-        </span>
-        <span className="font-rubik text-4xl sm:text-6xl">contribute</span>
-        <span className=" w-full max-w-prose text-lg text-white sm:w-1/2">
-          contribute{" "}
-          <Link
-            href="/contribute"
-            className="bg-zinc-800 text-prim underline hover:bg-prim hover:text-zinc-800"
-          >
-            here
-          </Link>
-        </span>
-        <span className="font-rubik text-4xl sm:text-6xl">donation</span>
-        <span className="flex w-full max-w-prose flex-row gap-2 text-lg text-white sm:w-1/2">
-          <Link
-            target="_blank"
-            href="ethereum:0xcC0D45aD21224186e8C0450086aF57f30eD88CC0"
-            className="bg-zinc-800 text-prim underline hover:bg-prim hover:text-zinc-800"
-          >
-            cc0-lib.eth
-          </Link>
-        </span>
-        <span className="font-rubik text-4xl sm:text-6xl">sitemap</span>
-        <span className=" w-full max-w-prose text-lg text-white sm:w-1/2">
-          <Link
-            href="/sitemap"
-            className="bg-zinc-800 text-prim underline hover:bg-prim hover:text-zinc-800"
-          >
-            explore
-          </Link>
-        </span>
         <span className="font-rubik text-4xl sm:text-6xl">public api</span>
         <span className=" w-full max-w-prose text-lg text-white sm:w-1/2">
           want to proliferate cc0 content? use our{" "}
@@ -189,6 +183,18 @@ const InfoPage = () => {
             public api
           </Link>
         </span>
+
+        <span className="font-rubik text-4xl sm:text-6xl">donation</span>
+        <span className="flex w-full max-w-prose flex-row gap-2 text-lg text-white sm:w-1/2">
+          <Link
+            target="_blank"
+            href="ethereum:0xcC0D45aD21224186e8C0450086aF57f30eD88CC0"
+            className="bg-zinc-800 text-prim underline hover:bg-prim hover:text-zinc-800"
+          >
+            cc0-lib.eth
+          </Link>
+        </span>
+
         <span className="font-rubik text-4xl sm:text-6xl">privacy policy</span>
         <span className=" w-full max-w-prose text-lg text-white sm:w-1/2">
           read our{" "}
