@@ -98,6 +98,13 @@ const Log = () => {
       version: "v2.9",
       changes: ["code refactor for better readability"],
     },
+    {
+      version: "v3.0",
+      changes: [
+        "rss feed at cc0-lib.wtf/feed.xml",
+        "detail page show last updated date for content",
+      ],
+    },
   ];
 
   return log.reverse();

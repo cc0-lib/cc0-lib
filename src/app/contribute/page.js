@@ -1,3 +1,4 @@
+import FileDownloader from "@/components/file-dl";
 import Container from "@/components/ui/container";
 import { Dot } from "lucide-react";
 import Link from "next/link";
@@ -59,16 +60,14 @@ const ContributePage = () => {
         </Link>
 
         <span className="font-rubik text-4xl sm:text-6xl">bulk submission</span>
-        <span className=" w-full max-w-prose text-lg text-white sm:w-1/2">
-          download the csv{" "}
-          <Link
-            href="http://arweave.net/MmkebGQjN6kxcW8Hl84w7hXtBsa57QG4T3Mrhe4jLgU"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-zinc-800 text-prim underline hover:bg-prim hover:text-zinc-800"
-          >
-            here
-          </Link>
+        <span className="flex w-full max-w-prose flex-row gap-2 text-lg text-white sm:w-1/2">
+          download
+          <FileDownloader
+            data={{
+              url: "https://arweave.net/MmkebGQjN6kxcW8Hl84w7hXtBsa57QG4T3Mrhe4jLgU",
+              filename: "cc0-lib-bulk.csv",
+            }}
+          />
           , edit and send it to us
         </span>
         <ul className="-mt-4 w-full max-w-prose text-base text-white sm:w-1/2">

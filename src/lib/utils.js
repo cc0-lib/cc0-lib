@@ -110,6 +110,20 @@ export const getAllItems = async () => {
   return data;
 };
 
+export const getDateFromItem = async (id) => {
+  const res = await fetch(`https://notion-api.splitbee.io/v1/page/${id}`);
+  if (res.status !== 200) {
+    throw new Error("Failed to fetch data from DB");
+  }
+  const data = await res.json();
+  const item = data[id].value;
+
+  return {
+    createdAt: item.created_time,
+    lastEdited: item.last_edited_time,
+  };
+};
+
 export const blobSize = (blob) => {
   let blobSize = blob.size / 1024;
   if (blob.size < 1048576 && blob.size > 1024) {
