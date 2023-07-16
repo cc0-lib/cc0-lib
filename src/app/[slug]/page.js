@@ -309,21 +309,29 @@ const DetailsPage = async ({ params }) => {
 
             <Divider className="max-w-sm" />
 
-            {comments && comments.length >= 1 && (
-              <div className="flex flex-col gap-2">
-                <span className="font-rubik text-lg text-prim">comments</span>
-                {comments.map((comment) => {
-                  return (
-                    <div
-                      key={comment}
-                      className="flex flex-col gap-1 text-sm text-zinc-400"
-                    >
-                      {comment}
-                    </div>
-                  );
-                })}
-              </div>
-            )}
+            <Suspense
+              fallback={
+                <div className="font-rubik text-lg text-prim">
+                  getting comments..
+                </div>
+              }
+            >
+              {comments && comments.length >= 1 && (
+                <div className="flex flex-col gap-2">
+                  <span className="font-rubik text-lg text-prim">comments</span>
+                  {comments.map((comment) => {
+                    return (
+                      <div
+                        key={comment}
+                        className="flex flex-col gap-1 text-sm text-zinc-400"
+                      >
+                        {comment}
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </Suspense>
 
             <form
               action={addComments}
@@ -349,7 +357,7 @@ const DetailsPage = async ({ params }) => {
               </button>
             </form>
 
-            <Suspense
+            {/* <Suspense
               fallback={
                 <div className="font-rubik text-lg text-prim">
                   getting fc comments..
@@ -357,7 +365,7 @@ const DetailsPage = async ({ params }) => {
               }
             >
               <FCComments slug={params.slug} />
-            </Suspense>
+            </Suspense> */}
           </div>
 
           {(data?.Type === "Image" ||
