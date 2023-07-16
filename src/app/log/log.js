@@ -113,6 +113,10 @@ const Log = () => {
         "comment section for each content",
       ],
     },
+    {
+      version: "v3.2",
+      changes: ["farcaster comments!", "fc comments for each content page"],
+    },
   ];
 
   return log.reverse();

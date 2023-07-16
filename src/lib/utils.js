@@ -124,6 +124,20 @@ export const getDateFromItem = async (id) => {
   };
 };
 
+export const getRepliesFromFC = async (slug) => {
+  let url = `https://cc0-lib.wtf/api/fc?slug=${slug}`;
+  // if development, use local api
+  if (process.env.NODE_ENV === "development") {
+    url = `http://localhost:1311/api/fc?slug=${slug}`;
+  }
+  const res = await fetch(url);
+  if (res.status !== 200) {
+    return null;
+  }
+  const data = await res.json();
+  return data;
+};
+
 export const blobSize = (blob) => {
   let blobSize = blob.size / 1024;
   if (blob.size < 1048576 && blob.size > 1024) {

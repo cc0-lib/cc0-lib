@@ -2,6 +2,7 @@ import {
   CalendarIcon,
   ChevronsDown,
   Eye,
+  HashIcon,
   LinkIcon,
   Send,
   User,
@@ -13,6 +14,7 @@ import SocialShare from "@/components/ui/social-share";
 import {
   getAllItems,
   getDateFromItem,
+  getRepliesFromFC,
   shortDomainName,
   slugify,
 } from "@/lib/utils";
@@ -27,6 +29,8 @@ import { kv } from "@vercel/kv";
 import { revalidatePath } from "next/cache";
 import Divider from "@/components/ui/divider";
 import { z } from "zod";
+import FCComments from "@/components/fc-comments";
+import { Suspense } from "react";
 
 const getItem = async (slug) => {
   const data = await getAllItems();
@@ -273,6 +277,15 @@ const DetailsPage = async ({ params }) => {
                   </Link>
                 </span>
               )}
+
+              {data?.ID && (
+                <span className="flex flex-row items-center gap-2 lowercase ">
+                  <span>id:</span>
+
+                  {data.ID}
+                </span>
+              )}
+
               {data?.Tags && data?.Tags.length >= 1 && (
                 <span className="flex flex-row items-start gap-2 lowercase">
                   <span>tags:</span>
@@ -311,6 +324,7 @@ const DetailsPage = async ({ params }) => {
                 })}
               </div>
             )}
+
             <form
               action={addComments}
               className=" flex max-w-sm flex-row justify-between gap-2 text-sm"
@@ -334,6 +348,16 @@ const DetailsPage = async ({ params }) => {
                 <Send className="h-4 w-4 self-center" />
               </button>
             </form>
+
+            <Suspense
+              fallback={
+                <div className="font-rubik text-lg text-prim">
+                  getting fc comments..
+                </div>
+              }
+            >
+              <FCComments slug={params.slug} />
+            </Suspense>
           </div>
 
           {(data?.Type === "Image" ||
