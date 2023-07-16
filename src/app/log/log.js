@@ -105,6 +105,14 @@ const Log = () => {
         "detail page show last updated date for content",
       ],
     },
+    {
+      version: "v3.1",
+      changes: [
+        "added image enclosure and categories to rss feed",
+        "view count for each content",
+        "comment section for each content",
+      ],
+    },
   ];
 
   return log.reverse();

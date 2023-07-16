@@ -31,6 +31,11 @@ export async function GET() {
         url: `https://cc0-lib.wtf/${slugify(item.Title)}`,
         guid: item.id,
         date: item.lastEdited,
+        categories: item.Tags,
+        enclosure: {
+          url: item.Thumbnails[0].url,
+          type: `image/${item.Filetype.toLowerCase()}`,
+        },
         author: item.ENS,
       });
     })

@@ -1,4 +1,11 @@
-import { CalendarIcon, ChevronsDown, LinkIcon, User } from "lucide-react";
+import {
+  CalendarIcon,
+  ChevronsDown,
+  Eye,
+  LinkIcon,
+  Send,
+  User,
+} from "lucide-react";
 import Link from "next/link";
 import AudioPlayer from "@/components/ui/audio-player";
 import VideoPlayer from "@/components/ui/video-player";
@@ -15,6 +22,11 @@ import Sentiment from "@/components/sentiment";
 import { notFound } from "next/navigation";
 import DownloadFile from "@/components/dl";
 import Container from "@/components/ui/container";
+
+import { kv } from "@vercel/kv";
+import { revalidatePath } from "next/cache";
+import Divider from "@/components/ui/divider";
+import { z } from "zod";
 
 const getItem = async (slug) => {
   const data = await getAllItems();
@@ -63,12 +75,36 @@ export const generateMetadata = async ({ params }) => {
 
 const DetailsPage = async ({ params }) => {
   const data = await getItem(params.slug);
+  const pageView = await kv.incr(`view:${data.ID}`);
+
+  // show first 3 oldest comments
+  const comments = await kv.lrange(`comments:${data.ID}`, 0, 2);
 
   if (!data) {
     notFound();
   }
 
   const { lastEdited } = await getDateFromItem(data?.id);
+
+  const addComments = async (formData) => {
+    "use server";
+
+    const { comment } = Object.fromEntries(formData);
+
+    const schema = z
+      .object({
+        comment: z.string().min(1).max(20),
+      })
+      .safeParse({ comment });
+
+    if (!schema.success) {
+      const err = schema.error.format();
+      console.log(err.comment._errors[0]);
+    } else {
+      await kv.lpush(`comments:${data.ID}`, comment);
+      revalidatePath(`/[slug]`, { slug: params.slug });
+    }
+  };
 
   return (
     <Container>
@@ -184,6 +220,12 @@ const DetailsPage = async ({ params }) => {
                   </span>
                 </span>
               )}
+              {pageView && (
+                <span className="flex flex-row gap-2 text-sm text-zinc-400">
+                  <Eye className="h-4 w-4 self-center" />
+                  <span className="self-center">{pageView}</span>
+                </span>
+              )}
             </div>
 
             <span className="font-rubik text-3xl text-prim md:-ml-1 md:text-5xl">
@@ -251,6 +293,44 @@ const DetailsPage = async ({ params }) => {
               )}
             </div>
             <Sentiment data={data} />
+
+            <Divider className="max-w-sm" />
+
+            {comments && comments.length >= 1 && (
+              <div className="flex flex-col gap-2">
+                <span className="font-rubik text-lg text-prim">comments</span>
+                {comments.map((comment) => {
+                  return (
+                    <div className="flex flex-col gap-1 text-sm text-zinc-400">
+                      {comment}
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+            <form
+              action={addComments}
+              className=" flex max-w-sm flex-row justify-between gap-2 text-sm"
+            >
+              <input
+                type="text"
+                name="comment"
+                placeholder="add comment"
+                autoComplete="off"
+                autoCorrect="off"
+                autoCapitalize="off"
+                spellCheck="false"
+                minLength={1}
+                maxLength={20}
+                required
+                key={Math.random()}
+                className="w-full bg-zinc-900 text-zinc-500 placeholder:text-zinc-600 focus:outline-none"
+              />
+
+              <button type="submit" className="hover:text-prim">
+                <Send className="h-4 w-4 self-center" />
+              </button>
+            </form>
           </div>
 
           {(data?.Type === "Image" ||
