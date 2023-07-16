@@ -301,7 +301,10 @@ const DetailsPage = async ({ params }) => {
                 <span className="font-rubik text-lg text-prim">comments</span>
                 {comments.map((comment) => {
                   return (
-                    <div className="flex flex-col gap-1 text-sm text-zinc-400">
+                    <div
+                      key={comment}
+                      className="flex flex-col gap-1 text-sm text-zinc-400"
+                    >
                       {comment}
                     </div>
                   );
