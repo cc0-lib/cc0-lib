@@ -149,41 +149,55 @@ const Endpoint = ({
       <Title>{title}</Title>
       <EndpointGET>{endpoint}</EndpointGET>
 
-      <Title>query parameters</Title>
       {queryParams && (
-        <QueryParams>
-          {queryParams.map((param) => (
-            <QueryParamChild
-              name={param.name}
-              key={param.name}
-              type={param.type}
-              desc={param.desc}
-            />
-          ))}
-        </QueryParams>
+        <>
+          <Title>query parameters</Title>
+          <QueryParams>
+            {queryParams.map((param) => (
+              <QueryParamChild
+                name={param.name}
+                key={param.name}
+                type={param.type}
+                desc={param.desc}
+              />
+            ))}
+          </QueryParams>
+        </>
       )}
       {note && <Description>{note}</Description>}
 
-      <Title>Rate Limiting</Title>
-      <Description>
-        To ensure fair usage and optimal performance, the API enforces rate
-        limiting. Each user is limited to {rateLimiting.req} requests per{" "}
-        {rateLimiting.secs} seconds.
-      </Description>
+      {rateLimiting && (
+        <>
+          <Title>Rate Limiting</Title>
+          <Description>
+            To ensure fair usage and optimal performance, the API enforces rate
+            limiting. Each user is limited to {rateLimiting.req} requests per{" "}
+            {rateLimiting.secs} seconds.
+          </Description>
+        </>
+      )}
 
-      <Title>Response Structure</Title>
-      <ResponseStructure>
-        {responseStructure.map((param) => (
-          <ResponseStructureChild
-            name={param.name}
-            key={param.name}
-            desc={param.desc}
-          />
-        ))}
-      </ResponseStructure>
+      {responseStructure && (
+        <>
+          <Title>Response Structure</Title>
+          <ResponseStructure>
+            {responseStructure.map((param) => (
+              <ResponseStructureChild
+                name={param.name}
+                key={param.name}
+                desc={param.desc}
+              />
+            ))}
+          </ResponseStructure>
+        </>
+      )}
 
-      <Title>example response</Title>
-      <CodeBlock>{JSON.stringify(exampleResponse, null, 2)}</CodeBlock>
+      {exampleResponse && (
+        <>
+          <Title>example response</Title>
+          <CodeBlock>{JSON.stringify(exampleResponse, null, 2)}</CodeBlock>
+        </>
+      )}
     </>
   );
 };

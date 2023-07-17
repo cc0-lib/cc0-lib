@@ -109,7 +109,7 @@ const DetailsPage = async ({ params }) => {
   return (
     <Container>
       {data && data?.Type === "3D" && data?.Filetype === "GLB" && (
-        <div className="hidden h-auto w-full items-center justify-center sm:block">
+        <div className="hidden h-auto w-full max-w-5xl items-center justify-center sm:block">
           <ModelViewer data={data} />
         </div>
       )}
@@ -122,27 +122,30 @@ const DetailsPage = async ({ params }) => {
         <AudioPlayer
           format={data.Filetype}
           href={data.File}
-          className="w-full sm:w-3/5"
+          className="w-full max-w-3xl sm:w-3/5"
         />
       )}
 
       {data && data?.Type === "Working Files" && data?.Filetype === "Figma" && (
         <iframe
           src={`https://www.figma.com/embed?embed_host=share&url=${data.File}`}
-          className="hidden h-screen w-full px-2 py-16 sm:block sm:p-16"
+          className="hidden h-screen w-full max-w-5xl px-2 py-16 sm:block sm:p-16"
           allowFullScreen
         />
       )}
 
       {data && data?.Type === "Working Files" && data?.Filetype === "PDF" && (
-        <Iframe url={data.File} className="h-screen w-full px-0 py-8 sm:p-16" />
+        <Iframe
+          url={data.File}
+          className="h-screen w-full max-w-5xl px-0 py-8 sm:p-16"
+        />
       )}
 
       {data && (data?.Type === "Image" || data?.Type === "GIF") && (
         <img
           src={data.Thumbnails[0].url}
           alt=""
-          className=" h-auto w-3/4 object-cover px-2 py-16 shadow-md sm:p-16"
+          className=" h-auto w-full max-w-3xl object-cover px-2 py-16 shadow-md sm:w-3/4 sm:p-16"
         />
       )}
 
@@ -150,7 +153,7 @@ const DetailsPage = async ({ params }) => {
         <img
           src={data.Thumbnails[0].url}
           alt=""
-          className="block h-auto w-full object-cover px-2 py-16 shadow-md sm:hidden sm:p-16"
+          className="block h-auto w-full max-w-5xl object-cover px-2 py-16 shadow-md sm:hidden sm:p-16"
         />
       )}
 
@@ -169,7 +172,7 @@ const DetailsPage = async ({ params }) => {
           data?.Filetype === "Figma") && <MoreDetails />}
 
       {data && (
-        <div className="flex w-full flex-col items-center justify-between gap-4 p-4 sm:flex-row sm:p-16">
+        <div className="flex w-full max-w-5xl flex-col items-center justify-between gap-4 p-4 sm:flex-row sm:p-16">
           <div className="duration-250 flex w-full flex-col gap-4 font-spline text-2xl text-white transition-all ease-linear">
             <div className="flex flex-row gap-4">
               <span className=" flex flex-row gap-2 text-sm text-zinc-400">
@@ -307,13 +310,16 @@ const DetailsPage = async ({ params }) => {
                 autoCapitalize="off"
                 spellCheck="false"
                 minLength={1}
-                maxLength={20}
+                maxLength={40}
                 required
                 key={Math.random()}
-                className="w-full bg-zinc-900 text-zinc-500 placeholder:text-zinc-600 focus:outline-none"
+                className="peer w-full bg-zinc-900 text-zinc-500 placeholder:text-zinc-600 focus:outline-none"
               />
 
-              <button type="submit" className="hover:text-prim">
+              <button
+                type="submit"
+                className="text-zinc-600 hover:text-prim peer-focus:text-prim "
+              >
                 <Send className="h-4 w-4 self-center" />
               </button>
             </form>

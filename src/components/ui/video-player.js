@@ -53,7 +53,7 @@ const VideoPlayer = ({ data, src, className }) => {
   }, []);
 
   return (
-    <div className="relative w-full px-2 py-16 text-sm sm:p-16 sm:text-lg">
+    <div className="relative w-full max-w-6xl px-2 py-16 text-sm sm:p-16 sm:text-lg">
       <video
         src={src}
         alt="video"

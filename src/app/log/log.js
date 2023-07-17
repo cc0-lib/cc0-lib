@@ -117,6 +117,14 @@ const Log = () => {
       version: "v3.2",
       changes: ["farcaster comments!", "fc comments for each content page"],
     },
+    {
+      version: "v3.3",
+      changes: [
+        "UI and UX improvements",
+        "new layout for info page on desktop",
+        "details page now looks better on desktop",
+      ],
+    },
   ];
 
   return log.reverse();
