@@ -132,6 +132,13 @@ const Log = () => {
         "change versioning to use semantic versioning",
       ],
     },
+    {
+      version: "1.11.0",
+      changes: [
+        "you can now share to warpcast",
+        "added warpcast to social share",
+      ],
+    },
   ];
 
   return log.reverse();
