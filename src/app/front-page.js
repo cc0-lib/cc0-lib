@@ -15,6 +15,7 @@ import { shuffle, slugify } from "@/lib/utils";
 import useLocalStorage from "@/hooks/use-local-storage";
 import va from "@vercel/analytics";
 import { getLikedItems } from "@/lib/utils";
+import Cursor from "@/components/cursor";
 
 export default function FrontPage({ initialData }) {
   const searchParams = useSearchParams();
@@ -327,6 +328,8 @@ export default function FrontPage({ initialData }) {
           </li>
         </ul>
       </header>
+
+      <Cursor name={query} />
 
       {data && (
         <div className="masonry sm:masonry-sm md:masonry-md 2xl:masonry-lg my-16 space-y-6">

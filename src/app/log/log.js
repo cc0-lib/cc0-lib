@@ -1,7 +1,7 @@
 const Log = () => {
   const log = [
     {
-      version: "v1.0",
+      version: "1.0.0",
       changes: [
         "instant search & filtering contents",
         "random button",
@@ -13,7 +13,7 @@ const Log = () => {
       ],
     },
     {
-      version: "v1.1",
+      version: "1.1.0",
       changes: [
         "mobile responsive design",
         "figma embed",
@@ -22,11 +22,11 @@ const Log = () => {
       ],
     },
     {
-      version: "v1.2",
+      version: "1.2.0",
       changes: ["opengraph", "analytics", "social share (twitter & email)"],
     },
     {
-      version: "v1.5",
+      version: "1.3.0",
       changes: [
         "major rework & data improvisation",
         "faster cc0-lib",
@@ -36,17 +36,17 @@ const Log = () => {
       ],
     },
     {
-      version: "v2.0",
+      version: "1.4.0",
       changes: [
         "contributor's leaderboard",
         "store faves persistently on local device",
-        "prefill with 'cc0' on search bar for new users instead of empty by default",
+        "pref with 'cc0' on search bar for new users instead of empty by default",
         "fav icon on header to view back your fav contents",
         "site-wide ui and ux improvement",
       ],
     },
     {
-      version: "v2.5",
+      version: "1.5.0",
       changes: [
         "public api endpoint at cc0-lib.wtf/api/data",
         "api query for title, tag, type, filetype and even ens",
@@ -73,21 +73,21 @@ const Log = () => {
       ],
     },
     {
-      version: "v2.6",
+      version: "1.5.1",
       changes: [
         "fixed visual bug on leaderboard page",
         "leaderboard page now link to contributor's social and contributions",
       ],
     },
     {
-      version: "v2.7",
+      version: "1.5.2",
       changes: [
         "added /api page for API documentation",
         "added static pages to sitemap",
       ],
     },
     {
-      version: "v2.8",
+      version: "1.5.3",
       changes: [
         "added /random page for fun browsing experience",
         "added a new api route /api/random for random content",
@@ -95,18 +95,18 @@ const Log = () => {
       ],
     },
     {
-      version: "v2.9",
+      version: "1.5.4",
       changes: ["code refactor for better readability"],
     },
     {
-      version: "v3.0",
+      version: "1.6.0",
       changes: [
         "rss feed at cc0-lib.wtf/feed.xml",
         "detail page show last updated date for content",
       ],
     },
     {
-      version: "v3.1",
+      version: "1.7.0",
       changes: [
         "added image enclosure and categories to rss feed",
         "view count for each content",
@@ -114,15 +114,22 @@ const Log = () => {
       ],
     },
     {
-      version: "v3.2",
+      version: "1.8.0",
       changes: ["farcaster comments!", "fc comments for each content page"],
     },
     {
-      version: "v3.3",
+      version: "1.9.0",
       changes: [
         "UI and UX improvements",
         "new layout for info page on desktop",
         "details page now looks better on desktop",
+      ],
+    },
+    {
+      version: "1.10.0",
+      changes: [
+        "shiny nounish cursor!",
+        "change versioning to use semantic versioning",
       ],
     },
   ];
