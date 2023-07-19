@@ -54,7 +54,7 @@ const FileDownloader = ({ data, className }) => {
         <button
           onClick={click}
           disabled={isDownloading && !error}
-          className={`group -mr-4 flex flex-row gap-1 bg-zinc-800 text-prim underline hover:bg-prim hover:stroke-zinc-800 hover:text-zinc-800 ${className}`}
+          className={`group flex h-8 w-auto flex-row items-center justify-center gap-1 bg-zinc-800 text-prim underline hover:bg-prim hover:stroke-zinc-800 hover:text-zinc-800 ${className}`}
         >
           {filename}
           <ArrowDownToLine

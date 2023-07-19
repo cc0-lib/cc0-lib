@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { HelpingHand, Info, MoveLeft, TrophyIcon } from "lucide-react";
+import { Info } from "lucide-react";
 
 const Header = () => {
   return (

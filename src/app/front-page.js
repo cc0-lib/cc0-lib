@@ -16,6 +16,7 @@ import useLocalStorage from "@/hooks/use-local-storage";
 import va from "@vercel/analytics";
 import { getLikedItems } from "@/lib/utils";
 import Cursor from "@/components/cursor";
+import Ticker from "@/components/ui/ticker";
 
 export default function FrontPage({ initialData }) {
   const searchParams = useSearchParams();
@@ -460,6 +461,57 @@ export default function FrontPage({ initialData }) {
           </div>
         </div>
       </div>
+
+      <Ticker position="bottom">
+        <div className="flex flex-row gap-96">
+          <div className="flex flex-row gap-1">
+            Seeking funding for cc0-lib. Check out{" "}
+            <a
+              href="https://nouns.wtf/vote/343"
+              target="_blank"
+              rel="noreferrer noopener"
+              className="bg-zinc-800 text-prim underline hover:bg-prim hover:text-zinc-800"
+            >
+              proposal 343
+            </a>{" "}
+            on Nouns DAO and help us make it a reality.
+          </div>
+          <div className="flex flex-row gap-1">
+            submit your cc0 content{" "}
+            <a
+              href="https://cc0-lib.wtf/contribute"
+              target="_blank"
+              rel="noreferrer noopener"
+              className="bg-zinc-800 text-prim underline hover:bg-prim hover:text-zinc-800"
+            >
+              now
+            </a>
+          </div>
+          <div className="flex flex-row gap-1">
+            Seeking funding for cc0-lib. Check out{" "}
+            <a
+              href="https://nouns.wtf/vote/343"
+              target="_blank"
+              rel="noreferrer noopener"
+              className="bg-zinc-800 text-prim underline hover:bg-prim hover:text-zinc-800"
+            >
+              proposal 343
+            </a>{" "}
+            on Nouns DAO and help us make it a reality.
+          </div>
+          <div className="flex flex-row gap-1">
+            submit your cc0 content{" "}
+            <a
+              href="https://cc0-lib.wtf/contribute"
+              target="_blank"
+              rel="noreferrer noopener"
+              className="bg-zinc-800 text-prim underline hover:bg-prim hover:text-zinc-800"
+            >
+              now
+            </a>
+          </div>
+        </div>
+      </Ticker>
     </>
   );
 }

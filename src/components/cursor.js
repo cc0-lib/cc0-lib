@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 
 const Cursor = ({ name }) => {
   const [mousePosition, setMousePosition] = useState({
-    x: 0,
-    y: 0,
+    x: -50,
+    y: -50,
   });
 
   useEffect(() => {
@@ -78,7 +78,6 @@ const Cursor = ({ name }) => {
 
   return (
     <div
-      // className="custom-cursor absolute z-[100] flex cursor-none flex-col items-center text-center transition-all duration-0"
       className="custom-cursor absolute z-[100] flex cursor-none flex-col items-center text-center"
       style={{
         top: `${y + 5}px`,

@@ -45,7 +45,14 @@ const ContributePage = () => {
       <div className="duration-250 peer flex w-full flex-col gap-8 bg-transparent px-4 py-16 text-prim drop-shadow-md transition-all ease-linear selection:bg-zinc-800 selection:text-sec placeholder:text-zinc-600 focus:rounded-sm focus:bg-zinc-800 focus:bg-opacity-50 focus:outline-none focus:backdrop-blur-md sm:p-16">
         <span className="font-rubik text-4xl sm:text-6xl">contribute</span>
         <span className="w-full max-w-prose text-lg text-white sm:w-1/2">
-          got more cc0 content? want to contribute?
+          got cc0 content? want to contribute? contribute to cc0-lib, get your
+          name on the leaderboard!
+        </span>
+        <span className="font-rubik text-4xl sm:text-6xl">
+          single submission
+        </span>
+        <span className="w-full max-w-prose text-lg text-white sm:w-1/2">
+          single submission is easy, just fill in the form
         </span>
 
         <Link
@@ -60,6 +67,9 @@ const ContributePage = () => {
         </Link>
 
         <span className="font-rubik text-4xl sm:text-6xl">bulk submission</span>
+        <span className="w-full max-w-prose text-lg text-white sm:w-1/2">
+          too many to submit? bulk submit instead
+        </span>
         <span className="flex w-full max-w-prose flex-row gap-2 text-lg text-white sm:w-1/2">
           download
           <FileDownloader
@@ -68,24 +78,40 @@ const ContributePage = () => {
               filename: "cc0-lib-bulk.csv",
             }}
           />
-          , edit and send it to us
         </span>
+        <span className="-mt-8 text-lg text-white">
+          edit the csv and mail us
+        </span>
+
+        <span className="text-2xl text-prim">guide</span>
         <ul className="-mt-4 w-full max-w-prose text-base text-white sm:w-1/2">
           <li>
             <Dot className="inline-block h-8 w-8" />
-            use direct link for images and files
+            thumbnail image
+          </li>
+          <li className="ml-4">
+            <Dot className="inline-block h-8 w-8" />
+            use direct link (eg: http://site.com/image.png)
+          </li>
+          <li className="ml-4">
+            <Dot className="inline-block h-8 w-8" />
+            alternative: imgur
           </li>
           <li>
             <Dot className="inline-block h-8 w-8" />
-            imgur is okay for thumbnail image
+            file
           </li>
-          <li>
+          <li className="ml-4">
             <Dot className="inline-block h-8 w-8" />
-            s3/drive/dropbox/ipfs/arweave link for file
+            use direct link (eg: http://site.com/file.zip)
           </li>
-          <li>
+          <li className="ml-4">
             <Dot className="inline-block h-8 w-8" />
-            alternatively, upload to arweave using{" "}
+            alternative: s3/drive/dropbox/ipfs/arweave
+          </li>
+          <li className="ml-4">
+            <Dot className="inline-block h-8 w-8" />
+            want to upload to arweave? use{" "}
             <Link
               href="https://uploadr.app"
               target="_blank"

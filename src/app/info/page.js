@@ -175,19 +175,6 @@ const InfoPage = () => {
         </Card>
 
         <Card>
-          <Title>donation</Title>
-          <Description>
-            <Link
-              target="_blank"
-              href="ethereum:0xcC0D45aD21224186e8C0450086aF57f30eD88CC0"
-              className="bg-zinc-800 text-prim underline hover:bg-prim hover:text-zinc-800"
-            >
-              cc0-lib.eth
-            </Link>
-          </Description>
-        </Card>
-
-        <Card>
           <Title>privacy policy</Title>
           <Description>
             read our{" "}
@@ -211,6 +198,30 @@ const InfoPage = () => {
               disclaimer
             </Link>
           </Description>
+        </Card>
+
+        <Card>
+          <Title>donation</Title>
+          <Description>
+            <Link
+              target="_blank"
+              href="ethereum:0xcC0D45aD21224186e8C0450086aF57f30eD88CC0"
+              className="bg-zinc-800 text-prim underline hover:bg-prim hover:text-zinc-800"
+            >
+              cc0-lib.eth
+            </Link>
+          </Description>
+        </Card>
+
+        <Card>
+          <Title>support us!</Title>
+          <div className="mx-auto max-w-screen-md overflow-hidden rounded-md shadow-2xl sm:-ml-8">
+            <iframe
+              id="embed"
+              className=" h-[615px] max-h-[615px] w-full overflow-hidden"
+              src="https://zora.co/editions/zora:0xa219da25a9c147e29f825a75fab7d0e4faf4c692/frame?padding=20px&mediaPadding=0px&showDetails=false&theme=dark&showMedia=true&showCollectors=false&showMintingUI=true"
+            ></iframe>
+          </div>
         </Card>
       </div>
     </Container>

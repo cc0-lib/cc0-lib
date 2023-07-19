@@ -139,6 +139,15 @@ const Log = () => {
         "added warpcast to social share",
       ],
     },
+    {
+      version: "1.12.0",
+      changes: [
+        "ticker to show announcement",
+        "prop 343 is live on nouns dao",
+        "you can now mint cc0-lib nft(support us) from info page",
+        "ui fixes",
+      ],
+    },
   ];
 
   return log.reverse();
