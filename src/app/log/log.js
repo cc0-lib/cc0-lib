@@ -148,6 +148,14 @@ const Log = () => {
         "ui fixes",
       ],
     },
+    {
+      version: "1.12.1",
+      changes: [
+        "fixed ticker link",
+        "removed cursor for mobile",
+        "added canny link in info page",
+      ],
+    },
   ];
 
   return log.reverse();

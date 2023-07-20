@@ -466,49 +466,47 @@ export default function FrontPage({ initialData }) {
         <div className="flex flex-row gap-96">
           <div className="flex flex-row gap-1">
             Seeking funding for cc0-lib. Check out{" "}
-            <a
+            <Link
               href="https://nouns.wtf/vote/343"
               target="_blank"
               rel="noreferrer noopener"
               className="bg-zinc-800 text-prim underline hover:bg-prim hover:text-zinc-800"
             >
               proposal 343
-            </a>{" "}
+            </Link>{" "}
             on Nouns DAO and help us make it a reality.
           </div>
           <div className="flex flex-row gap-1">
             submit your cc0 content{" "}
-            <a
-              href="https://cc0-lib.wtf/contribute"
-              target="_blank"
+            <Link
+              href="/contribute"
               rel="noreferrer noopener"
               className="bg-zinc-800 text-prim underline hover:bg-prim hover:text-zinc-800"
             >
               now
-            </a>
+            </Link>
           </div>
           <div className="flex flex-row gap-1">
             Seeking funding for cc0-lib. Check out{" "}
-            <a
+            <Link
               href="https://nouns.wtf/vote/343"
               target="_blank"
               rel="noreferrer noopener"
               className="bg-zinc-800 text-prim underline hover:bg-prim hover:text-zinc-800"
             >
               proposal 343
-            </a>{" "}
+            </Link>{" "}
             on Nouns DAO and help us make it a reality.
           </div>
           <div className="flex flex-row gap-1">
             submit your cc0 content{" "}
-            <a
-              href="https://cc0-lib.wtf/contribute"
-              target="_blank"
+            <Link
+              href="/contribute"
               rel="noreferrer noopener"
               className="bg-zinc-800 text-prim underline hover:bg-prim hover:text-zinc-800"
             >
               now
-            </a>
+            </Link>
           </div>
         </div>
       </Ticker>

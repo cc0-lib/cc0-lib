@@ -78,7 +78,7 @@ const Cursor = ({ name }) => {
 
   return (
     <div
-      className="custom-cursor absolute z-[100] flex cursor-none flex-col items-center text-center"
+      className="custom-cursor absolute z-[100] hidden cursor-none flex-col items-center text-center sm:flex"
       style={{
         top: `${y + 5}px`,
         left: `${x + 5}px`,
@@ -86,7 +86,7 @@ const Cursor = ({ name }) => {
     >
       <img
         src={`https://api.cloudnouns.com/v1/pfp?background=n&body=n&accessory=n&text=${name}`}
-        className="h-16 w-16 drop-shadow-xl"
+        className="hidden h-16 w-16 drop-shadow-xl sm:block"
       />
     </div>
   );

@@ -223,6 +223,20 @@ const InfoPage = () => {
             ></iframe>
           </div>
         </Card>
+
+        <Card>
+          <Title>ideas/request?</Title>
+          <Description>
+            submit your ideas{" "}
+            <Link
+              target="_blank"
+              href="https://cc0-lib.canny.io/feature-requests"
+              className="bg-zinc-800 text-prim underline hover:bg-prim hover:text-zinc-800"
+            >
+              here
+            </Link>
+          </Description>
+        </Card>
       </div>
     </Container>
   );
