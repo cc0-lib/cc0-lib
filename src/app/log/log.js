@@ -156,6 +156,10 @@ const Log = () => {
         "added canny link in info page",
       ],
     },
+    {
+      version: "1.12.2",
+      changes: ["fixed og image for detail page"],
+    },
   ];
 
   return log.reverse();
