@@ -10,4 +10,5 @@ export const staticPages = [
   "api",
   "sitemap",
   "random",
+  "fav",
 ];

@@ -160,6 +160,17 @@ const Log = () => {
       version: "1.12.2",
       changes: ["fixed og image for detail page"],
     },
+    {
+      version: "1.13.0",
+      changes: [
+        "web3 wallet integration with connectkit",
+        "favourites now linked to wallet",
+        "custom wallet button + sign in with ethereum",
+        "new fav page at cc0-lib.wtf/fav",
+        "ui and ux improvements",
+        "fix broken links",
+      ],
+    },
   ];
 
   return log.reverse();

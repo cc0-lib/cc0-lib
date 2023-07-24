@@ -14,9 +14,9 @@ import {
 import { shuffle, slugify } from "@/lib/utils";
 import useLocalStorage from "@/hooks/use-local-storage";
 import va from "@vercel/analytics";
-import { getLikedItems } from "@/lib/utils";
 import Cursor from "@/components/cursor";
 import Ticker from "@/components/ui/ticker";
+import ConnectButton from "@/components/connect-button";
 
 export default function FrontPage({ initialData }) {
   const searchParams = useSearchParams();
@@ -72,7 +72,7 @@ export default function FrontPage({ initialData }) {
 
   const handleSearchBar = useCallback(
     (searchQuery) => {
-      if (initialData) {
+      if (initialData && inputRef) {
         const filteredData = initialData?.filter((item) => {
           const lowerCaseSearchQuery = searchQuery.toLowerCase();
           if (lowerCaseSearchQuery.length < 2) return false;
@@ -88,7 +88,9 @@ export default function FrontPage({ initialData }) {
           );
         });
         setQuery(searchQuery);
-        inputRef.current.value = searchQuery.toLowerCase();
+        if (inputRef.current) {
+          inputRef.current.value = searchQuery.toLowerCase();
+        }
 
         if (searchQuery === "cc0") {
           const finalData = shuffle(initialData);
@@ -207,16 +209,6 @@ export default function FrontPage({ initialData }) {
     }
   };
 
-  const handleLikedItems = () => {
-    const likedItems = getLikedItems();
-    const filteredData = initialData.filter((item) => {
-      return likedItems.includes(slugify(item.Title.toLowerCase()));
-    });
-    inputRef.current.value = "fav";
-    const finalData = shuffle(filteredData);
-    setData(finalData);
-  };
-
   useEffect(() => {
     if (initialData) {
       const typesList = Array.from(
@@ -270,7 +262,9 @@ export default function FrontPage({ initialData }) {
   }, [initialData, typeSearch, handleTypeSearch]);
 
   useEffect(() => {
-    inputRef.current.focus();
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
     document.addEventListener("keydown", handleKeyPress);
     return () => {
       document.removeEventListener("keydown", handleKeyPress);
@@ -279,7 +273,9 @@ export default function FrontPage({ initialData }) {
 
   useEffect(() => {
     if (!search || !tagSearch || !formatSearch || !typeSearch) {
-      inputRef.current.focus();
+      if (inputRef.current) {
+        inputRef.current.focus();
+      }
     }
   }, [search, tagSearch, formatSearch, typeSearch]);
 
@@ -294,27 +290,17 @@ export default function FrontPage({ initialData }) {
             className="hidden w-40 sm:block"
           />
         </Link>
-        {data && data.length > 0 && data.length < 2 && (
-          <p className="bg-zinc-800 px-4 py-2 text-center font-chakra text-sm uppercase">
-            {data?.length} result
-          </p>
-        )}
-        {data && data.length > 1 && (
-          <p className="bg-zinc-800 px-4 py-2 text-center font-chakra text-sm uppercase">
-            {data?.length} results
-          </p>
-        )}
         <ul className="flex items-center gap-4">
           <li>
-            <div
-              className="group flex cursor-pointer flex-row items-center gap-2"
-              onClick={handleLikedItems}
+            <Link
+              href="/fav"
+              className="group flex flex-row items-center gap-2"
             >
               <span className=" duration-250 hidden opacity-0 transition-all ease-linear group-hover:opacity-100 sm:block">
                 fav
               </span>
               <Heart className="h-8 w-8 group-hover:stroke-prim" />
-            </div>
+            </Link>
           </li>
           <li>
             <Link
@@ -327,8 +313,24 @@ export default function FrontPage({ initialData }) {
               <Info className="h-8 w-8 group-hover:stroke-prim" />
             </Link>
           </li>
+          <span className="sm:ml-8">
+            <ConnectButton />
+          </span>
         </ul>
       </header>
+
+      <div className="mt-16">
+        {data && data.length > 0 && data.length < 2 && (
+          <p className="bg-zinc-800 px-4 py-2 text-center font-chakra text-sm uppercase">
+            {data?.length} result
+          </p>
+        )}
+        {data && data.length > 1 && (
+          <p className="bg-zinc-800 px-4 py-2 text-center font-chakra text-sm uppercase">
+            {data?.length} results
+          </p>
+        )}
+      </div>
 
       <Cursor name={query} />
 

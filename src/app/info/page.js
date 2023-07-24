@@ -230,7 +230,7 @@ const InfoPage = () => {
             submit your ideas{" "}
             <Link
               target="_blank"
-              href="https://cc0-lib.canny.io/feature-requests"
+              href="https://cc0-lib.canny.io/feature-request"
               className="bg-zinc-800 text-prim underline hover:bg-prim hover:text-zinc-800"
             >
               here

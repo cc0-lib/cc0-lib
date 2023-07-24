@@ -5,21 +5,59 @@ import va from "@vercel/analytics";
 import { useEffect, useState } from "react";
 import useLocalStorage from "@/hooks/use-local-storage";
 import { slugify } from "@/lib/utils";
+import { useAccount } from "wagmi";
+import { useSIWE } from "connectkit";
+import { addLike, remLike } from "@/lib/redis";
 
 const Sentiment = (data) => {
   const [liked, setLiked] = useState(false);
   const [disliked, setDisliked] = useState(false);
   const slug = slugify(data?.data.Title);
   const [sentiment, setSentiment] = useLocalStorage(`${slug}-sentiment`, "");
+  const { address } = useAccount();
+  const { isSignedIn } = useSIWE();
 
   const toggleLike = () => {
     setLiked(!liked);
+
+    if (isSignedIn) {
+      if (liked) {
+        removeFromRedis();
+      } else {
+        saveToRedis();
+      }
+    }
+
     setDisliked(false);
   };
 
   const toggleDislike = () => {
     setDisliked(!disliked);
     setLiked(false);
+  };
+
+  const saveToRedis = async () => {
+    if (address) {
+      try {
+        await addLike(slug, address);
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      console.log("no address provided");
+    }
+  };
+
+  const removeFromRedis = async () => {
+    if (address) {
+      try {
+        await remLike(slug, address);
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      console.log("no address provided");
+    }
   };
 
   useEffect(() => {
@@ -62,6 +100,9 @@ const Sentiment = (data) => {
               const title = data.data.Title;
               va.track(title, { like: true });
               setLiked(true);
+              if (isSignedIn) {
+                saveToRedis();
+              }
             }
           }}
         />
@@ -77,6 +118,9 @@ const Sentiment = (data) => {
               const title = data.data.Title;
               va.track(title, { like: false });
               setDisliked(true);
+              // if (isSignedIn) {
+              //   removeFromRedis();
+              // }
             }
           }}
         />

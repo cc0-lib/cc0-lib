@@ -3,7 +3,6 @@ import { Eye } from "lucide-react";
 
 const PageViews = async ({ id }) => {
   const pageView = await kv.incr(`view:${id}`);
-
   return (
     <>
       {pageView && (

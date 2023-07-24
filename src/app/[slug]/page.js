@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { kv } from "@vercel/kv";
 import { Suspense } from "react";
 import { revalidatePath } from "next/cache";
 import Link from "next/link";
@@ -31,6 +30,7 @@ import FCComments from "@/components/fc-comments";
 import Comments from "@/components/comments";
 import PageViews from "@/components/page-views";
 import ModelViewer from "@/components/ui/model-viewer";
+import { addComment } from "@/lib/redis";
 
 const getItem = async (slug) => {
   const data = await getAllItems();
@@ -47,7 +47,7 @@ export const generateMetadata = async ({ params }) => {
   return {
     title: `${data?.Title} | CC0-LIB`,
     description: data?.Description,
-    image: data.Thumbnails[0].url,
+    image: data?.Thumbnails?.[0].url || "https://cc0-lib.wtf/og.png",
     url: `https://cc0-lib.wtf/${params.slug}`,
     type: "website",
     openGraph: {
@@ -57,7 +57,7 @@ export const generateMetadata = async ({ params }) => {
       type: "website",
       images: [
         {
-          url: data.Thumbnails[0].url,
+          url: data?.Thumbnails?.[0].url || "https://cc0-lib.wtf/og.png",
           width: 800,
           height: 400,
           alt: data?.Title,
@@ -69,7 +69,7 @@ export const generateMetadata = async ({ params }) => {
       card: "summary_large_image",
       title: `${data?.Title} | CC0-LIB`,
       description: data?.Description,
-      images: [data.Thumbnails[0].url],
+      images: [data?.Thumbnails?.[0].url || "https://cc0-lib.wtf/og.png"],
     },
   };
 };
@@ -98,7 +98,7 @@ const DetailsPage = async ({ params }) => {
       const err = schema.error.format();
       console.log(err.comment._errors[0]);
     } else {
-      await kv.lpush(`comments:${data.ID}`, comment);
+      await addComment(data.ID, comment);
       revalidatePath(`/[slug]`, { slug: params.slug });
     }
   };
