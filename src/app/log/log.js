@@ -171,6 +171,10 @@ const Log = () => {
         "fix broken links",
       ],
     },
+    {
+      version: "1.13.1",
+      changes: ["fixed cursor", "fixed fav page"],
+    },
   ];
 
   return log.reverse();
