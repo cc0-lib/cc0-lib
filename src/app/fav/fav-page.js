@@ -10,7 +10,7 @@ import { useAccount } from "wagmi";
 
 const FavPage = ({ initialData }) => {
   const { isSignedIn } = useSIWE();
-  const [data, setData] = useState(initialData);
+  const [data, setData] = useState(null);
   const { address } = useAccount();
 
   useEffect(() => {
@@ -26,8 +26,6 @@ const FavPage = ({ initialData }) => {
         ]);
         const finalLikedItems = Array.from(finalLikedItemsSet);
 
-        console.log("got wallet, return local + redis");
-
         finalData = initialData.filter((item) =>
           finalLikedItems.includes(slugify(item.Title.toLowerCase()))
         );
@@ -35,8 +33,6 @@ const FavPage = ({ initialData }) => {
         finalData = initialData.filter((item) =>
           localLikedItems.includes(slugify(item.Title.toLowerCase()))
         );
-
-        console.log("no wallet, return local storage");
       }
 
       const shuffledData = shuffle(finalData);
