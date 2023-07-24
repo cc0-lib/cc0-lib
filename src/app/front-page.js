@@ -332,7 +332,7 @@ export default function FrontPage({ initialData }) {
         )}
       </div>
 
-      <Cursor name={query} />
+      <Cursor name={query} optional={true} />
 
       {data && (
         <div className="masonry sm:masonry-sm md:masonry-md 2xl:masonry-lg my-16 space-y-6">

@@ -1,8 +1,11 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
-const Cursor = ({ name }) => {
+const Cursor = ({ name, optional }) => {
+  const pathname = usePathname().split("/")[1];
+
   const [mousePosition, setMousePosition] = useState({
     x: -50,
     y: -50,
@@ -85,7 +88,9 @@ const Cursor = ({ name }) => {
       }}
     >
       <img
-        src={`https://api.cloudnouns.com/v1/pfp?background=n&body=n&accessory=n&text=${name}`}
+        src={`https://api.cloudnouns.com/v1/pfp?background=n&body=n&accessory=n&text=${
+          optional ? name : pathname
+        }`}
         className="hidden h-16 w-16 drop-shadow-xl sm:block"
       />
     </div>

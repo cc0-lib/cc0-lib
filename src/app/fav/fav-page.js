@@ -5,7 +5,7 @@ import { getLikeFromKV } from "@/lib/redis";
 import { getLikedItems, shuffle, slugify } from "@/lib/utils";
 import { useSIWE } from "connectkit";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 
 const FavPage = ({ initialData }) => {
@@ -57,29 +57,32 @@ const FavPage = ({ initialData }) => {
             </p>
           )}
         </div>
-        {data && (
-          <div className="masonry sm:masonry-sm md:masonry-md 2xl:masonry-lg my-16 space-y-6">
-            {data.map((item) => {
-              return (
-                <Link
-                  key={item.id}
-                  href={`/${slugify(item.Title)}`}
-                  className="group relative flex h-auto w-full break-inside-avoid"
-                >
-                  <img
-                    src={item.Thumbnails?.[0].url}
-                    alt={item.Title}
-                    loading="lazy"
-                    className="h-auto w-full rounded-sm opacity-80 transition-all duration-100 ease-in-out hover:opacity-100 hover:ring-2 hover:ring-prim hover:ring-offset-1 hover:ring-offset-zinc-900"
-                  />
-                  <h1 className="absolute right-4 top-4 hidden bg-zinc-800 bg-opacity-50 px-3 py-1 font-chakra uppercase text-white backdrop-blur-sm group-hover:block">
-                    {item.Filetype}
-                  </h1>
-                </Link>
-              );
-            })}
-          </div>
-        )}
+
+        <Suspense fallback={<div>Loading</div>}>
+          {data && (
+            <div className="masonry sm:masonry-sm md:masonry-md 2xl:masonry-lg my-16 space-y-6">
+              {data.map((item) => {
+                return (
+                  <Link
+                    key={item.id}
+                    href={`/${slugify(item.Title)}`}
+                    className="group relative flex h-auto w-full break-inside-avoid"
+                  >
+                    <img
+                      src={item.Thumbnails?.[0].url}
+                      alt={item.Title}
+                      loading="lazy"
+                      className="h-auto w-full rounded-sm opacity-80 transition-all duration-100 ease-in-out hover:opacity-100 hover:ring-2 hover:ring-prim hover:ring-offset-1 hover:ring-offset-zinc-900"
+                    />
+                    <h1 className="absolute right-4 top-4 hidden bg-zinc-800 bg-opacity-50 px-3 py-1 font-chakra uppercase text-white backdrop-blur-sm group-hover:block">
+                      {item.Filetype}
+                    </h1>
+                  </Link>
+                );
+              })}
+            </div>
+          )}
+        </Suspense>
       </Container>
     </>
   );

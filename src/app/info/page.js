@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Container from "@/components/ui/container";
+import { Suspense } from "react";
 
 export const generateMetadata = async () => {
   const title = `Info | CC0-LIB`;
@@ -216,11 +217,13 @@ const InfoPage = () => {
         <Card>
           <Title>support us!</Title>
           <div className="mx-auto max-w-screen-md overflow-hidden rounded-md shadow-2xl sm:-ml-8">
-            <iframe
-              id="embed"
-              className=" h-[615px] max-h-[615px] w-full overflow-hidden"
-              src="https://zora.co/editions/zora:0xa219da25a9c147e29f825a75fab7d0e4faf4c692/frame?padding=20px&mediaPadding=0px&showDetails=false&theme=dark&showMedia=true&showCollectors=false&showMintingUI=true"
-            ></iframe>
+            <Suspense fallback={<div>Loading iframe</div>}>
+              <iframe
+                id="embed"
+                className=" h-[615px] max-h-[615px] w-full overflow-hidden"
+                src="https://zora.co/editions/zora:0xa219da25a9c147e29f825a75fab7d0e4faf4c692/frame?padding=20px&mediaPadding=0px&showDetails=false&theme=dark&showMedia=true&showCollectors=false&showMintingUI=true"
+              ></iframe>
+            </Suspense>
           </div>
         </Card>
 
