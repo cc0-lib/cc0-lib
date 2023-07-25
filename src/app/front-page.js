@@ -392,8 +392,8 @@ export default function FrontPage({ initialData }) {
             trimmedData.length == 2 && "sm:masonry-sm w-full max-w-4xl"
           } ${
             trimmedData.length > 2 &&
-            "md:masonry-md 2xl:masonry-lg my-16 max-w-none space-y-6"
-          } `}
+            "md:masonry-md 2xl:masonry-lg my-16  max-w-none"
+          } my-16 space-y-6 `}
         >
           {trimmedData.map((item) => {
             return (
