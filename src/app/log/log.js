@@ -175,6 +175,18 @@ const Log = () => {
       version: "1.13.1",
       changes: ["fixed cursor", "fixed fav page"],
     },
+    {
+      version: "1.13.2",
+      changes: ["minor fix"],
+    },
+    {
+      version: "1.13.3",
+      changes: [
+        "infinite scroll fix",
+        "layout fix",
+        "sync fav with wallet fix",
+      ],
+    },
   ];
 
   return log.reverse();

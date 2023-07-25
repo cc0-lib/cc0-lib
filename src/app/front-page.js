@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import {
+  ChevronsUp,
   Heart,
   HelpingHand,
   Info,
@@ -26,11 +27,62 @@ export default function FrontPage({ initialData }) {
   const typeSearch = searchParams.get("type");
 
   const [data, setData] = useState(null);
+  const [trimmedData, setTrimmedData] = useState(null);
   const [types, setTypes] = useState(null);
   const [query, setQuery] = useLocalStorage("query", "");
 
   const filterPanelRef = useRef(null);
   const inputRef = useRef(null);
+
+  const [page, setPage] = useState(1);
+  const limit = 6;
+  const loadingRef = useRef(false);
+
+  useEffect(() => {
+    setTrimmedData(null);
+    setPage(1);
+  }, [query]);
+
+  useEffect(() => {
+    if (data) {
+      const shuffledData = shuffle(data);
+      setTrimmedData(shuffledData.slice(0, limit));
+    }
+  }, [data]);
+
+  const loadMoreData = () => {
+    if (trimmedData) {
+      const nextPageData = data.slice(page * limit, (page + 1) * limit);
+      setTrimmedData((trimmedData) => [...trimmedData, ...nextPageData]);
+      if (trimmedData.length === data.length) {
+        return;
+      }
+      setPage((prevPage) => prevPage + 1);
+    }
+  };
+
+  const handleIntersect = (entries) => {
+    const [entry] = entries;
+    if (entry.isIntersecting) {
+      loadMoreData();
+    }
+  };
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(handleIntersect, {
+      root: null,
+      rootMargin: "0px",
+      threshold: 1.0,
+    });
+    if (loadingRef.current) {
+      observer.observe(loadingRef.current);
+    }
+    return () => {
+      if (loadingRef.current) {
+        observer.unobserve(loadingRef.current);
+      }
+    };
+  }, [loadingRef, trimmedData]);
 
   const handleKeyPress = (e) => {
     if ((e.metaKey || e.ctrlKey) && e.key === "k") {
@@ -334,9 +386,16 @@ export default function FrontPage({ initialData }) {
 
       <Cursor name={query} optional={true} />
 
-      {data && (
-        <div className="masonry sm:masonry-sm md:masonry-md 2xl:masonry-lg my-16 space-y-6">
-          {data.map((item) => {
+      {trimmedData && (
+        <div
+          className={`masonry ${trimmedData.length < 2 && "w-full max-w-xl"}  ${
+            trimmedData.length == 2 && "sm:masonry-sm w-full max-w-4xl"
+          } ${
+            trimmedData.length > 2 &&
+            "md:masonry-md 2xl:masonry-lg my-16 max-w-none space-y-6"
+          } `}
+        >
+          {trimmedData.map((item) => {
             return (
               <Link
                 key={item.id}
@@ -357,6 +416,8 @@ export default function FrontPage({ initialData }) {
           })}
         </div>
       )}
+      <div ref={loadingRef} />
+
       <div className=" fixed bottom-0 left-0 z-10 mb-60 flex flex-col">
         <input
           onChange={handleSearch}
@@ -389,45 +450,66 @@ export default function FrontPage({ initialData }) {
         >
           <LayoutDashboard className="h-8 w-8 group-hover:stroke-prim" />
 
-          {types && (
-            <ul className="group hidden flex-col items-center gap-1 lowercase sm:flex sm:flex-row">
-              {types.map((type) => {
-                return (
-                  <Link
-                    key={type}
-                    href={`/?type=${type.toLowerCase()}`}
-                    className="opacity-0 hover:text-prim group-hover:opacity-100"
-                  >
-                    {type}
-                  </Link>
-                );
-              })}
-            </ul>
-          )}
+          <div className="absolute ml-12">
+            {types && (
+              <ul className="group hidden flex-col items-center gap-1 lowercase sm:flex sm:flex-row">
+                {types.map((type) => {
+                  return (
+                    <Link
+                      key={type}
+                      href={`/?type=${type.toLowerCase()}`}
+                      className="opacity-0 hover:text-prim group-hover:opacity-100"
+                    >
+                      {type}
+                    </Link>
+                  );
+                })}
+              </ul>
+            )}
+          </div>
         </div>
         <div onClick={handleRandomData}>
           <div
-            className="group flex cursor-pointer flex-row items-center gap-2 sm:-ml-12"
+            className="group flex cursor-pointer flex-row items-center gap-2"
             id="random"
           >
             <Sparkles className="h-8 w-8 group-hover:stroke-prim" />
-            <span className="duration-250 hidden opacity-0 transition-all ease-linear group-hover:opacity-100 sm:block">
-              random
-            </span>
+            <div className="absolute ml-12">
+              <span className="duration-250 hidden opacity-0 transition-all ease-linear group-hover:opacity-100 sm:block">
+                random
+              </span>
+            </div>
           </div>
         </div>
         <Link href="/contribute">
           <div
-            className="group flex flex-row items-center gap-2"
+            className="group relative flex flex-row items-center gap-2"
             id="contribute"
           >
-            <span className="duration-250 hidden opacity-0 transition-all ease-linear group-hover:opacity-100 sm:block">
+            <span className="duration-250 absolute right-12 hidden opacity-0 transition-all ease-linear group-hover:opacity-100 sm:block">
               contribute
             </span>
+
             <HelpingHand className="h-8 w-8 group-hover:stroke-prim" />
           </div>
         </Link>
       </footer>
+
+      {trimmedData && data && page > 1 && (
+        <div className="fixed bottom-0 z-10 mb-24">
+          <div
+            onClick={() => {
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
+            className="group flex cursor-pointer flex-row items-center gap-2"
+          >
+            {process.env.NODE_ENV === "development" && (
+              <>{`${trimmedData.length}/${data.length} - page:${page}`}</>
+            )}
+            <ChevronsUp className="h-8 w-8 text-zinc-500 group-hover:stroke-prim" />
+          </div>
+        </div>
+      )}
 
       <div
         ref={filterPanelRef}
@@ -464,54 +546,60 @@ export default function FrontPage({ initialData }) {
         </div>
       </div>
 
-      <Ticker position="bottom">
-        <div className="flex flex-row gap-96">
-          <div className="flex flex-row gap-1">
-            Seeking funding for cc0-lib. Check out{" "}
-            <Link
-              href="https://nouns.wtf/vote/343"
-              target="_blank"
-              rel="noreferrer noopener"
-              className="bg-zinc-800 text-prim underline hover:bg-prim hover:text-zinc-800"
-            >
-              proposal 343
-            </Link>{" "}
-            on Nouns DAO and help us make it a reality.
-          </div>
-          <div className="flex flex-row gap-1">
-            submit your cc0 content{" "}
-            <Link
-              href="/contribute"
-              rel="noreferrer noopener"
-              className="bg-zinc-800 text-prim underline hover:bg-prim hover:text-zinc-800"
-            >
-              now
-            </Link>
-          </div>
-          <div className="flex flex-row gap-1">
-            Seeking funding for cc0-lib. Check out{" "}
-            <Link
-              href="https://nouns.wtf/vote/343"
-              target="_blank"
-              rel="noreferrer noopener"
-              className="bg-zinc-800 text-prim underline hover:bg-prim hover:text-zinc-800"
-            >
-              proposal 343
-            </Link>{" "}
-            on Nouns DAO and help us make it a reality.
-          </div>
-          <div className="flex flex-row gap-1">
-            submit your cc0 content{" "}
-            <Link
-              href="/contribute"
-              rel="noreferrer noopener"
-              className="bg-zinc-800 text-prim underline hover:bg-prim hover:text-zinc-800"
-            >
-              now
-            </Link>
-          </div>
-        </div>
-      </Ticker>
+      <FrontPageTicker />
     </>
   );
 }
+
+const FrontPageTicker = () => {
+  return (
+    <Ticker position="bottom">
+      <div className="flex flex-row gap-96">
+        <div className="flex flex-row gap-1">
+          Seeking funding for cc0-lib. Check out{" "}
+          <Link
+            href="https://nouns.wtf/vote/343"
+            target="_blank"
+            rel="noreferrer noopener"
+            className="bg-zinc-800 text-prim underline hover:bg-prim hover:text-zinc-800"
+          >
+            proposal 343
+          </Link>{" "}
+          on Nouns DAO and help us make it a reality.
+        </div>
+        <div className="flex flex-row gap-1">
+          submit your cc0 content{" "}
+          <Link
+            href="/contribute"
+            rel="noreferrer noopener"
+            className="bg-zinc-800 text-prim underline hover:bg-prim hover:text-zinc-800"
+          >
+            now
+          </Link>
+        </div>
+        <div className="flex flex-row gap-1">
+          Seeking funding for cc0-lib. Check out{" "}
+          <Link
+            href="https://nouns.wtf/vote/343"
+            target="_blank"
+            rel="noreferrer noopener"
+            className="bg-zinc-800 text-prim underline hover:bg-prim hover:text-zinc-800"
+          >
+            proposal 343
+          </Link>{" "}
+          on Nouns DAO and help us make it a reality.
+        </div>
+        <div className="flex flex-row gap-1">
+          submit your cc0 content{" "}
+          <Link
+            href="/contribute"
+            rel="noreferrer noopener"
+            className="bg-zinc-800 text-prim underline hover:bg-prim hover:text-zinc-800"
+          >
+            now
+          </Link>
+        </div>
+      </div>
+    </Ticker>
+  );
+};

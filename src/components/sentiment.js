@@ -7,7 +7,7 @@ import useLocalStorage from "@/hooks/use-local-storage";
 import { slugify } from "@/lib/utils";
 import { useAccount } from "wagmi";
 import { useSIWE } from "connectkit";
-import { addLike, remLike } from "@/lib/redis";
+import { addLike, getLikeFromKV, remLike } from "@/lib/redis";
 
 const Sentiment = (data) => {
   const [liked, setLiked] = useState(false);
@@ -86,6 +86,19 @@ const Sentiment = (data) => {
       setSentiment("dislike");
     }
   }, [liked, disliked]);
+
+  useEffect(() => {
+    // check if slug is in redis
+    if (isSignedIn && address) {
+      const fetchLikedItems = async () => {
+        const redisLikedItems = await getLikeFromKV(address);
+        if (redisLikedItems.includes(slug)) {
+          setLiked(true);
+        }
+      };
+      fetchLikedItems();
+    }
+  }, [isSignedIn]);
 
   return (
     <div className="mt-4 flex flex-row gap-4">
