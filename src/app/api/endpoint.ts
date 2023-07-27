@@ -1,4 +1,55 @@
-export const endpoints = [
+type Endpoint = {
+  title: string;
+  endpoint: string;
+  note: string;
+  queryParams?: QueryParam[];
+  rateLimiting?: RateLimiting;
+  responseStructure: ResponseStructure[];
+  exampleResponse: APIResponse;
+};
+
+type QueryParam = {
+  name: string;
+  type: string;
+  desc: string;
+};
+
+type RateLimiting = {
+  req: number;
+  secs: number;
+};
+
+type ResponseStructure = {
+  name: string;
+  desc: string;
+};
+
+type DataAPIResponse = {
+  query?: {
+    title?: string;
+    tag?: string;
+    type?: string;
+    fileType?: string;
+    ens?: string;
+  };
+  count: number;
+  types: string[];
+  fileTypes: string[];
+  tags: string[];
+  date: string;
+  data: Item[];
+};
+
+type RandomAPIResponse = {
+  image: {
+    url: string;
+  };
+  data: Item;
+};
+
+type APIResponse = DataAPIResponse | RandomAPIResponse;
+
+export const endpoints: Endpoint[] = [
   {
     title: "main endpoint",
     endpoint: "GET /api/data",
@@ -91,6 +142,8 @@ export const endpoints = [
           Tags: ["tag1", "tag2", "tag3"],
           ID: 370,
           Title: "sample title",
+          File: "https://example.com/sample.svg",
+          Filetype: "svg",
         },
       ],
     },
@@ -134,6 +187,8 @@ export const endpoints = [
         Tags: ["tag1", "tag2", "tag3"],
         ID: 370,
         Title: "sample title",
+        File: "https://example.com/sample.svg",
+        Filetype: "svg",
       },
     },
   },

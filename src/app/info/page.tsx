@@ -1,6 +1,5 @@
 import Link from "next/link";
 import Container from "@/components/ui/container";
-import { Suspense } from "react";
 
 export const generateMetadata = async () => {
   const title = `Info | CC0-LIB`;

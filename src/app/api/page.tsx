@@ -128,7 +128,7 @@ const ResponseStructureChild = ({ name, desc }) => {
 
 const CodeBlock = ({ children }) => {
   return (
-    <pre className=" w-full max-w-prose overflow-clip bg-zinc-800 p-4 text-xs normal-case text-white sm:text-lg">
+    <pre className=" w-full max-w-prose overflow-x-auto bg-zinc-800 p-4 text-xs normal-case text-white sm:text-lg">
       {children}
     </pre>
   );

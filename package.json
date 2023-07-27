@@ -36,6 +36,7 @@
   },
   "devDependencies": {
     "@types/react": "18.2.16",
+    "@types/rss": "^0.0.30",
     "encoding": "^0.1.13",
     "lokijs": "^1.5.12",
     "pino-pretty": "^10.0.0",

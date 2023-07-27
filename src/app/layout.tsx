@@ -1,6 +1,6 @@
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/react";
-import Web3Provider from "@/components/web3-provider";
+import Web3Provider from "@/components/web3/web3-provider";
 
 export default function RootLayout({ children }) {
   return (

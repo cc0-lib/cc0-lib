@@ -1,4 +1,4 @@
-import FileDownloader from "@/components/file-dl";
+import FileDownloader from "@/components/data/file-dl";
 import Container from "@/components/ui/container";
 import { Dot } from "lucide-react";
 import Link from "next/link";

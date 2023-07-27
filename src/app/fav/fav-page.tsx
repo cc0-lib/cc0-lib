@@ -4,6 +4,7 @@ import Container from "@/components/ui/container";
 import { getLikeFromKV } from "@/lib/redis";
 import { getLikedItems, shuffle, slugify } from "@/lib/utils";
 import { useSIWE } from "connectkit";
+import Image from "next/image";
 import Link from "next/link";
 import { Suspense, useEffect, useState } from "react";
 import { useAccount } from "wagmi";
@@ -72,7 +73,7 @@ const FavPage = ({ initialData }: FavPageProps) => {
                     href={`/${slugify(item.Title)}`}
                     className="group relative flex h-auto w-full break-inside-avoid"
                   >
-                    <img
+                    <Image
                       src={item.Thumbnails?.[0].url}
                       alt={item.Title}
                       width={500}

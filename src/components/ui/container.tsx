@@ -1,4 +1,4 @@
-import Cursor from "../cursor";
+import Cursor from "./cursor";
 import Footer from "./footer";
 import Header from "./header";
 

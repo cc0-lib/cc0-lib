@@ -1,8 +1,9 @@
-import DownloadFile from "@/components/dl";
+import DownloadFile from "@/components/data/dl";
 import Container from "@/components/ui/container";
 import { getAllItems, slugify } from "@/lib/utils";
 import { MoreHorizontal, RefreshCcw } from "lucide-react";
 import { revalidatePath } from "next/cache";
+import Image from "next/image";
 import Link from "next/link";
 
 type RandomItem = {
@@ -85,7 +86,7 @@ const RandomPage = async () => {
     <Container>
       <div className="flex flex-col items-center justify-center gap-8 p-2">
         <div className="items-center">
-          <img
+          <Image
             src={image}
             alt="random image"
             width={384}

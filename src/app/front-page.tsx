@@ -15,10 +15,11 @@ import {
 import { shuffle, slugify } from "@/lib/utils";
 import useLocalStorage from "@/hooks/use-local-storage";
 import va from "@vercel/analytics";
-import Cursor from "@/components/cursor";
+import Cursor from "@/components/ui/cursor";
 import Ticker from "@/components/ui/ticker";
-import ConnectButton from "@/components/connect-button";
+import ConnectButton from "@/components/web3/connect-button";
 import { useInView } from "framer-motion";
+import Image from "next/image";
 
 type FrontPageProps = {
   initialData: Item[];
@@ -332,18 +333,18 @@ const FrontPage = ({ initialData }: FrontPageProps) => {
     <>
       <header className="fixed z-10 flex w-full flex-row items-center justify-between px-8 sm:px-20">
         <Link href="/" className="flex gap-2">
-          <img
+          <Image
             src="./cc0lib.svg"
             alt="cc0lib logo"
-            width={200}
-            height={200}
-            className="block sm:hidden"
+            width={160}
+            height={160}
+            className="block w-16 sm:hidden"
           />
-          <img
+          <Image
             src="./cc0lib-h.svg"
             alt="cc0lib logo horizontal"
-            width={100}
-            height={100}
+            width={160}
+            height={160}
             className="hidden w-40 sm:block"
           />
         </Link>
@@ -407,7 +408,7 @@ const FrontPage = ({ initialData }: FrontPageProps) => {
                 href={`/${slugify(item.Title)}`}
                 className="group relative flex h-auto w-full break-inside-avoid"
               >
-                <img
+                <Image
                   src={item.Thumbnails?.[0].url}
                   alt={item.Title}
                   width={500}

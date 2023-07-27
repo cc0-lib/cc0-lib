@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -94,7 +95,7 @@ const Cursor = ({ name, optional }: CursorProps) => {
         left: `${x + 5}px`,
       }}
     >
-      <img
+      <Image
         src={`https://api.cloudnouns.com/v1/pfp?background=n&body=n&accessory=n&text=${
           optional ? name : pathName
         }`}

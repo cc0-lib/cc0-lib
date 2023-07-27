@@ -4,6 +4,9 @@ const nextConfig = {
     serverActions: true,
     typedRoutes: true,
   },
+  images: {
+    unoptimized: true,
+  },
 };
 
 module.exports = nextConfig;

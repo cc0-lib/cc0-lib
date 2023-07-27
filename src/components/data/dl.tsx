@@ -71,7 +71,7 @@ const DownloadFile = ({ data, showExtension }: DownloadFileProps) => {
         <Toast.Provider swipeDirection="right">
           <button
             onClick={click}
-            aria-aria-label="Download"
+            aria-label="Download"
             disabled={isDownloading && !error}
             className="group -mr-4 flex flex-row gap-1 hover:text-prim"
           >

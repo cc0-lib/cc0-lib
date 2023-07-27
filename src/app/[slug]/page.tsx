@@ -8,7 +8,6 @@ import {
   CalendarIcon,
   ChevronsDown,
   Eye,
-  HashIcon,
   LinkIcon,
   Send,
   User,
@@ -22,16 +21,17 @@ import {
   shortDomainName,
   slugify,
 } from "@/lib/utils";
-import Sentiment from "@/components/sentiment";
-import DownloadFile from "@/components/dl";
+import Sentiment from "@/components/data/sentiment";
+import DownloadFile from "@/components/data/dl";
 import Container from "@/components/ui/container";
 import Divider from "@/components/ui/divider";
-import FCComments from "@/components/fc-comments";
-import Comments from "@/components/comments";
-import PageViews from "@/components/page-views";
+import FCComments from "@/components/fc/fc-comments";
+import Comments from "@/components/data/comments";
+import PageViews from "@/components/data/page-views";
 import ModelViewer from "@/components/ui/model-viewer";
 import { addComment } from "@/lib/redis";
 import { Route } from "next";
+import Image from "next/image";
 
 const getItem = async (slug: string) => {
   const data = await getAllItems();
@@ -148,7 +148,7 @@ const DetailsPage = async ({ params }: DetailsPageProps) => {
       )}
 
       {data && (data?.Type === "Image" || data?.Type === "GIF") && (
-        <img
+        <Image
           src={data.Thumbnails[0].url}
           alt={data.Title}
           width={768}
@@ -158,7 +158,7 @@ const DetailsPage = async ({ params }: DetailsPageProps) => {
       )}
 
       {data && (data?.Type === "3D" || data?.Type === "Working Files") && (
-        <img
+        <Image
           src={data.Thumbnails[0].url}
           alt={data.Title}
           width={768}
@@ -350,7 +350,7 @@ const DetailsPage = async ({ params }: DetailsPageProps) => {
             data?.Type === "GIF" ||
             data?.Type === "Working Files" ||
             data?.Type === "3D") && (
-            <img
+            <Image
               src={data.Thumbnails[0].url}
               alt={data.Title}
               width={500}
@@ -360,7 +360,7 @@ const DetailsPage = async ({ params }: DetailsPageProps) => {
           )}
 
           {data?.Type === "Video" && (
-            <img
+            <Image
               src={data.Thumbnails[0].url}
               alt={data.Title}
               width={500}
@@ -370,7 +370,7 @@ const DetailsPage = async ({ params }: DetailsPageProps) => {
           )}
 
           {data?.Type === "Audio" && (
-            <img
+            <Image
               src={data.Thumbnails[0].url}
               alt={data.Title}
               width={500}
