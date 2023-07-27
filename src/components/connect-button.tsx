@@ -9,7 +9,11 @@ const ConnectButton = () => {
     <ConnectKitButton.Custom>
       {({ isConnected, isConnecting, show, hide, address, ensName, chain }) => {
         return (
-          <button onClick={show} className="flex items-center">
+          <button
+            aria-label="Connect to wallet"
+            onClick={show}
+            className="flex items-center"
+          >
             {isConnected ? (
               isSignedIn ? (
                 <ShieldCheck className="h-8 w-8 text-prim" />

@@ -53,6 +53,7 @@ const FileDownloader = ({ data, className }: FileDownloaderProps) => {
         <button
           onClick={click}
           disabled={isDownloading && !error}
+          aria-label="Download"
           className={`group flex h-8 w-auto flex-row items-center justify-center gap-1 bg-zinc-800 text-prim underline hover:bg-prim hover:stroke-zinc-800 hover:text-zinc-800 ${className}`}
         >
           {filename}
@@ -95,7 +96,7 @@ const FileDownloader = ({ data, className }: FileDownloaderProps) => {
             }}
             altText="Goto schedule to undo"
           >
-            <button className="text-xs hover:text-red-500">
+            <button aria-label="Close" className="text-xs hover:text-red-500">
               <XCircle className="h-4 w-4 items-center" />
             </button>
           </Toast.Action>

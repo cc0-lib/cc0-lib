@@ -41,6 +41,7 @@ const SubmissionPage = () => {
     <>
       <Header />
       <iframe
+        title="CC0-LIB Submission Form"
         className="fixed inset-0 left-0 top-0 h-screen w-full border-0 bg-[#191919] px-2 pt-32"
         src="https://notionforms.io/forms/cc0-library-submission-r8hfbs"
       ></iframe>

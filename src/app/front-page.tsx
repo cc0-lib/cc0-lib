@@ -18,6 +18,7 @@ import va from "@vercel/analytics";
 import Cursor from "@/components/cursor";
 import Ticker from "@/components/ui/ticker";
 import ConnectButton from "@/components/connect-button";
+import { useInView } from "framer-motion";
 
 type FrontPageProps = {
   initialData: Item[];
@@ -42,6 +43,7 @@ const FrontPage = ({ initialData }: FrontPageProps) => {
   const [page, setPage] = useState(1);
   const limit = 6;
   const loadingRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(loadingRef);
 
   useEffect(() => {
     setTrimmedData([]);
@@ -66,29 +68,11 @@ const FrontPage = ({ initialData }: FrontPageProps) => {
     }
   };
 
-  const handleIntersect = (entries: IntersectionObserverEntry[]) => {
-    const [entry] = entries;
-    if (entry.isIntersecting) {
+  useEffect(() => {
+    if (isInView) {
       loadMoreData();
     }
-  };
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(handleIntersect, {
-      root: null,
-      rootMargin: "0px",
-      threshold: 1.0,
-    });
-    const loadingRefCurrent = loadingRef.current;
-    if (loadingRefCurrent) {
-      observer.observe(loadingRefCurrent);
-    }
-    return () => {
-      if (loadingRefCurrent) {
-        observer.unobserve(loadingRefCurrent);
-      }
-    };
-  }, [loadingRef, trimmedData]);
+  }, [isInView]);
 
   const handleKeyPress = (e: KeyboardEvent) => {
     if ((e.metaKey || e.ctrlKey) && e.key === "k") {
@@ -348,10 +332,18 @@ const FrontPage = ({ initialData }: FrontPageProps) => {
     <>
       <header className="fixed z-10 flex w-full flex-row items-center justify-between px-8 sm:px-20">
         <Link href="/" className="flex gap-2">
-          <img src="./cc0lib.svg" alt="cc0lib" className="block sm:hidden" />
+          <img
+            src="./cc0lib.svg"
+            alt="cc0lib logo"
+            width={200}
+            height={200}
+            className="block sm:hidden"
+          />
           <img
             src="./cc0lib-h.svg"
-            alt="cc0lib"
+            alt="cc0lib logo horizontal"
+            width={100}
+            height={100}
             className="hidden w-40 sm:block"
           />
         </Link>
@@ -418,6 +410,8 @@ const FrontPage = ({ initialData }: FrontPageProps) => {
                 <img
                   src={item.Thumbnails?.[0].url}
                   alt={item.Title}
+                  width={500}
+                  height={500}
                   loading="lazy"
                   className="h-auto w-full rounded-sm opacity-80 transition-all duration-100 ease-in-out hover:opacity-100 hover:ring-2 hover:ring-prim hover:ring-offset-1 hover:ring-offset-zinc-900"
                 />

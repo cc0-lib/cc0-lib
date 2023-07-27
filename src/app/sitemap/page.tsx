@@ -51,7 +51,6 @@ const SiteMapPage = async () => {
             return item.Tags;
           })
           .flat()
-        // .filter((e) => e)
       )
     )
   );
@@ -86,7 +85,7 @@ const SiteMapPage = async () => {
 
   return (
     <Container>
-      <div className="duration-250 peer w-full bg-transparent px-4 py-16 font-rubik  text-prim drop-shadow-md transition-all ease-linear selection:bg-zinc-800 selection:text-sec placeholder:text-zinc-600 focus:rounded-sm focus:bg-zinc-800 focus:bg-opacity-50 focus:outline-none focus:backdrop-blur-md sm:p-16">
+      <div className="duration-250 peer w-full bg-transparent px-4 py-16 font-rubik leading-8 text-prim drop-shadow-md transition-all ease-linear selection:bg-zinc-800 selection:text-sec placeholder:text-zinc-600 focus:rounded-sm focus:bg-zinc-800 focus:bg-opacity-50 focus:outline-none focus:backdrop-blur-md sm:p-16">
         {/* <div className="duration-250 peer flex w-full flex-col gap-8 bg-transparent px-4 py-16 text-prim  drop-shadow-md transition-all ease-linear selection:bg-zinc-800 selection:text-sec placeholder:text-zinc-600 focus:rounded-sm focus:bg-zinc-800 focus:bg-opacity-50 focus:outline-none focus:backdrop-blur-md sm:p-16"> */}
 
         {data.length > 0 && (
@@ -97,7 +96,7 @@ const SiteMapPage = async () => {
         {pages.map((page) => (
           <Link
             href={`/${page.toLowerCase()}`}
-            className="mr-2 break-all text-2xl lowercase text-zinc-600 hover:text-prim sm:text-4xl"
+            className="mr-4 break-all text-2xl lowercase text-zinc-600 hover:text-prim sm:text-4xl"
             key={page}
           >
             {page}
@@ -106,7 +105,7 @@ const SiteMapPage = async () => {
         {typeList.map((type) => (
           <Link
             href={`/?type=${type.toLowerCase()}`}
-            className="mr-2 break-all text-2xl lowercase text-zinc-600 hover:text-prim sm:text-4xl"
+            className="mr-4 break-all text-2xl lowercase text-zinc-600 hover:text-prim sm:text-4xl"
             key={type}
           >
             {type}
@@ -115,7 +114,7 @@ const SiteMapPage = async () => {
         {formatList.map((format) => (
           <Link
             href={`/?format=${format.toLowerCase()}`}
-            className="mr-2 break-all text-2xl lowercase text-zinc-600 hover:text-prim sm:text-4xl"
+            className="mr-4 break-all text-2xl lowercase text-zinc-600 hover:text-prim sm:text-4xl"
             key={format}
           >
             {format}
@@ -124,7 +123,7 @@ const SiteMapPage = async () => {
         {tagsList.map((tag) => (
           <Link
             href={`/?tag=${tag.toLowerCase()}`}
-            className="mr-2 break-all text-2xl lowercase text-zinc-600 hover:text-prim sm:text-4xl"
+            className="mr-4 break-all text-2xl lowercase text-zinc-600 hover:text-prim sm:text-4xl"
             key={tag}
           >
             {tag}
@@ -133,7 +132,7 @@ const SiteMapPage = async () => {
         {data.map((item) => (
           <Link
             href={`/${slugify(item.Title)}`}
-            className="mr-2 break-all text-2xl lowercase text-zinc-600 hover:text-prim sm:text-4xl"
+            className="mr-4 break-all text-2xl lowercase text-zinc-600 hover:text-prim sm:text-4xl"
             key={item.id}
           >
             {item.Title}

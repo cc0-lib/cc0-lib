@@ -99,6 +99,8 @@ const Cursor = ({ name, optional }: CursorProps) => {
           optional ? name : pathName
         }`}
         alt="custom-cursor"
+        width={64}
+        height={64}
         className="hidden h-16 w-16 drop-shadow-xl sm:block"
       />
     </div>

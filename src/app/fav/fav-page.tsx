@@ -75,6 +75,8 @@ const FavPage = ({ initialData }: FavPageProps) => {
                     <img
                       src={item.Thumbnails?.[0].url}
                       alt={item.Title}
+                      width={500}
+                      height={500}
                       loading="lazy"
                       className="h-auto w-full rounded-sm opacity-80 transition-all duration-100 ease-in-out hover:opacity-100 hover:ring-2 hover:ring-prim hover:ring-offset-1 hover:ring-offset-zinc-900"
                     />

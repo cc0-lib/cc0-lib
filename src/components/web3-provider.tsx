@@ -14,7 +14,7 @@ const config = createConfig(
     appName: "cc0-lib",
     appDescription: "CC0-LIB is a free and open source library of CC0 assets",
     appUrl: "https://cc0-lib.wtf",
-    appIcon: "https://cc0-lib.wtf/cc0lib-c.svg",
+    appIcon: "https://cc0-lib.wtf/cc0-lib-circle.png",
     chains,
   })
 );

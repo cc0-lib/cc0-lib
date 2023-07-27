@@ -101,6 +101,8 @@ const VideoPlayer = ({ data, src, className }: VideoPlayerProps) => {
           <img
             src="/cc0lib.svg"
             alt="cc0lib-logo"
+            width={32}
+            height={32}
             className="h-8 w-8 sm:h-16 sm:w-16"
           />
           <Maximize

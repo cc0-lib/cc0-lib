@@ -133,6 +133,7 @@ const DetailsPage = async ({ params }: DetailsPageProps) => {
       {data && data?.Type === "Working Files" && data?.Filetype === "Figma" && (
         <iframe
           src={`https://www.figma.com/embed?embed_host=share&url=${data.File}`}
+          title="Figma Viewer"
           className="hidden h-screen w-full max-w-5xl px-2 py-16 sm:block sm:p-16"
           allowFullScreen
         />
@@ -141,6 +142,7 @@ const DetailsPage = async ({ params }: DetailsPageProps) => {
       {data && data?.Type === "Working Files" && data?.Filetype === "PDF" && (
         <Iframe
           url={data.File}
+          title="PDF Viewer"
           className="h-screen w-full max-w-5xl px-0 py-8 sm:p-16"
         />
       )}
@@ -148,7 +150,9 @@ const DetailsPage = async ({ params }: DetailsPageProps) => {
       {data && (data?.Type === "Image" || data?.Type === "GIF") && (
         <img
           src={data.Thumbnails[0].url}
-          alt=""
+          alt={data.Title}
+          width={768}
+          height={768}
           className=" h-auto w-full max-w-3xl object-cover px-2 py-16 shadow-md sm:w-3/4 sm:p-16"
         />
       )}
@@ -156,7 +160,9 @@ const DetailsPage = async ({ params }: DetailsPageProps) => {
       {data && (data?.Type === "3D" || data?.Type === "Working Files") && (
         <img
           src={data.Thumbnails[0].url}
-          alt=""
+          alt={data.Title}
+          width={768}
+          height={768}
           className="block h-auto w-full max-w-5xl object-cover px-2 py-16 shadow-md sm:hidden sm:p-16"
         />
       )}
@@ -321,6 +327,7 @@ const DetailsPage = async ({ params }: DetailsPageProps) => {
               />
 
               <button
+                aria-label="submit comment"
                 type="submit"
                 className="text-zinc-600 hover:text-prim peer-focus:text-prim "
               >
@@ -345,7 +352,9 @@ const DetailsPage = async ({ params }: DetailsPageProps) => {
             data?.Type === "3D") && (
             <img
               src={data.Thumbnails[0].url}
-              alt=""
+              alt={data.Title}
+              width={500}
+              height={500}
               className=" hidden h-auto w-2/5 object-cover px-2 shadow-md lg:block"
             />
           )}
@@ -353,7 +362,9 @@ const DetailsPage = async ({ params }: DetailsPageProps) => {
           {data?.Type === "Video" && (
             <img
               src={data.Thumbnails[0].url}
-              alt=""
+              alt={data.Title}
+              width={500}
+              height={500}
               className="hidden h-auto w-1/3 object-cover px-2 shadow-md sm:block"
             />
           )}
@@ -361,7 +372,9 @@ const DetailsPage = async ({ params }: DetailsPageProps) => {
           {data?.Type === "Audio" && (
             <img
               src={data.Thumbnails[0].url}
-              alt=""
+              alt={data.Title}
+              width={500}
+              height={500}
               className="hidden h-auto w-2/5 object-cover px-2 shadow-md sm:block"
             />
           )}

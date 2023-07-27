@@ -63,7 +63,7 @@ const DownloadFile = ({ data, showExtension }: DownloadFileProps) => {
     } else {
       setFiletype(data?.Filetype.toLowerCase());
     }
-  }, [data, restrictedFiletypes, restrictedTypes]);
+  }, [data]);
 
   return (
     <>
@@ -71,6 +71,7 @@ const DownloadFile = ({ data, showExtension }: DownloadFileProps) => {
         <Toast.Provider swipeDirection="right">
           <button
             onClick={click}
+            aria-aria-label="Download"
             disabled={isDownloading && !error}
             className="group -mr-4 flex flex-row gap-1 hover:text-prim"
           >
@@ -114,7 +115,7 @@ const DownloadFile = ({ data, showExtension }: DownloadFileProps) => {
               }}
               altText="Goto schedule to undo"
             >
-              <button className="text-xs hover:text-red-500">
+              <button aria-label="Close" className="text-xs hover:text-red-500">
                 <XCircle className="h-4 w-4 items-center" />
               </button>
             </Toast.Action>

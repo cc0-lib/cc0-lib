@@ -101,12 +101,12 @@ const InfoPage = () => {
         <Card>
           <Title>leaderboard</Title>
           <Description>
-            who&apos;s the greatest contributor? find out{" "}
+            who&apos;s the greatest{" "}
             <Link
               href="/leaderboard"
               className="bg-zinc-800 text-prim underline hover:bg-prim hover:text-zinc-800"
             >
-              here
+              contributor?
             </Link>
           </Description>
         </Card>
@@ -114,12 +114,12 @@ const InfoPage = () => {
         <Card>
           <Title>contribute</Title>
           <Description>
-            contribute{" "}
+            be a{" "}
             <Link
               href="/contribute"
               className="bg-zinc-800 text-prim underline hover:bg-prim hover:text-zinc-800"
             >
-              here
+              contributor
             </Link>
           </Description>
         </Card>
@@ -157,7 +157,7 @@ const InfoPage = () => {
               href="/random"
               className="bg-zinc-800 text-prim underline hover:bg-prim hover:text-zinc-800"
             >
-              here
+              content
             </Link>
           </Description>
         </Card>
@@ -216,27 +216,32 @@ const InfoPage = () => {
 
         <Card>
           <Title>support us!</Title>
-          <div className="mx-auto max-w-screen-md overflow-hidden rounded-md shadow-2xl sm:-ml-8">
-            <Suspense fallback={<div>Loading iframe</div>}>
-              <iframe
-                id="embed"
-                className=" h-[615px] max-h-[615px] w-full overflow-hidden"
-                src="https://zora.co/editions/zora:0xa219da25a9c147e29f825a75fab7d0e4faf4c692/frame?padding=20px&mediaPadding=0px&showDetails=false&theme=dark&showMedia=true&showCollectors=false&showMintingUI=true"
-              ></iframe>
-            </Suspense>
-          </div>
+
+          <Description>
+            every purchase of this{" "}
+            <Link
+              target="_blank"
+              rel="noreferrer noopener"
+              href="https://zora.co/editions/zora:0xa219da25a9c147e29f825a75fab7d0e4faf4c692"
+              title="cc0-lib NFT"
+              className="bg-zinc-800 text-prim underline hover:bg-prim hover:text-zinc-800"
+            >
+              NFT
+            </Link>{" "}
+            will go towards the development of cc0-lib.
+          </Description>
         </Card>
 
         <Card>
           <Title>ideas/request?</Title>
           <Description>
-            submit your ideas{" "}
+            submit your{" "}
             <Link
               target="_blank"
               href="https://cc0-lib.canny.io/feature-request"
               className="bg-zinc-800 text-prim underline hover:bg-prim hover:text-zinc-800"
             >
-              here
+              ideas
             </Link>
           </Description>
         </Card>

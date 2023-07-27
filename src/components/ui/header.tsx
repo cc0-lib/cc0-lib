@@ -7,10 +7,18 @@ const Header = () => {
   return (
     <header className="z-10 flex w-full flex-row items-center justify-between sm:px-8">
       <Link href="/" className="flex gap-2">
-        <img src="./cc0lib.svg" alt="cc0lib" className="block sm:hidden" />
+        <img
+          src="./cc0lib.svg"
+          alt="cc0lib logo"
+          width={200}
+          height={200}
+          className="block sm:hidden"
+        />
         <img
           src="./cc0lib-h.svg"
-          alt="cc0lib"
+          alt="cc0lib logo horizontal"
+          width={100}
+          height={100}
           className="hidden w-40 sm:block"
         />
       </Link>

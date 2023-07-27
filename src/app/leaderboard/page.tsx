@@ -95,7 +95,7 @@ const LeaderboardPage = async () => {
           <span>not in the list?</span>
           <Link href="/submit">
             <div className="group flex w-full flex-row items-center gap-2 hover:text-prim">
-              <span>submit here</span>
+              <span>submit yours</span>
               <Send className="h-4 w-4 group-hover:stroke-prim" />
             </div>
           </Link>

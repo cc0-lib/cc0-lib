@@ -22,6 +22,10 @@ const CopyToClipboard = ({ data }: CopyToClipboardProps) => {
     }
   };
 
-  return <button onClick={copy}>copy</button>;
+  return (
+    <button aria-label="Copy" onClick={copy}>
+      copy
+    </button>
+  );
 };
 export default CopyToClipboard;

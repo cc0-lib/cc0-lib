@@ -198,6 +198,16 @@ const Log = () => {
         "migrate codebase to typescript for better overall type safety",
       ],
     },
+    {
+      version: "1.14.1",
+      changes: [
+        "remove zora iframe",
+        "add zora link in info page",
+        "accessibility fixes",
+        "image viewer fix",
+        "infinite scroll fix",
+      ],
+    },
   ];
 
   return log.reverse();

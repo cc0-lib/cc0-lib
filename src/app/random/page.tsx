@@ -87,7 +87,9 @@ const RandomPage = async () => {
         <div className="items-center">
           <img
             src={image}
-            alt="random"
+            alt="random image"
+            width={384}
+            height={384}
             className="h-96 w-96 object-contain p-2 ring-1 ring-zinc-800 ring-offset-1 ring-offset-zinc-800 hover:ring-prim"
           />
         </div>
@@ -101,7 +103,7 @@ const RandomPage = async () => {
           <div className="flex flex-row items-center gap-4">
             <DownloadFile data={randomData.data} showExtension={false} />
             <form action={action} className="hover:text-prim">
-              <button>
+              <button aria-label="refresh content">
                 {/* reload{" "} */}
                 <RefreshCcw className="ml-2 inline-block h-4 w-4 items-center" />
               </button>
