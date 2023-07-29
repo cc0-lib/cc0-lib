@@ -18,6 +18,8 @@ const rateLimit = new Ratelimit({
   limiter: Ratelimit.slidingWindow(5, "10s"),
 });
 
+export const revalidate = 60;
+
 export async function GET(request: NextRequest) {
   const id = request.ip ?? "anonymous";
   const limit = await rateLimit.limit(id ?? "anonymous");
@@ -53,7 +55,10 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  const randomItem = data[Math.floor(Math.random() * data.length)];
+  const randomNum = Math.floor(Date.now() / 1000);
+  const doubleRandom = Math.floor(Math.random() * randomNum);
+  const randomItem = data[doubleRandom % data.length];
   const randomData = createResponse([randomItem]);
+
   return NextResponse.json(randomData);
 }

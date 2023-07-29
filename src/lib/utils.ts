@@ -102,7 +102,7 @@ export const getAllItems = async () => {
       },
     }
   );
-  if (!res.ok) {
+  if (res.status !== 200) {
     throw new Error("Failed to fetch data from DB");
   }
   const data: Item[] = await res.json();
@@ -132,7 +132,7 @@ export const getRepliesFromFC = async (slug: string) => {
   }
   const res = await fetch(url);
   if (res.status !== 200) {
-    return null;
+    return [];
   }
   const data: FCReply[] = await res.json();
   return data;

@@ -6,6 +6,16 @@ const nextConfig = {
   },
   images: {
     unoptimized: true,
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "notion.so",
+      },
+      {
+        protocol: "https",
+        hostname: "api.cloudnouns.com",
+      },
+    ],
   },
 };
 
