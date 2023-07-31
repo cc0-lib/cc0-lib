@@ -208,6 +208,14 @@ const Log = () => {
         "infinite scroll fix",
       ],
     },
+    {
+      version: "1.15.0",
+      changes: [
+        "semantic search update",
+        "new /ai page for ai-assisted search",
+        "openAI integration",
+      ],
+    },
   ];
 
   return log.reverse();
