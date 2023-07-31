@@ -1,18 +1,33 @@
 import { getAllItems } from "@/lib/utils";
 import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { NextRequest, NextResponse } from "next/server";
-import { JSONLoader } from "langchain/document_loaders/fs/json";
-import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
-import { MemoryVectorStore } from "langchain/vectorstores/memory";
-import { RedisVectorStore } from "langchain/vectorstores/redis";
-import { createClient } from "redis";
+import { PineconeClient } from "@pinecone-database/pinecone";
+import { PineconeStore } from "langchain/vectorstores/pinecone";
 
 export const GET = async (request: NextRequest) => {
-  const client = createClient({
-    url: process.env.REDIS_URL ?? "redis://localhost:6379",
+  const client = new PineconeClient();
+
+  await client.init({
+    apiKey: process.env.PINECONE_API_KEY as string,
+    environment: process.env.PINECONE_ENVIRONMENT as string,
   });
 
-  await client.connect();
+  const pineconeIndex = client.Index(process.env.PINECONE_INDEX_NAME as any);
+
+  const checkStatus = async () => {
+    const { status } = await client.describeIndex({
+      indexName: process.env.PINECONE_INDEX_NAME as any,
+    });
+    if (status?.ready) {
+      return status;
+    } else {
+      return new Promise((resolve) => {
+        setTimeout(() => resolve(checkStatus()), 5000);
+      });
+    }
+  };
+
+  await checkStatus();
 
   try {
     const start = performance.now() / 1000;
@@ -25,11 +40,6 @@ export const GET = async (request: NextRequest) => {
       } tags:${item.Tags.join(",")} type:${item.Type} filetype:${
         item.Filetype
       } ${item.ENS ? "ens:" + item.ENS : ""} `;
-      //   return `Title:${item.Title}\n\nDescription:${
-      //     item.Description
-      //   }\n\nTags:${item.Tags.join(",")}\n\nType:${item.Type}\n\nFile Type:${
-      //     item.Filetype
-      //   }\n\nENS:${item.ENS}\n\n`;
     });
 
     const metadata = data.map((item) => {
@@ -42,17 +52,9 @@ export const GET = async (request: NextRequest) => {
       modelName: "text-embedding-ada-002",
     });
 
-    const vectorStore = await RedisVectorStore.fromTexts(
-      embedText,
-      metadata,
-      embeddings,
-      {
-        redisClient: client,
-        indexName: "cc0-lib",
-      }
-    );
-
-    await client.disconnect();
+    await PineconeStore.fromTexts(embedText, metadata, embeddings, {
+      pineconeIndex,
+    });
 
     const end = performance.now() / 1000;
 

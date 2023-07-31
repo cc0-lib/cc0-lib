@@ -28,3 +28,17 @@ type ExtendedItem = Item & {
   createdAt: string;
   lastEdited: string;
 };
+
+type LCResponse = {
+  query: string;
+  count: number;
+  data?: Item[];
+  items?: LCItem[];
+};
+
+type LCItem = {
+  pageContent: string;
+  metadata: {
+    id: number;
+  };
+};

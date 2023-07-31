@@ -162,6 +162,19 @@ const InfoPage = () => {
         </Card>
 
         <Card>
+          <Title>intelligent search</Title>
+          <Description>
+            ai{" "}
+            <Link
+              href="/ai"
+              className="bg-zinc-800 text-prim underline hover:bg-prim hover:text-zinc-800"
+            >
+              assisted search
+            </Link>
+          </Description>
+        </Card>
+
+        <Card>
           <Title>public api</Title>
           <Description>
             want to proliferate cc0 content? use our{" "}
