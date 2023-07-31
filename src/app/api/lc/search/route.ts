@@ -29,6 +29,15 @@ export const GET = async (request: NextRequest) => {
     );
   }
 
+  if (!d) {
+    return NextResponse.json(
+      {
+        message: "No data requested",
+      },
+      { status: 400 }
+    );
+  }
+
   const client = new PineconeClient();
 
   await client.init({
@@ -82,16 +91,14 @@ export const GET = async (request: NextRequest) => {
 
     console.log(`Took ${(end - start).toFixed(2)}s`);
 
-    if (d === "true") {
-      return NextResponse.json(
-        {
-          query: q,
-          count: relevantItems.length,
-          data: relevantItemsData,
-        },
-        { status: 200 }
-      );
-    }
+    return NextResponse.json(
+      {
+        query: q,
+        count: relevantItems.length,
+        data: relevantItemsData,
+      },
+      { status: 200 }
+    );
 
     if (score === "true") {
       return NextResponse.json(
@@ -99,15 +106,6 @@ export const GET = async (request: NextRequest) => {
           query: q,
           count: relevantItems.length,
           score: relevantItemsScore,
-        },
-        { status: 200 }
-      );
-    } else {
-      return NextResponse.json(
-        {
-          query: q,
-          count: relevantItems.length,
-          items: relevantItems,
         },
         { status: 200 }
       );

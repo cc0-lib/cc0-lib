@@ -216,6 +216,10 @@ const Log = () => {
         "openAI integration",
       ],
     },
+    {
+      version: "1.15.1",
+      changes: ["fix ai api", "fix random api"],
+    },
   ];
 
   return log.reverse();

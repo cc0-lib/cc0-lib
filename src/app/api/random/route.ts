@@ -1,5 +1,5 @@
 import { Ratelimit } from "@upstash/ratelimit";
-import kv from "@vercel/kv";
+import { kv } from "@vercel/kv";
 import { getAllItems } from "@/lib/utils";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -18,7 +18,8 @@ const rateLimit = new Ratelimit({
   limiter: Ratelimit.slidingWindow(5, "10s"),
 });
 
-export const revalidate = 60;
+export const revalidate = 0;
+export const fetchCache = "force-no-store";
 
 export async function GET(request: NextRequest) {
   const id = request.ip ?? "anonymous";

@@ -1,5 +1,5 @@
 import { Ratelimit } from "@upstash/ratelimit";
-import kv from "@vercel/kv";
+import { kv } from "@vercel/kv";
 import { getAllItems } from "@/lib/utils";
 import { NextRequest, NextResponse } from "next/server";
 

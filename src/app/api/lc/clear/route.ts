@@ -30,50 +30,16 @@ export const GET = async (request: NextRequest) => {
   await checkStatus();
 
   try {
-    await pineconeIndex._delete({
+    const deleted = await pineconeIndex._delete({
       deleteRequest: {
         deleteAll: true,
       },
     });
 
-    console.log("Index cleared");
-    // delay for pinecone to clear index
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-
-    console.log("Generating embeddings");
-
-    const start = performance.now() / 1000;
-
-    const data = await getAllItems();
-
-    const embedText = data.map((item) => {
-      return `title:${item.Title} desc:${
-        item.Description
-      } tags:${item.Tags.join(",")} type:${item.Type} filetype:${
-        item.Filetype
-      } ${item.ENS ? "ens:" + item.ENS : ""} `;
-    });
-
-    const metadata = data.map((item) => {
-      return {
-        id: item.ID,
-      };
-    });
-
-    const embeddings = new OpenAIEmbeddings({
-      modelName: "text-embedding-ada-002",
-    });
-
-    await PineconeStore.fromTexts(embedText, metadata, embeddings, {
-      pineconeIndex,
-    });
-
-    const end = performance.now() / 1000;
-
-    console.log(`Took ${(end - start).toFixed(2)}s`);
     return NextResponse.json(
       {
-        message: "Embeddings generated",
+        message: "Index cleared",
+        data: deleted,
       },
       { status: 200 }
     );
@@ -81,7 +47,7 @@ export const GET = async (request: NextRequest) => {
     console.error(error);
     return NextResponse.json(
       {
-        message: "Error generating embeddings",
+        message: "Error clearing index",
       },
       { status: 500 }
     );

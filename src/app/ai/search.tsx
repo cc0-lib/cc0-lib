@@ -14,10 +14,16 @@ const AISearchPage = () => {
   const { isConnected } = useAccount();
   const { isSignedIn } = useSIWE();
 
-  const fetchData = useCallback(async () => {
+  const fetchData = async () => {
     const res = await getLCResults(query);
-    setData(res);
-  }, [query]);
+
+    const filteredData = res.filter(
+      (item, index, self) => index === self.findIndex((t) => t.id === item.id)
+    );
+
+    setData(filteredData);
+    // setData(res);
+  };
 
   const onClick = async () => {
     await fetchData();
