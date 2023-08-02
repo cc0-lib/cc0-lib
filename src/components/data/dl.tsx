@@ -22,6 +22,8 @@ const DownloadFile = ({ data, showExtension }: DownloadFileProps) => {
   const restrictedTypes = ["Image", "GIF"];
 
   const click = async () => {
+    if (!data?.File) return;
+
     try {
       console.log(
         `Downloading ${slugify(data?.Title)}.${data?.Filetype.toLowerCase()}`
@@ -47,7 +49,7 @@ const DownloadFile = ({ data, showExtension }: DownloadFileProps) => {
       setIsDownloading(false);
       document.body.removeChild(link);
     } catch (error) {
-      console.error(error);
+      console.log(error);
       setError(error.message);
     }
   };

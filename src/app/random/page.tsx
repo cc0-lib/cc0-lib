@@ -102,7 +102,9 @@ const RandomPage = async () => {
             <span>.{randomData.data.Filetype.toLowerCase()}</span>
           </div>
           <div className="flex flex-row items-center gap-4">
-            <DownloadFile data={randomData.data} showExtension={false} />
+            {randomData.data.File && (
+              <DownloadFile data={randomData.data} showExtension={false} />
+            )}
             <form action={action} className="hover:text-prim">
               <button aria-label="refresh content">
                 {/* reload{" "} */}

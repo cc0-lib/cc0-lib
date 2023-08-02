@@ -239,7 +239,7 @@ const DetailsPage = async ({ params }: DetailsPageProps) => {
                   <LinkIcon className="h-4 w-4 self-center group-hover:stroke-prim" />
                 </Link>
               )}
-              <DownloadFile data={data} showExtension={true} />
+              {data.File && <DownloadFile data={data} showExtension={true} />}
               <SocialShare data={data} />
             </div>
 
