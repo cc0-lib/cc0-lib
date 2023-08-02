@@ -220,6 +220,16 @@ const Log = () => {
       version: "1.15.1",
       changes: ["fix ai api", "fix random api"],
     },
+    {
+      version: "1.15.2",
+      changes: [
+        "fixes and bug squashing",
+        "update ticker",
+        "data update",
+        "add raycast link in info page",
+        "thank you nouns dao",
+      ],
+    },
   ];
 
   return log.reverse();

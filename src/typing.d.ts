@@ -2,15 +2,17 @@ type Item = {
   id: string;
   Source: string;
   Type: string;
-  "Social Link": string;
+  "Social Link"?: string;
   Filetype: string;
-  ENS: string;
+  ENS?: string;
   Description: string;
   Thumbnails: ItemThumbnail[];
   Tags: string[];
   ID: number;
   Title: string;
-  File: string;
+  File?: string;
+  Status?: "published" | "draft";
+  SubmissionStatus?: "draft" | "submitted" | "approved" | "rejected";
 };
 
 type ItemThumbnail = {

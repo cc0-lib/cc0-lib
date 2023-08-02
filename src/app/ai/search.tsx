@@ -22,7 +22,6 @@ const AISearchPage = () => {
     );
 
     setData(filteredData);
-    // setData(res);
   };
 
   const onClick = async () => {

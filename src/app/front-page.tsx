@@ -398,7 +398,7 @@ const FrontPage = ({ initialData }: FrontPageProps) => {
             trimmedData.length == 2 && "sm:masonry-sm w-full max-w-4xl"
           } ${
             trimmedData.length > 2 &&
-            "md:masonry-md 2xl:masonry-lg my-16  max-w-none"
+            "md:masonry-md 2xl:masonry-lg my-16 max-w-none"
           } my-16 space-y-6 `}
         >
           {trimmedData.map((item) => {
@@ -426,7 +426,7 @@ const FrontPage = ({ initialData }: FrontPageProps) => {
       )}
       <div ref={loadingRef} />
 
-      <div className=" fixed bottom-0 left-0 z-10 mb-60 flex flex-col">
+      <div className="fixed bottom-0 left-0 z-10 mb-60 flex flex-col">
         <input
           onChange={handleSearch}
           ref={inputRef}
@@ -564,7 +564,7 @@ const FrontPageTicker = () => {
     <Ticker position="bottom">
       <div className="flex flex-row">
         <div className="mr-64 flex flex-row gap-1 ">
-          Seeking funding for cc0-lib. Check out{" "}
+          Thank you Nouns DAO contributors and supporters.{" "}
           <Link
             href="https://nouns.wtf/vote/343"
             target="_blank"
@@ -573,17 +573,28 @@ const FrontPageTicker = () => {
           >
             proposal 343
           </Link>{" "}
-          on Nouns DAO and help us make it a reality.
+          passed!
         </div>
         <div className="mr-64 flex flex-row gap-1 ">
-          submit your cc0 content{" "}
+          submit your{" "}
           <Link
             href="/contribute"
             rel="noreferrer noopener"
             className="bg-zinc-800 text-prim underline hover:bg-prim hover:text-zinc-800"
           >
-            now
+            cc0 content
           </Link>
+        </div>
+        <div className="mr-64 flex flex-row gap-1 ">
+          new{" "}
+          <Link
+            href="/ai"
+            rel="noreferrer noopener"
+            className="bg-zinc-800 text-prim underline hover:bg-prim hover:text-zinc-800"
+          >
+            ai-assisted search
+          </Link>{" "}
+          feature is live
         </div>
       </div>
     </Ticker>

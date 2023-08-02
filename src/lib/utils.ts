@@ -1,3 +1,5 @@
+import { z } from "zod";
+
 export const slugify = (text: string): string => {
   return text
     .toString()
@@ -93,6 +95,45 @@ export const getLikedItems = () => {
   return likedItems;
 };
 
+const getParsedItems = async (data: Item[]): Promise<Item[]> => {
+  const itemSchema = z.object({
+    id: z.string(),
+    Title: z.string(),
+    Filetype: z.string(),
+    Thumbnails: z.array(
+      z.object({
+        url: z.string(),
+      })
+    ),
+    Type: z.string(),
+    ENS: z.string().optional(),
+    Tags: z.array(z.string()),
+    Description: z.string(),
+    Source: z.string(),
+    ID: z.number(),
+    "Social Link": z.string().optional(),
+    File: z.string().optional(),
+    Status: z.string().optional(),
+    SubmissionStatus: z.string().optional(),
+  });
+
+  const parsedData = data.filter((item) => {
+    try {
+      itemSchema.parse(item);
+      return true;
+    } catch (err) {
+      console.log(err);
+      return false;
+    }
+  });
+
+  const publishedData = parsedData.filter((item) => {
+    return item.Status === "published";
+  });
+
+  return publishedData;
+};
+
 export const getAllItems = async () => {
   const res = await fetch(
     "https://notion-api.splitbee.io/v1/table/872d317db9c64d3d88195b217cb3dc2f",
@@ -107,7 +148,13 @@ export const getAllItems = async () => {
   }
   const data: Item[] = await res.json();
 
-  return data;
+  const parsedData = await getParsedItems(data);
+
+  if (parsedData.length === 0) {
+    throw new Error("Failed to parse data from DB");
+  }
+
+  return parsedData;
 };
 
 export const getDateFromItem = async (id: string) => {

@@ -175,6 +175,21 @@ const InfoPage = () => {
         </Card>
 
         <Card>
+          <Title>raycast</Title>
+          <Description>
+            get our companion{" "}
+            <Link
+              href="https://www.raycast.com/0xN1/cc0-lib"
+              rel="noreferrer noopener"
+              target="_blank"
+              className="bg-zinc-800 text-prim underline hover:bg-prim hover:text-zinc-800"
+            >
+              raycast extension
+            </Link>
+          </Description>
+        </Card>
+
+        <Card>
           <Title>public api</Title>
           <Description>
             want to proliferate cc0 content? use our{" "}

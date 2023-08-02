@@ -118,11 +118,11 @@ const DetailsPage = async ({ params }: DetailsPageProps) => {
         </div>
       )}
 
-      {data && data?.Type === "Video" && (
+      {data && data?.Type === "Video" && data.File && (
         <VideoPlayer src={data.File} data={data} className="" />
       )}
 
-      {data && data?.Type === "Audio" && (
+      {data && data?.Type === "Audio" && data.File && (
         <AudioPlayer
           format={data.Filetype}
           href={data.File}
@@ -139,13 +139,16 @@ const DetailsPage = async ({ params }: DetailsPageProps) => {
         />
       )}
 
-      {data && data?.Type === "Working Files" && data?.Filetype === "PDF" && (
-        <Iframe
-          url={data.File}
-          title="PDF Viewer"
-          className="h-screen w-full max-w-5xl px-0 py-8 sm:p-16"
-        />
-      )}
+      {data &&
+        data?.Type === "Working Files" &&
+        data?.Filetype === "PDF" &&
+        data.File && (
+          <Iframe
+            url={data.File}
+            title="PDF Viewer"
+            className="h-screen w-full max-w-5xl px-0 py-8 sm:p-16"
+          />
+        )}
 
       {data && (data?.Type === "Image" || data?.Type === "GIF") && (
         <Image
