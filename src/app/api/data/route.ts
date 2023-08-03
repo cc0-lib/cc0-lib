@@ -1,17 +1,7 @@
 import { Ratelimit } from "@upstash/ratelimit";
 import { kv } from "@vercel/kv";
-import { getAllItems } from "@/lib/utils";
+import { getAllItems, getAllRawItems } from "@/lib/utils";
 import { NextRequest, NextResponse } from "next/server";
-
-type APIData = {
-  query: string;
-  count: number;
-  types: string[];
-  fileTypes: string[];
-  tags: string[];
-  date: string;
-  data: Item[];
-};
 
 const rateLimit = new Ratelimit({
   redis: kv,
@@ -32,13 +22,15 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  const data = await getAllItems();
   const { searchParams } = new URL(request.url);
   const title = searchParams.get("title");
   const tag = searchParams.get("tag");
   const type = searchParams.get("type");
   const fileType = searchParams.get("fileType");
   const ens = searchParams.get("ens");
+  const raw = searchParams.get("raw");
+
+  let data = raw === "true" ? await getAllRawItems() : await getAllItems();
 
   const spKey = searchParams.keys().next().value;
 
