@@ -34,7 +34,7 @@ export async function GET(request: NextRequest) {
 
   const spKey = searchParams.keys().next().value;
 
-  const allowedKeys = ["title", "tag", "type", "fileType", "ens"];
+  const allowedKeys = ["title", "tag", "type", "fileType", "ens", "raw"];
 
   const createResponse = (query: string, items: Item[]): APIData => {
     const uniqueTypes: string[] = [...new Set(items.map((item) => item.Type))];
