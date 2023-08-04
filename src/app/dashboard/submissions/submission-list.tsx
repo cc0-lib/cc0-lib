@@ -14,11 +14,20 @@ import {
 import { Route } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useAccount, useEnsName } from "wagmi";
 
 const SubmissionListPage = ({ rawData }: { rawData: Item[] }) => {
   const [data, setData] = useState<Item[]>([]);
+  const [submissionListType, setSubmissionListType] = useState<string>("");
+
+  const searchParams = useSearchParams();
+
+  const draft = searchParams?.get("draft") as string;
+  const published = searchParams?.get("published") as string;
+
+  console.log(draft, published);
 
   const { address } = useAccount();
 
@@ -34,9 +43,24 @@ const SubmissionListPage = ({ rawData }: { rawData: Item[] }) => {
     if (ens) {
       const filteredData = rawData.filter((item) => item.ENS === ens);
 
-      setData(filteredData);
+      if (draft && draft?.length > 0) {
+        const draftData = filteredData.filter(
+          (item) => item.Status === "draft"
+        );
+        setSubmissionListType("draft");
+        setData(draftData);
+      } else if (published && published?.length > 0) {
+        const publishedData = filteredData.filter(
+          (item) => item.Status === "published"
+        );
+        setSubmissionListType("published");
+        setData(publishedData);
+      } else {
+        setSubmissionListType("all");
+        setData(filteredData);
+      }
     }
-  }, [ens]);
+  }, [ens, published, draft]);
 
   const act = (status: string) => {
     if (status === "submitted" || status === "under-review") {
@@ -46,7 +70,7 @@ const SubmissionListPage = ({ rawData }: { rawData: Item[] }) => {
   };
 
   return (
-    <GridCard title={`Submissions by ${ens}`}>
+    <GridCard title={`${submissionListType} Submissions by ${ens}`}>
       <table className="w-full table-auto border border-zinc-800 font-jetbrains uppercase">
         <thead className="bg-zinc-950/70">
           <tr>

@@ -243,6 +243,13 @@ const Log = () => {
         "type fix",
       ],
     },
+    {
+      version: "1.16.2",
+      changes: [
+        "dashboard link fix",
+        "filter submission list based on filters",
+      ],
+    },
   ];
 
   return log.reverse();

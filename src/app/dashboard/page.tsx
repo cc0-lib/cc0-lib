@@ -38,12 +38,18 @@ const DashBoard = (props: Props) => {
           </GridRow>
 
           <GridRow>
-            <GridCard title="live submissions">
+            <GridCard
+              title="live submissions"
+              link="/dashboard/submissions?published=true"
+            >
               <Suspense fallback={<GridNumber>N/A</GridNumber>}>
                 <SubmissionData />
               </Suspense>
             </GridCard>
-            <GridCard title="submission status" link="/dashboard/submissions">
+            <GridCard
+              title="submission status"
+              link="/dashboard/submissions?draft=true"
+            >
               <Suspense fallback={<GridNumber>N/A</GridNumber>}>
                 <SubmissionStatusData />
               </Suspense>
