@@ -1,5 +1,6 @@
 "use client";
 
+import { TestENS, TestMode } from "@/lib/constant";
 import { useSIWE } from "connectkit";
 import { useAccount, useEnsName } from "wagmi";
 
@@ -7,11 +8,13 @@ const DashboardENS = () => {
   const { address } = useAccount();
   const { isSignedIn } = useSIWE();
 
-  const { data: ens } = useEnsName({
+  let { data: ens } = useEnsName({
     address,
   });
 
-  // const ens = "voadz.eth";
+  if (TestMode) {
+    ens = TestENS;
+  }
 
   const truncatedAddress = address?.slice(0, 6) + "..." + address?.slice(-4);
 

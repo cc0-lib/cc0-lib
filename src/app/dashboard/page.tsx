@@ -38,7 +38,7 @@ const DashBoard = (props: Props) => {
           </GridRow>
 
           <GridRow>
-            <GridCard title="most viewed" link="/dashboard/submissions">
+            <GridCard title="live submissions">
               <Suspense fallback={<GridNumber>N/A</GridNumber>}>
                 <SubmissionData />
               </Suspense>

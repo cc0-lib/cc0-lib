@@ -234,6 +234,15 @@ const Log = () => {
       version: "1.16.0",
       changes: ["dashboard module"],
     },
+    {
+      version: "1.16.1",
+      changes: [
+        "dashboard view fix",
+        "dashboard submission fix",
+        "middleware fix",
+        "type fix",
+      ],
+    },
   ];
 
   return log.reverse();

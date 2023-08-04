@@ -3,17 +3,20 @@
 import { useCallback, useEffect, useState } from "react";
 import { useAccount, useEnsName } from "wagmi";
 import { getSubmissionData } from "@/app/dashboard/actions";
+import { TestENS, TestMode } from "@/lib/constant";
 
 const SubmissionCount = async () => {
   const { address } = useAccount();
 
   const [submissionCount, setSubmissionCount] = useState<number>(0);
 
-  const { data: ens } = useEnsName({
+  let { data: ens } = useEnsName({
     address,
   });
 
-  // const ens = "voadz.eth";
+  if (TestMode) {
+    ens = TestENS;
+  }
 
   const fetchData = useCallback(async () => {
     if (!ens) {

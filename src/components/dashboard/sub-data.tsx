@@ -3,24 +3,30 @@
 import { useCallback, useEffect, useState } from "react";
 import { useAccount, useEnsName } from "wagmi";
 import { getSubmissionData } from "@/app/dashboard/actions";
+import { TestENS, TestMode } from "@/lib/constant";
+import Link from "next/link";
+import { slugify } from "@/lib/utils";
 
 const SubmissionData = async () => {
   const { address } = useAccount();
 
-  const [submissionData, setSubmissionData] = useState<any[]>([]);
+  const [submissionData, setSubmissionData] = useState<Item[]>([]);
 
-  const { data: ens } = useEnsName({
+  let { data: ens } = useEnsName({
     address,
   });
 
-  // const ens = "voadz.eth";
+  if (TestMode) {
+    ens = TestENS;
+  }
 
   const fetchData = useCallback(async () => {
     if (!ens) {
       return;
     }
     const res = await getSubmissionData(ens);
-    setSubmissionData(res.data);
+    const filteredData = res.data.filter((item) => item.Status === "published");
+    setSubmissionData(filteredData);
   }, [ens]);
 
   useEffect(() => {
@@ -34,7 +40,15 @@ const SubmissionData = async () => {
       {submissionData && submissionData.length > 0 ? (
         <GridContent className="flex h-48 w-full flex-col items-start justify-around gap-4 text-zinc-400">
           {submissionData.slice(0, 4).map((item, index) => {
-            return <span key={item.id}>{item.Title}</span>;
+            return (
+              <Link
+                href={`/${slugify(item.Title)}`}
+                key={item.id}
+                className="hover:text-prim"
+              >
+                {item.Title}
+              </Link>
+            );
           })}
         </GridContent>
       ) : (

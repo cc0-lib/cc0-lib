@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { useAccount, useEnsName } from "wagmi";
 import { getSubmissionData } from "@/app/dashboard/actions";
-import { shuffle } from "@/lib/utils";
+import { shuffle, slugify } from "@/lib/utils";
 import {
   ArrowUpRight,
   FileCheck2,
@@ -12,19 +12,24 @@ import {
   FileSearch,
   FileX2,
 } from "lucide-react";
+import { TestENS, TestMode } from "@/lib/constant";
+import Link from "next/link";
+import { Route } from "next";
 
 const SubmissionStatusData = async () => {
   const { address } = useAccount();
 
   const [submissionCount, setSubmissionCount] = useState<number>(0);
-  const [submissionData, setSubmissionData] = useState<any[]>([]);
-  const [submmissionStatusData, setSubmissionStatusData] = useState<any[]>([]);
+  const [submissionData, setSubmissionData] = useState<Item[]>([]);
+  const [submmissionStatusData, setSubmissionStatusData] = useState<Item[]>([]);
 
-  const { data: ens } = useEnsName({
+  let { data: ens } = useEnsName({
     address,
   });
 
-  // const ens = "voadz.eth";
+  if (TestMode) {
+    ens = TestENS;
+  }
 
   const fetchData = useCallback(async () => {
     if (!ens) {
@@ -73,14 +78,21 @@ const SubmissionStatusData = async () => {
   return (
     <>
       {submmissionStatusData && submmissionStatusData.length > 0 ? (
-        <GridContent className="flex h-48 flex-col items-start justify-around gap-4 text-zinc-400">
+        <GridContent className="flex h-48 w-full flex-col items-start justify-around gap-4 text-zinc-400">
           {submmissionStatusData.slice(0, 4).map((item, index) => {
             return (
               <span
                 className="flex w-full flex-row items-center justify-between"
                 key={item.id}
               >
-                <h1>{item.Title}</h1>
+                <Link
+                  href={
+                    `/dashboard/submissions/${slugify(item.Title)}` as Route
+                  }
+                  className="hover:text-prim"
+                >
+                  <h1>{item.Title}</h1>
+                </Link>
                 {item.SubmissionStatus && item.SubmissionStatus?.length > 0 && (
                   <span title={item.SubmissionStatus}>
                     {item.SubmissionStatus === "rejected" && (

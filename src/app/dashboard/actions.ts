@@ -3,7 +3,7 @@
 export const getSubmissionData = async (
   ens: string
 ): Promise<{
-  data: any[];
+  data: Item[];
   count: number;
 }> => {
   // let url = `https://cc0-lib.wtf/api/data?ens=${ens}&raw=true`;

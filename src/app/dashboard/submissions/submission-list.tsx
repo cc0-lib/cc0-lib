@@ -1,5 +1,6 @@
 "use client";
 
+import { TestENS, TestMode } from "@/lib/constant";
 import { slugify } from "@/lib/utils";
 import {
   Eye,
@@ -21,11 +22,13 @@ const SubmissionListPage = ({ rawData }: { rawData: Item[] }) => {
 
   const { address } = useAccount();
 
-  const { data: ens } = useEnsName({
-    address: address,
+  let { data: ens } = useEnsName({
+    address,
   });
 
-  // const ens = "voadz.eth";
+  if (TestMode) {
+    ens = TestENS;
+  }
 
   useEffect(() => {
     if (ens) {
@@ -37,7 +40,7 @@ const SubmissionListPage = ({ rawData }: { rawData: Item[] }) => {
 
   const act = (status: string) => {
     if (status === "submitted" || status === "under-review") {
-      return "view";
+      return "wait";
     }
     return "edit";
   };
@@ -137,7 +140,7 @@ const TableItem = ({
   imageUri: string;
 }) => {
   return (
-    <tr key={id}>
+    <tr key={id} className="font-spline normal-case">
       <td className="p-2">
         <Image
           src={imageUri}
@@ -147,9 +150,16 @@ const TableItem = ({
           className="h-8 w-8 items-center justify-center object-contain"
         />
       </td>
-      <td className="border border-zinc-800 px-4 py-2">{title}</td>
+      <td className="border border-zinc-800 px-4 py-2">
+        <Link
+          href={`/dashboard/submissions/${slugify(title)}` as Route}
+          className="w-max hover:text-prim"
+        >
+          <h1>{title}</h1>
+        </Link>
+      </td>
       <td className="border border-zinc-800 px-4 text-right">{id}</td>
-      <td className="border border-zinc-800 px-4">{type}</td>
+      <td className="border border-zinc-800 px-4 uppercase">{type}</td>
       <td className="border border-zinc-800 px-4">{format}</td>
       {/* <td className="border border-zinc-800 px-4">{status}</td> */}
       <td className="border border-zinc-800 px-4">
@@ -176,14 +186,25 @@ const TableItem = ({
           </span>
         )}
       </td>
-      {title && title.length > 0 && action === "view" ? (
-        <td className="border border-zinc-800 px-4 text-zinc-700 hover:text-prim">
+      {title && title.length > 0 && action === "preview" && (
+        <td className="border border-zinc-800 px-4 uppercase text-zinc-700 hover:text-prim">
           <Link href={`/dashboard/submissions/${slugify(title)}` as Route}>
             {action}
           </Link>
         </td>
-      ) : (
-        <td className="border border-zinc-800 px-4 text-zinc-700 line-through ">
+      )}
+      {title && title.length > 0 && action === "view" && (
+        <td className="border border-zinc-800 px-4 uppercase text-zinc-700 hover:text-prim">
+          <Link href={`/${slugify(title)}` as Route}>{action}</Link>
+        </td>
+      )}
+      {title && title.length > 0 && action === "edit" && (
+        <td className="border border-zinc-800 px-4 uppercase text-zinc-700 line-through ">
+          <>{action}</>
+        </td>
+      )}
+      {title && title.length > 0 && action === "wait" && (
+        <td className="border border-zinc-800 px-4 uppercase text-zinc-700">
           <>{action}</>
         </td>
       )}
