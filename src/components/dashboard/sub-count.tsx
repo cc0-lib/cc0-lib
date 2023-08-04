@@ -33,8 +33,10 @@ const SubmissionCount = async () => {
   }, [ens]);
 
   return (
-    <GridNumber color={submissionCount ? "active" : "inactive"}>
-      {submissionCount ?? "N/A"}
+    <GridNumber
+      color={submissionCount && submissionCount > 0 ? "active" : "inactive"}
+    >
+      {submissionCount && submissionCount > 0 ? submissionCount : "N/A"}
     </GridNumber>
   );
 };

@@ -53,6 +53,14 @@ const SubmissionComments = async () => {
     getKVData();
   }, [submissionData]);
 
+  if (!submissionData || submissionData?.length === 0) {
+    return (
+      <>
+        <GridNumber>N/A</GridNumber>
+      </>
+    );
+  }
+
   return (
     <>
       <GridNumber color={submissionComments ? "active" : "inactive"}>

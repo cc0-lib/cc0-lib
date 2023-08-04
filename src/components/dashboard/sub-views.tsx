@@ -54,6 +54,14 @@ const SubmissionViews = async () => {
     getKVData();
   }, [submissionData]);
 
+  if (!submissionData || submissionData?.length === 0) {
+    return (
+      <>
+        <GridNumber>N/A</GridNumber>
+      </>
+    );
+  }
+
   return (
     <>
       <GridNumber color={submissionViews ? "active" : "inactive"}>
