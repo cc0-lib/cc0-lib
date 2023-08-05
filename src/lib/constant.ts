@@ -15,4 +15,4 @@ export const staticPages: string[] = [
 
 // export const TestMode: boolean = false;
 export const TestMode: boolean = process.env.NODE_ENV === "development";
-export const TestENS: string = "coralorca.eth";
+export const TestENS: string = "voadz.eth";

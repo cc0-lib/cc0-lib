@@ -7,10 +7,13 @@ import { mainnet, polygon, zora } from "wagmi/chains";
 
 const chains = [mainnet, zora];
 
+const wcID = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID as string;
+const alchemyID = process.env.NEXT_PUBLIC_ALCHEMY_ID;
+
 const config = createConfig(
   getDefaultConfig({
-    alchemyId: process.env.ALCHEMY_ID,
-    walletConnectProjectId: process.env.WALLETCONNECT_PROJECT_ID as string,
+    alchemyId: alchemyID,
+    walletConnectProjectId: wcID,
     appName: "cc0-lib",
     appDescription: "CC0-LIB is a free and open source library of CC0 assets",
     appUrl: "https://cc0-lib.wtf",
