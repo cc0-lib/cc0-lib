@@ -9,8 +9,9 @@ const chains = [mainnet, zora];
 
 const config = createConfig(
   getDefaultConfig({
-    alchemyId: process.env.ALCHEMY_ID,
-    walletConnectProjectId: process.env.WALLETCONNECT_PROJECT_ID as string,
+    alchemyId: process.env.NEXT_PUBLIC_ALCHEMY_ID,
+    walletConnectProjectId: process.env
+      .NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID as string,
     appName: "cc0-lib",
     appDescription: "CC0-LIB is a free and open source library of CC0 assets",
     appUrl: "https://cc0-lib.wtf",
