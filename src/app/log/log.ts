@@ -250,6 +250,14 @@ const Log = () => {
         "filter submission list based on filters",
       ],
     },
+    {
+      version: "1.16.3",
+      changes: [
+        "temp hide dashboard on small screen",
+        "filter and sort for submission list",
+        "fix walletconnect",
+      ],
+    },
   ];
 
   return log.reverse();

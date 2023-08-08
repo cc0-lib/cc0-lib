@@ -3,7 +3,6 @@
 import { TestENS, TestMode } from "@/lib/constant";
 import { slugify } from "@/lib/utils";
 import {
-  Eye,
   FileCheck2,
   FileEdit,
   FilePlus2,
@@ -18,16 +17,23 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useAccount, useEnsName } from "wagmi";
 
+type submissionListType = "draft" | "published" | "all";
+
+type sortType = "title" | "id" | "type" | "format" | "status";
+
 const SubmissionListPage = ({ rawData }: { rawData: Item[] }) => {
   const [data, setData] = useState<Item[]>([]);
-  const [submissionListType, setSubmissionListType] = useState<string>("");
+  const [submissionListType, setSubmissionListType] =
+    useState<submissionListType>("all");
+  const [filteredData, setFilteredData] = useState<Item[]>([]);
+  const [isSorted, setIsSorted] = useState<boolean>(false);
 
   const searchParams = useSearchParams();
 
   const draft = searchParams?.get("draft") as string;
   const published = searchParams?.get("published") as string;
-
-  console.log(draft, published);
+  const all = searchParams?.get("all") as string;
+  const sortBy = searchParams?.get("sortBy") as sortType;
 
   const { address } = useAccount();
 
@@ -48,19 +54,68 @@ const SubmissionListPage = ({ rawData }: { rawData: Item[] }) => {
           (item) => item.Status === "draft"
         );
         setSubmissionListType("draft");
+        setFilteredData(draftData);
         setData(draftData);
       } else if (published && published?.length > 0) {
         const publishedData = filteredData.filter(
           (item) => item.Status === "published"
         );
         setSubmissionListType("published");
+        setFilteredData(publishedData);
         setData(publishedData);
       } else {
         setSubmissionListType("all");
+        setFilteredData(filteredData);
         setData(filteredData);
       }
     }
-  }, [ens, published, draft]);
+  }, [ens, published, draft, all]);
+
+  useEffect(() => {
+    if (
+      sortBy &&
+      sortBy?.length > 0 &&
+      filteredData &&
+      filteredData?.length > 0
+    ) {
+      const sortedData = filteredData.sort((a, b) => {
+        if (sortBy === "title") {
+          return a.Title.localeCompare(b.Title);
+        }
+        if (sortBy === "id") {
+          return a.ID - b.ID;
+        }
+        if (sortBy === "type") {
+          return a.Type.localeCompare(b.Type);
+        }
+        if (sortBy === "format") {
+          return a.Filetype.localeCompare(b.Filetype);
+        }
+        if (sortBy === "status") {
+          if (
+            a.SubmissionStatus &&
+            b.SubmissionStatus &&
+            a.SubmissionStatus?.length > 0 &&
+            b.SubmissionStatus?.length > 0
+          ) {
+            return a.SubmissionStatus.localeCompare(b.SubmissionStatus);
+          }
+        }
+        return 0;
+      });
+      setData(sortedData);
+    }
+  }, [sortBy, filteredData]);
+
+  const handleSortToggle = () => {
+    setIsSorted((prevIsSorted) => !prevIsSorted);
+  };
+
+  useEffect(() => {
+    if (isSorted) {
+      setData(data.reverse());
+    }
+  }, [isSorted]);
 
   const act = (status: string) => {
     if (status === "submitted" || status === "under-review") {
@@ -71,21 +126,92 @@ const SubmissionListPage = ({ rawData }: { rawData: Item[] }) => {
 
   return (
     <GridCard title={`${submissionListType} Submissions by ${ens}`}>
+      <GridCardSmall title="filter">
+        <div className="flex flex-row items-center justify-between gap-4 font-jetbrains uppercase">
+          <Link
+            className={`${
+              submissionListType === "published" && "text-prim"
+            } hover:text-prim`}
+            href={`?published=true` as Route}
+          >
+            Published
+          </Link>
+          <Link
+            className={`${
+              submissionListType === "draft" && "text-prim"
+            } hover:text-prim`}
+            href={`?draft=true` as Route}
+          >
+            Draft
+          </Link>
+          <Link
+            className={`${
+              submissionListType === "all" && "text-prim"
+            } hover:text-prim`}
+            href={`?all=true` as Route}
+          >
+            All
+          </Link>
+        </div>
+      </GridCardSmall>
       <table className="w-full table-auto border border-zinc-800 font-jetbrains uppercase">
         <thead className="bg-zinc-950/70">
           <tr>
             <th className="border border-zinc-800 px-2">+++</th>
             <th className="w-full border border-zinc-800 px-4 py-4 text-left">
-              Title
+              <Link
+                href={`?${submissionListType}=true&sortBy=title` as Route}
+                onClick={handleSortToggle}
+                className={`${
+                  sortBy === "title" && "text-prim"
+                } hover:text-prim`}
+              >
+                Title
+              </Link>
             </th>
-            <th className="border border-zinc-800 px-4 text-right">ID</th>
-            <th className="border border-zinc-800 px-4 text-left">Type</th>
-            <th className="border border-zinc-800 px-4 text-right">Format</th>
-            {/* <th className="border border-zinc-800 px-4 text-left">Status</th> */}
+            <th className="border border-zinc-800 px-4 text-right">
+              <Link
+                href={`?${submissionListType}=true&sortBy=id` as Route}
+                onClick={handleSortToggle}
+                className={`${sortBy === "id" && "text-prim"} hover:text-prim`}
+              >
+                ID
+              </Link>
+            </th>
+            <th className="border border-zinc-800 px-4 text-left">
+              <Link
+                href={`?${submissionListType}=true&sortBy=type` as Route}
+                onClick={handleSortToggle}
+                className={`${
+                  sortBy === "type" && "text-prim"
+                } hover:text-prim`}
+              >
+                Type
+              </Link>
+            </th>
+            <th className="border border-zinc-800 px-4 text-right">
+              <Link
+                href={`?${submissionListType}=true&sortBy=format` as Route}
+                onClick={handleSortToggle}
+                className={`${
+                  sortBy === "format" && "text-prim"
+                } hover:text-prim`}
+              >
+                Format
+              </Link>
+            </th>
             <th className="border border-zinc-800 px-2 text-left">
-              <div className="h-full w-full p-4">
-                <FileQuestion className="h-6 w-6 items-center" />
-              </div>
+              <Link
+                href={`?${submissionListType}=true&sortBy=status` as Route}
+                onClick={handleSortToggle}
+                className={`${
+                  sortBy === "status" && "text-prim"
+                } hover:text-prim`}
+              >
+                <div className="h-full w-full p-4">
+                  <FileQuestion className="h-6 w-6 items-center" />
+                </div>
+              </Link>
             </th>
 
             <th className="border border-zinc-800 px-4 text-left">Action</th>
@@ -142,6 +268,38 @@ const GridCard = ({
         </div>
       </div>
       {children}
+    </div>
+  );
+};
+
+const GridCardSmall = ({
+  title,
+  children,
+  link,
+}: {
+  title: string;
+  children?: React.ReactNode;
+  link?: string;
+}) => {
+  return (
+    <div className="flex w-full flex-col items-start border-2 border-zinc-700">
+      <div
+        className={`self-align-start inset-0 flex w-full flex-col items-start gap-8 
+              border-b-2 border-zinc-700 bg-zinc-900 px-16 py-4 pr-8`}
+      >
+        <div className="flex w-full flex-row justify-between">
+          {link ? (
+            <Link href={link as Route}>
+              <h1 className="font-jetbrains text-lg uppercase hover:text-prim">
+                {title}
+              </h1>
+            </Link>
+          ) : (
+            <span className="font-jetbrains text-lg uppercase">{title}</span>
+          )}
+          {children}
+        </div>
+      </div>
     </div>
   );
 };
