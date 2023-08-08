@@ -26,4 +26,21 @@ const getComments = async (id: number) => {
   return await kv.lrange(`comments:${id}`, 0, -1);
 };
 
-export { addLike, remLike, getLikeFromKV, addComment, getViews, getComments };
+const addUploaded = async (id: number, address: string) => {
+  await kv.sadd(`uploaded:${address}`, id);
+};
+
+const getUploaded = async (address: string) => {
+  return await kv.smembers(`uploaded:${address}`);
+};
+
+export {
+  addLike,
+  remLike,
+  getLikeFromKV,
+  addComment,
+  getViews,
+  getComments,
+  addUploaded,
+  getUploaded,
+};

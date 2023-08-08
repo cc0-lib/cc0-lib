@@ -24,7 +24,7 @@ const DashboardLayout = ({ children }: Props) => {
               </h1>
             </Link>
             <div className="flex flex-row items-center justify-end gap-4 p-4">
-              <Marquee className="font-jetbrains uppercase">
+              <Marquee className="font-jetbrains uppercase" pauseOnHover={true}>
                 <div className="mr-2">
                   Super massive long text that will scroll for a while. Very
                   long text for you to read. This is a test. A yayaya. A test

@@ -222,7 +222,7 @@ const SubmissionListPage = ({ rawData }: { rawData: Item[] }) => {
             data.length > 0 &&
             data.map((item, index) => (
               <TableItem
-                key={index}
+                key={item.id}
                 title={item.Title}
                 type={item.Type}
                 id={item.ID}

@@ -1,5 +1,6 @@
 import { Route } from "next";
 import Link from "next/link";
+import UploadModule from "./upload";
 
 type Props = {};
 const UploaderPage = (props: Props) => {
@@ -7,10 +8,7 @@ const UploaderPage = (props: Props) => {
     <>
       <GridCard title="uploader">
         <div className="flex h-fit w-full flex-col items-center justify-center gap-8 p-8 text-zinc-700">
-          <span className="font-chakra text-9xl uppercase">[REDACTED]</span>
-          <span className="font-chakra text-9xl uppercase">[REDACTED]</span>
-          <span className="font-chakra text-9xl uppercase">[REDACTED]</span>
-          <span className="font-chakra text-9xl uppercase">[REDACTED]</span>
+          <UploadModule />
         </div>
       </GridCard>
       <GridCard title="back" link="/dashboard"></GridCard>
