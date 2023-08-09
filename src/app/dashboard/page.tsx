@@ -8,6 +8,7 @@ import SubmissionData from "@/components/dashboard/sub-data";
 import SubmissionStatusData from "@/components/dashboard/sub-status";
 import SubmissionViews from "@/components/dashboard/sub-views";
 import SubmissionComments from "@/components/dashboard/sub-comments";
+import UploadedCount from "@/components/dashboard/sub-uploaded";
 
 type Props = {};
 const DashBoard = (props: Props) => {
@@ -25,15 +26,14 @@ const DashBoard = (props: Props) => {
           </div>
           <GridRow>
             <GridCard title="submissions" link="/dashboard/submissions">
-              <Suspense fallback={<GridNumber>N/A</GridNumber>}>
+              <Suspense fallback={<GridNumber>XXX</GridNumber>}>
                 <SubmissionCount />
               </Suspense>
             </GridCard>
             <GridCard title="uploaded" link="/dashboard/uploader">
-              {/* <GridNumber color={uploadedCount ? "active" : "inactive"}>
-                {uploadedCount ?? "N/A"}
-              </GridNumber> */}
-              <GridNumber>N/A</GridNumber>
+              <Suspense fallback={<GridNumber>XXX</GridNumber>}>
+                <UploadedCount />
+              </Suspense>
             </GridCard>
           </GridRow>
 

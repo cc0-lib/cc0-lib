@@ -19,8 +19,7 @@ const bundlr = new Bundlr(bundlrNode, "matic", key, {
 export const GET = async () => {
   return NextResponse.json(
     {
-      data: "hello world",
-      address: bundlr.address,
+      data: "miao",
     },
     { status: 200 }
   );
@@ -214,18 +213,21 @@ export const POST = async (request: NextRequest) => {
 
       const base64 = file.split(",")[1];
       const buffer = Buffer.from(base64, "base64");
+      const uploader = bundlr.uploader.chunkedUploader;
       const tx = bundlr.createTransaction(buffer, {
         tags,
       });
 
       await tx.sign();
-      const { id, timestamp } = await tx.upload();
+      // const { id, timestamp } = await tx.upload();
+      const res = await uploader.uploadTransaction(tx);
+      const { id, timestamp } = res.data;
 
       return NextResponse.json(
         {
-          message: `file upload successful.\ntx: ${id}  timestamp: ${timestamp}`,
+          message: `file upload successful.`,
           data: {
-            tx: id,
+            id: id,
             url: `https://arweave.net/${id}`,
             timestamp: timestamp,
           },
@@ -299,44 +301,4 @@ export const POST = async (request: NextRequest) => {
       );
     }
   }
-};
-
-type UploaderErrorResponse = {
-  message: string;
-};
-
-type UploaderFileResponse = {
-  message: string;
-  data: {
-    tx: string;
-    url: string;
-    timestamp: string;
-  };
-};
-
-type UploaderFolderResponse = {
-  message: string;
-  data: {
-    tx: string;
-    url: string;
-    timestamp: string;
-  };
-};
-
-type UploaderFundResponse = {
-  message: string;
-};
-
-type UploadersCheckPriceResponse = {
-  message: string;
-  data: {
-    price: number;
-  };
-};
-
-type UploaderBalanceResponse = {
-  message: string;
-  data: {
-    balance: number;
-  };
 };

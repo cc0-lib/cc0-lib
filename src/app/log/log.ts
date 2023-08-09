@@ -258,6 +258,10 @@ const Log = () => {
         "fix walletconnect",
       ],
     },
+    {
+      version: "1.17.0",
+      changes: ["uploader module"],
+    },
   ];
 
   return log.reverse();

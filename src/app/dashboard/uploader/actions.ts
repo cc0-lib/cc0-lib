@@ -1,6 +1,8 @@
 "use server";
 
-export const fetchUploadedData = async (ens: string) => {
+export const fetchUploadedData = async (
+  ens: string
+): Promise<BundlrFilteredData> => {
   const url = "https://node1.bundlr.network/graphql";
   const requestBody = {
     query: `
@@ -31,16 +33,16 @@ export const fetchUploadedData = async (ens: string) => {
     },
     body: JSON.stringify(requestBody),
     next: {
-      revalidate: 10,
+      revalidate: 1,
     },
   });
 
-  const { data } = await res.json();
+  const { data } = (await res.json()) as BundlrQueryResponse;
 
   const uploadedData = data.transactions.edges;
 
   // filter out undefined nodes
   const filteredData = uploadedData.filter((e) => e.node !== undefined);
 
-  return filteredData;
+  return filteredData as BundlrFilteredData;
 };

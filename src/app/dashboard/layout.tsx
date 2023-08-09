@@ -40,7 +40,7 @@ const DashboardLayout = ({ children }: Props) => {
         </div>
       </div>
       <div className="flex h-auto min-h-screen w-full flex-col items-center justify-center md:hidden">
-        <span className="font-chakra uppercase">
+        <span className="font-jetbrains uppercase">
           Dashboard is not available on mobile. Please use a desktop browser.
         </span>
       </div>

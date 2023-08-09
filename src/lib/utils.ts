@@ -227,3 +227,34 @@ export const blobSize = (blob: Blob): string => {
 type Blob = {
   size: number;
 };
+
+export const bytesToString = (bytes: number): string => {
+  const kilobyte = 1024;
+  const megabyte = kilobyte * 1024;
+  const gigabyte = megabyte * 1024;
+  const terabyte = gigabyte * 1024;
+
+  let byteString = "";
+  if (bytes < kilobyte) {
+    byteString = `${bytes} bytes`;
+  } else if (bytes < megabyte) {
+    byteString = `${(bytes / kilobyte).toFixed(2)} Kb`;
+  } else if (bytes < gigabyte) {
+    byteString = `${(bytes / megabyte).toFixed(2)} Mb`;
+  } else if (bytes < terabyte) {
+    byteString = `${(bytes / gigabyte).toFixed(2)} Gb`;
+  } else {
+    byteString = `${(bytes / terabyte).toFixed(2)} Tb`;
+  }
+
+  return byteString;
+};
+
+export const copyToClipboard = (str: string) => {
+  const el = document.createElement("textarea");
+  el.value = str;
+  document.body.appendChild(el);
+  el.select();
+  document.execCommand("copy");
+  document.body.removeChild(el);
+};
