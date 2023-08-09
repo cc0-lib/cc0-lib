@@ -2,12 +2,6 @@ import Bundlr from "@bundlr-network/client";
 import { NextRequest, NextResponse } from "next/server";
 import { Buffer } from "buffer";
 
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
-
 const key = process.env.BUNDLR_SECRET_KEY as string;
 const uploaderSecret = process.env.UPLOADER_SECRET_KEY as string;
 const bundlrNode = "https://node1.bundlr.network";
