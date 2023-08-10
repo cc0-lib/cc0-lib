@@ -20,7 +20,10 @@ export const getSubmissionData = async (
       },
     });
     if (res.status !== 200) {
-      console.log(res.statusText);
+      return {
+        data: [],
+        count: 0,
+      };
     }
     const { data: resData }: APIData = await res.json();
 

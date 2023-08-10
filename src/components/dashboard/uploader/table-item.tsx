@@ -1,6 +1,7 @@
-import { Clipboard, Link2, LinkIcon } from "lucide-react";
+import { Clipboard, LinkIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import DownloadButton from "@/components/dashboard/uploader/file-dl";
 
 const UploaderTableItem = async ({
   node,
@@ -87,7 +88,7 @@ const UploaderTableItem = async ({
         <div className="flex flex-row items-center justify-center gap-4">
           <button
             onClick={() => {
-              navigator.clipboard.writeText(node.id);
+              navigator.clipboard.writeText(`https://arweave.net/${node.id}`);
             }}
           >
             <Clipboard className="h-6 w-6 items-center hover:text-prim" />
@@ -99,6 +100,7 @@ const UploaderTableItem = async ({
           >
             <LinkIcon className="h-6 w-6 items-center hover:text-prim" />
           </Link>
+          <DownloadButton node={node} />
         </div>
       </td>
     </tr>

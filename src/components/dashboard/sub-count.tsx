@@ -23,6 +23,9 @@ const SubmissionCount = async () => {
       return;
     }
     const res = await getSubmissionData(ens);
+    if (res.count === 0) {
+      return;
+    }
     setSubmissionCount(res.count);
   }, [ens]);
 

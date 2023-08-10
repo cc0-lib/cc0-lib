@@ -25,6 +25,11 @@ const SubmissionViews = async () => {
       return;
     }
     const res = await getSubmissionData(ens);
+
+    if (res.count === 0) {
+      return;
+    }
+
     setSubmissionData(res.data);
   }, [ens]);
 

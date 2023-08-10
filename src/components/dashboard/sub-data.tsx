@@ -25,6 +25,9 @@ const SubmissionData = async () => {
       return;
     }
     const res = await getSubmissionData(ens);
+    if (res.count === 0) {
+      return;
+    }
     const filteredData = res.data.filter((item) => item.Status === "published");
     setSubmissionData(filteredData);
   }, [ens]);

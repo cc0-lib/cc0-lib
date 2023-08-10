@@ -21,7 +21,7 @@ const UploadedListPage = ({
       setUploadedDataCount(res.length);
       setUploadedData(res);
     });
-  }, [ens, uploaded]);
+  }, [ens]);
 
   useEffect(() => {
     if (ens) {

@@ -21,8 +21,10 @@ const UploadedCount = async () => {
 
   const fetchData = useCallback(() => {
     fetchUploadedData(ens as string).then((res) => {
-      setUploadedDataCount(res.length);
-      setUploadedData(res);
+      if (res.length > 0) {
+        setUploadedDataCount(res.length);
+        setUploadedData(res);
+      }
     });
   }, [ens]);
 

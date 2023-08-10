@@ -262,6 +262,14 @@ const Log = () => {
       version: "1.17.0",
       changes: ["uploader module"],
     },
+    {
+      version: "1.17.1",
+      changes: [
+        "add download button in uploader",
+        "fixes and bug squashing",
+        "update dashboard ticker",
+      ],
+    },
   ];
 
   return log.reverse();
