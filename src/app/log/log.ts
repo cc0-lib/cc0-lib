@@ -230,6 +230,10 @@ const Log = () => {
         "thank you nouns dao",
       ],
     },
+    {
+      version: "1.15.3",
+      changes: ["update ticker"],
+    },
   ];
 
   return log.reverse();
