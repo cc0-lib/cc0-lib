@@ -7,6 +7,8 @@ import { getAllRawItems, slugify } from "@/lib/utils";
 import ModelViewer from "@/components/ui/model-viewer";
 import Image from "next/image";
 import { Route } from "next";
+import EditDetails from "./details-edit";
+import { Suspense } from "react";
 
 const getItem = async (slug: string) => {
   const data = await getAllRawItems();
@@ -24,7 +26,7 @@ type DetailsPageProps = {
   };
 };
 
-const DetailsPage = async ({ params }: DetailsPageProps) => {
+const EditDetailsPage = async ({ params }: DetailsPageProps) => {
   const data = await getItem(params.slug);
 
   if (!data) {
@@ -33,7 +35,7 @@ const DetailsPage = async ({ params }: DetailsPageProps) => {
 
   return (
     <div className="flex w-full flex-col items-center justify-center">
-      <GridCard title={`viewing ${data.Title}`}></GridCard>
+      <GridCard title={`Editing ${data.Title}`}></GridCard>
       {data && data?.Type === "3D" && data?.Filetype === "GLB" && (
         <div className="hidden h-auto w-full max-w-5xl items-center justify-center sm:block">
           <ModelViewer data={data} />
@@ -100,64 +102,52 @@ const DetailsPage = async ({ params }: DetailsPageProps) => {
         </Link>
       )}
 
-      <GridCard title="view details">
+      <GridCard title="Edit details">
         <GridRow className="px-16 py-8">
           <GridCol className="w-full gap-4 font-jetbrains">
-            <div className="group flex flex-col gap-1">
-              <span className="text-sm uppercase text-zinc-300">Title</span>
-              <span className="w-full max-w-max">{data.Title}</span>
-            </div>
-            <div className="group flex flex-col gap-1">
-              <span className="text-sm uppercase text-zinc-300">
-                Description:
-              </span>
-              <span className="w-full max-w-max">{data.Description}</span>
-            </div>
-            <div className="group flex flex-col gap-1">
-              <span className="text-sm uppercase text-zinc-300">Source</span>
-              <span className="w-full max-w-max">{data.Source}</span>
-            </div>
-            <div className="group flex flex-col gap-1">
-              <span className="text-sm uppercase text-zinc-300">Type</span>
-              <span className="w-full max-w-max">{data.Type}</span>
-            </div>
-            <div className="group flex flex-col gap-1">
-              <span className="text-sm uppercase text-zinc-300">Format</span>
-              <span className="w-full max-w-max">{data.Filetype}</span>
-            </div>
-            <div className="group flex flex-col gap-1">
-              <span className="text-sm uppercase text-zinc-300">Tags</span>
-              <span className="w-full max-w-max">{data.Tags.join(", ")}</span>
-            </div>
-            <div className="group flex flex-col gap-1">
-              <span className="text-sm uppercase text-zinc-300">ENS</span>
-              <span className="w-full max-w-max">{data.ENS}</span>
-            </div>
-            <div className="group flex flex-col gap-1">
-              <span className="text-sm uppercase text-zinc-300">ID</span>
-              <span className="w-full max-w-max">{data.ID}</span>
-            </div>
-            <div className="group flex flex-col gap-1">
-              <span className="text-sm uppercase text-zinc-300">
-                Submission Status
-              </span>
-              <span className="w-full max-w-max uppercase">
-                {data.SubmissionStatus}
-              </span>
-            </div>
-            <div className="group flex flex-col gap-1">
-              <span className="text-sm uppercase text-zinc-300">Status</span>
-              <span className="w-full max-w-max uppercase">{data.Status}</span>
-            </div>
+            <Suspense fallback={<div>Loading...</div>}>
+              <EditDetails data={data} />
+            </Suspense>
+            {/* <span className="font-jetbrains text-lg uppercase">
+              Title: {data.Title}
+            </span>
+            <span className="flex flex-col font-jetbrains text-lg uppercase">
+              Description:
+              <span>{data.Description}</span>
+            </span>
+            <span className="font-jetbrains text-lg uppercase">
+              Type: {data.Type}
+            </span>
+            <span className="font-jetbrains text-lg uppercase">
+              Format: {data.Filetype}
+            </span>
+            <span className="font-jetbrains text-lg uppercase">
+              Tags: {data.Tags.join(", ")}
+            </span>
+            <span className="font-jetbrains text-lg uppercase">
+              Source: {data.Source}
+            </span>
+            <span className="font-jetbrains text-lg uppercase">
+              ID: {data.ID}
+            </span>
+            <span className="font-jetbrains text-lg uppercase">
+              Status: {data.SubmissionStatus}
+            </span>
+            <span className="font-jetbrains text-lg uppercase">
+              ENS: {data.ENS}
+            </span> */}
           </GridCol>
         </GridRow>
       </GridCard>
 
-      <GridCard title="back" link="/dashboard/submissions"></GridCard>
+      <GridCard
+        title="back"
+        link="/dashboard/submissions?draft=true"
+      ></GridCard>
     </div>
   );
 };
-export default DetailsPage;
+export default EditDetailsPage;
 
 const GridCard = ({
   title,

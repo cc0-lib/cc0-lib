@@ -13,6 +13,6 @@ export const staticPages: string[] = [
   "fav",
 ];
 
-export const TestMode: boolean = false;
-// export const TestMode: boolean = process.env.NODE_ENV === "development";
+// export const TestMode: boolean = false;
+export const TestMode: boolean = process.env.NODE_ENV === "development";
 export const TestENS: string = "voadz.eth";
