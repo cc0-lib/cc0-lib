@@ -270,6 +270,10 @@ const Log = () => {
         "update dashboard ticker",
       ],
     },
+    {
+      version: "1.17.2",
+      changes: ["arweave url to include filename and extension"],
+    },
   ];
 
   return log.reverse();
