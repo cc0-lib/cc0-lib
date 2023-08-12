@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@bundlr-network/client": "^0.11.10",
+    "@notionhq/client": "^2.2.10",
     "@pinecone-database/pinecone": "^0.1.6",
     "@radix-ui/react-accordion": "^1.1.2",
     "@radix-ui/react-toast": "^1.1.4",
@@ -32,6 +33,7 @@
     "next-share": "^0.20.0",
     "postcss": "8.4.24",
     "react": "18.2.0",
+    "react-confetti-explosion": "^2.1.2",
     "react-dom": "18.2.0",
     "react-dropzone": "^14.2.3",
     "react-fast-marquee": "^1.6.0",

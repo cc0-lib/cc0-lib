@@ -141,14 +141,15 @@ const getParsedItems = async (data: Item[]): Promise<Item[]> => {
 };
 
 export const getAllItems = async () => {
-  const res = await fetch(
-    "https://notion-api.splitbee.io/v1/table/872d317db9c64d3d88195b217cb3dc2f",
-    {
-      next: {
-        revalidate: 60,
-      },
-    }
-  );
+  const db =
+    process.env.NODE_ENV === "development"
+      ? process.env.NOTION_DEV_DATABASE_ID
+      : process.env.NOTION_DATABASE_ID;
+  const res = await fetch(`https://notion-api.splitbee.io/v1/table/${db}`, {
+    next: {
+      revalidate: 60,
+    },
+  });
   if (res.status !== 200) {
     throw new Error("Failed to fetch data from DB");
   }
@@ -164,14 +165,15 @@ export const getAllItems = async () => {
 };
 
 export const getAllRawItems = async () => {
-  const res = await fetch(
-    "https://notion-api.splitbee.io/v1/table/872d317db9c64d3d88195b217cb3dc2f",
-    {
-      next: {
-        revalidate: 60,
-      },
-    }
-  );
+  const db =
+    process.env.NODE_ENV === "development"
+      ? process.env.NOTION_DEV_DATABASE_ID
+      : process.env.NOTION_DATABASE_ID;
+  const res = await fetch(`https://notion-api.splitbee.io/v1/table/${db}`, {
+    next: {
+      revalidate: 1,
+    },
+  });
   if (res.status !== 200) {
     throw new Error("Failed to fetch data from DB");
   }

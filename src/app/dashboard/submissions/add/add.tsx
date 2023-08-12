@@ -1,30 +1,26 @@
 "use client";
 
-import TextEdit from "@/app/dashboard/abc/text-edit";
-import { TestENS, TestMode } from "@/lib/constant";
-import { useSIWE } from "connectkit";
-import { AlertTriangle, RotateCw, Save } from "lucide-react";
-import { Suspense, useCallback, useEffect, useState } from "react";
-import { useAccount, useEnsName } from "wagmi";
+import { useCallback, useEffect, useState } from "react";
+import TextEdit from "../../abc/text-edit";
 import NotionUtils from "@/lib/notion/utils";
-import * as z from "zod";
-import { updateSubmission } from "./actions";
-
-import ConfettiExplosion from "react-confetti-explosion";
+import { AlertTriangle, RotateCw, Save } from "lucide-react";
+import { TestENS, TestMode } from "@/lib/constant";
+import { useAccount, useEnsName } from "wagmi";
+import { useSIWE } from "connectkit";
 import Link from "next/link";
+import * as z from "zod";
+import { addSubmission } from "./actions";
+import ConfettiExplosion from "react-confetti-explosion";
 
-type Props = {
-  data: Item;
-};
-const EditDetails = ({ data: initialData }: Props) => {
-  const { address } = useAccount();
-  const { isSignedIn } = useSIWE();
+type Props = {};
+const AddSubmission = (props: Props) => {
   const [edited, setEdited] = useState<boolean>(false);
   const [editedProps, setEditedProps] = useState<string[]>([]);
   const [preparedData, setPreparedData] = useState<{}>();
   const [submitted, setSubmitted] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
-
+  const { address } = useAccount();
+  const { isSignedIn } = useSIWE();
   let { data: ens } = useEnsName({
     address,
   });
@@ -33,14 +29,21 @@ const EditDetails = ({ data: initialData }: Props) => {
     ens = TestENS;
   }
 
-  const keys = ["Title", "Description", "Source", "Type", "Filetype"];
-
-  if (initialData.File && initialData.File?.length > 0) {
-    keys.push("File");
-  }
-
-  const nonEditableKeys = ["ENS", "ID"];
-  const statusKeys = ["SubmissionStatus", "Status"];
+  const initialData: ItemForSubmission = {
+    Title: "Sample Title",
+    Description: "Basic Description",
+    Source: "https://www.source.com",
+    Type: "Image",
+    Filetype: "PNG",
+    ID: 10001,
+    Tags: ["Tag1", "Tag2", "Tag3"],
+    ENS: ens ? ens : "0xtest.eth",
+    ThumbnailURL: "https://arweave.net/arweaveID/file.png",
+    File: "https://arweave.net/arweaveID/file.png",
+    "Social Link": "https://twitter.com/0xtest",
+    Status: "draft",
+    SubmissionStatus: "draft",
+  };
 
   const dataSchema = z.object({
     Title: z.string().min(3).max(50),
@@ -49,28 +52,45 @@ const EditDetails = ({ data: initialData }: Props) => {
     Type: z.string(),
     Filetype: z.string(),
     ID: z.number(),
-    Tags: z.array(z.string().min(1).max(20)),
+    Tags: z.array(z.string()),
     ENS: z.string().endsWith(".eth"),
-    File: z.string().url().optional(),
-    "Social Link": z.string().url().optional(),
+    ThumbnailURL: z.string().url(),
+    File: z.string().url(),
+    "Social Link": z.string().url(),
     Status: z.string(),
     SubmissionStatus: z.string(),
   });
 
-  const [data, setData] = useState<Item>(initialData);
+  const [data, setData] = useState<ItemForSubmission>(initialData);
 
+  const keys = Object.keys(data).filter((key) => {
+    return (
+      key !== "ID" &&
+      key !== "Tags" &&
+      key !== "ENS" &&
+      key !== "Status" &&
+      key !== "SubmissionStatus"
+    );
+  });
+
+  const IDNumber = data.ID;
   const tags = data.Tags.join(", ");
 
   const handleChange = (newValue: string, id: string, edited: boolean) => {
     if (edited) {
       if (keys.includes(id)) {
-        setData({
-          ...(data as Item),
-          SubmissionStatus: "draft",
-          Status: "draft",
-          [id]: newValue,
-        });
-        setEdited(true);
+        if (ens) {
+          setData({
+            ...(data as ItemForSubmission),
+            SubmissionStatus: "submitted",
+            Status: "draft",
+            ENS: ens,
+            ID: IDNumber,
+
+            [id]: newValue,
+          });
+          setEdited(true);
+        }
       }
       const newEditedProps = [...editedProps];
 
@@ -86,13 +106,17 @@ const EditDetails = ({ data: initialData }: Props) => {
     const newTags = newValue.split(",").map((e) => e.trim());
     if (edited) {
       if (id === "Tags") {
-        setData({
-          ...(data as Item),
-          SubmissionStatus: "draft",
-          Status: "draft",
-          [id]: newTags,
-        });
-        setEdited(true);
+        if (ens) {
+          setData({
+            ...(data as ItemForSubmission),
+            SubmissionStatus: "submitted",
+            Status: "draft",
+            ENS: ens,
+            ID: IDNumber,
+            [id]: newTags,
+          });
+          setEdited(true);
+        }
       }
 
       const newEditedProps = [...editedProps];
@@ -106,13 +130,13 @@ const EditDetails = ({ data: initialData }: Props) => {
   };
 
   const handleSubmit = async () => {
-    const res = await updateSubmission(data.id, preparedData as {});
+    const res = await addSubmission(preparedData as {});
 
     if (res.status === 200) {
-      console.log("submission updated");
+      console.log("submission added");
       setSubmitted(true);
     } else {
-      console.log("submission update failed");
+      console.log("submission add failed");
     }
 
     setEdited(false);
@@ -121,7 +145,8 @@ const EditDetails = ({ data: initialData }: Props) => {
   };
 
   const prepData = useCallback(() => {
-    const prep = editedProps.map((e) => {
+    const allKeys = Object.keys(data);
+    const prep = allKeys.map((e) => {
       const properties = {
         [e]: {},
       };
@@ -139,9 +164,6 @@ const EditDetails = ({ data: initialData }: Props) => {
         properties[e] = NotionUtils.NumberType(data[e]);
       }
 
-      properties["Status"] = NotionUtils.SelectType("draft");
-      properties["SubmissionStatus"] = NotionUtils.SelectType("submitted");
-
       return properties;
     });
 
@@ -156,10 +178,8 @@ const EditDetails = ({ data: initialData }: Props) => {
 
   useEffect(() => {
     const res = dataSchema.safeParse(data);
-
     if (res.success) {
       setError("");
-
       prepData();
     } else {
       setError(
@@ -172,58 +192,55 @@ const EditDetails = ({ data: initialData }: Props) => {
     setSubmitted(false);
   }, []);
 
-  if (isSignedIn && ens === initialData.ENS) {
+  if (isSignedIn && ens && ens.length > 0) {
     return (
-      <Suspense fallback={<div>Loading...</div>}>
-        {data && (
-          <div className="flex w-full max-w-5xl flex-col items-start gap-4 overflow-auto">
-            {keys.map((key) => {
-              return (
-                <TextEdit
-                  initialValue={data[key]}
-                  id={key}
-                  onEdit={handleChange}
-                  key={key}
-                  rows={key === "Description" ? 2 : 1}
-                  editable={true}
-                />
-              );
-            })}
-            <TextEdit
-              initialValue={tags}
-              id={"Tags"}
-              onEdit={handleTagsChange}
-              key={"Tags"}
-              rows={1}
-              editable={true}
-            />
-            {nonEditableKeys.map((key) => {
-              return (
-                <TextEdit
-                  initialValue={data[key]}
-                  id={key}
-                  onEdit={() => {}}
-                  key={key}
-                  rows={1}
-                  editable={false}
-                />
-              );
-            })}
-            {statusKeys.map((key) => {
-              return (
-                <TextEdit
-                  initialValue={data[key].toUpperCase()}
-                  id={key === "SubmissionStatus" ? "Submission Status" : key}
-                  onEdit={() => {}}
-                  key={key}
-                  rows={1}
-                  editable={false}
-                />
-              );
-            })}
-          </div>
-        )}
+      <div className="flex w-full flex-col items-center justify-center p-4">
+        <div className="flex w-full max-w-5xl flex-col items-start gap-4 overflow-auto p-4">
+          {data.ThumbnailURL && (
+            <div className="flex w-full flex-row items-center justify-center gap-4">
+              <img
+                src={data.ThumbnailURL}
+                alt="thumbnail"
+                className="w-1/2 rounded-md"
+                onError={(e) => {
+                  e.currentTarget.src =
+                    "https://placehold.co/300x300/black/white/?text=Invalid+Thumbnail";
+                }}
+              />
+            </div>
+          )}
+          {keys.map((key) => {
+            return (
+              <TextEdit
+                key={key}
+                initialValue={data[key]}
+                editable={true}
+                onEdit={handleChange}
+                id={key}
+                rows={1}
+              />
+            );
+          })}
+          <TextEdit
+            initialValue={ens}
+            id={"ENS"}
+            onEdit={() => {}}
+            key={"ENS"}
+            rows={1}
+            editable={false}
+          />
+          <TextEdit
+            initialValue={tags}
+            id={"Tags"}
+            onEdit={handleTagsChange}
+            key={"Tags"}
+            rows={1}
+            editable={true}
+          />
+        </div>
+
         {submitted && <ConfettiExplosion duration={5000} particleCount={200} />}
+
         {edited && (
           <div className="flex w-full flex-row items-center justify-end gap-4">
             {error && (
@@ -267,7 +284,12 @@ const EditDetails = ({ data: initialData }: Props) => {
             )}
           </div>
         )}
-      </Suspense>
+        {TestMode && submitted && preparedData && (
+          <span className="w-full whitespace-pre-wrap">
+            {JSON.stringify(preparedData, null, 2)}
+          </span>
+        )}
+      </div>
     );
   }
 
@@ -299,17 +321,7 @@ const EditDetails = ({ data: initialData }: Props) => {
       </div>
     );
   }
-  if (ens !== initialData.ENS) {
-    return (
-      <div className="flex flex-col items-center justify-center gap-8 p-8 text-center">
-        <span className="font-jetbrains text-4xl uppercase text-zinc-200">
-          You are not the submission uploader
-        </span>
-      </div>
-    );
-  }
 
-  return <div>Something went wrong</div>;
+  return <div>Something went wrong. {ens}</div>;
 };
-
-export default EditDetails;
+export default AddSubmission;

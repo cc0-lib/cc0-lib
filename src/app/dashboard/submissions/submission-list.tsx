@@ -139,7 +139,18 @@ const SubmissionListPage = ({ rawData }: { rawData: Item[] }) => {
   };
 
   return (
-    <GridCard title={`${submissionListType} Submissions by ${ens}`}>
+    <GridCard
+      title={`${submissionListType} Submissions by ${ens}`}
+      subtitle={
+        <Link
+          href="/dashboard/submissions/add"
+          className="flex flex-row items-center gap-2 font-jetbrains uppercase hover:text-prim"
+        >
+          <FilePlus2 size={16} />
+          <span>Add Submission</span>
+        </Link>
+      }
+    >
       <GridCardSmall title="filter">
         <div className="flex flex-row items-center justify-between gap-4 font-jetbrains uppercase">
           <Link
@@ -243,7 +254,11 @@ const SubmissionListPage = ({ rawData }: { rawData: Item[] }) => {
                 format={item.Filetype}
                 status={item.SubmissionStatus as string}
                 actions={act(item.SubmissionStatus as string)}
-                imageUri={item.Thumbnails[0].url}
+                imageUri={
+                  item.Thumbnails
+                    ? item.Thumbnails[0].url
+                    : "https://placehold.co/300x300/black/white/?text=Under+Review"
+                }
               />
             ))}
         </tbody>
@@ -258,10 +273,12 @@ const GridCard = ({
   title,
   children,
   link,
+  subtitle,
 }: {
   title: string;
   children?: React.ReactNode;
   link?: string;
+  subtitle?: React.ReactNode;
 }) => {
   return (
     <div className="flex w-full flex-col items-start border-2 border-zinc-700">
@@ -269,7 +286,7 @@ const GridCard = ({
         className={`self-align-start inset-0 flex w-full flex-col items-start gap-8 
               border-b-2 border-zinc-700 bg-zinc-900 px-16 py-8`}
       >
-        <div className="flex w-full flex-row justify-between">
+        <div className="flex w-full flex-row items-center justify-between">
           {link ? (
             <Link href={link as Route}>
               <h1 className="font-jetbrains text-lg uppercase hover:text-prim">
@@ -278,6 +295,12 @@ const GridCard = ({
             </Link>
           ) : (
             <span className="font-jetbrains text-lg uppercase">{title}</span>
+          )}
+
+          {subtitle && (
+            <div className="-mr-8 flex max-w-md flex-row items-center justify-center gap-4 text-right font-jetbrains text-sm uppercase text-zinc-400">
+              {subtitle}
+            </div>
           )}
         </div>
       </div>

@@ -270,6 +270,14 @@ const Log = () => {
         "update dashboard ticker",
       ],
     },
+    {
+      version: "1.18.0",
+      changes: [
+        "submission module for contributors",
+        "edit submission",
+        "add new submission",
+      ],
+    },
   ];
 
   return log.reverse();

@@ -76,7 +76,11 @@ const EditDetailsPage = async ({ params }: DetailsPageProps) => {
 
       {data && (data?.Type === "Image" || data?.Type === "GIF") && (
         <Image
-          src={data.Thumbnails[0].url}
+          src={
+            data.Thumbnails
+              ? data.Thumbnails[0].url
+              : "https://placehold.co/300x300/black/white/?text=Under+Review"
+          }
           alt={data.Title}
           width={768}
           height={768}
@@ -86,7 +90,11 @@ const EditDetailsPage = async ({ params }: DetailsPageProps) => {
 
       {data && (data?.Type === "3D" || data?.Type === "Working Files") && (
         <Image
-          src={data.Thumbnails[0].url}
+          src={
+            data.Thumbnails
+              ? data.Thumbnails[0].url
+              : "https://placehold.co/300x300/black/white/?text=Under+Review"
+          }
           alt={data.Title}
           width={768}
           height={768}
