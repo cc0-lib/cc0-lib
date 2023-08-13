@@ -1,5 +1,7 @@
 "use server";
 
+import { HOSTNAME, PREV_HOSTNAME, PREV_MODE } from "@/lib/constant";
+
 export const addSubmission = async (data: {}) => {
   const preparedData = {
     secret: process.env.NOTION_SECRET_KEY,
@@ -8,12 +10,8 @@ export const addSubmission = async (data: {}) => {
 
   console.log(JSON.stringify(preparedData));
 
-  // let url = `https://cc0-lib.wtf/api/notion`;
-  let url = `https://cc0-lib-git-submission-edit-nouns-archive.vercel.app/api/notion`;
-
-  if (process.env.NODE_ENV === "development") {
-    url = `http://localhost:1311/api/notion`;
-  }
+  const host = PREV_MODE ? PREV_HOSTNAME : HOSTNAME;
+  const url = `${host}/api/notion`;
 
   try {
     const response = await fetch(url, {

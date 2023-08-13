@@ -20,6 +20,7 @@ import Ticker from "@/components/ui/ticker";
 import ConnectButton from "@/components/web3/connect-button";
 import { useInView } from "framer-motion";
 import Image from "next/image";
+import { DEV_MODE } from "@/lib/constant";
 
 type FrontPageProps = {
   initialData: Item[];
@@ -511,7 +512,7 @@ const FrontPage = ({ initialData }: FrontPageProps) => {
             }}
             className="group flex cursor-pointer flex-row items-center gap-2"
           >
-            {process.env.NODE_ENV === "development" && (
+            {DEV_MODE && (
               <>{`${trimmedData.length}/${data.length} - page:${page}`}</>
             )}
             <ChevronsUp className="h-8 w-8 text-zinc-500 group-hover:stroke-prim" />

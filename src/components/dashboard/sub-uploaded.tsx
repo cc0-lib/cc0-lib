@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { useAccount, useEnsName } from "wagmi";
-import { TestENS, TestMode } from "@/lib/constant";
+import { SAMPLE_ENS, DEV_MODE } from "@/lib/constant";
 import { fetchUploadedData } from "@/app/dashboard/uploader/actions";
 
 const UploadedCount = async () => {
@@ -15,8 +15,8 @@ const UploadedCount = async () => {
     address,
   });
 
-  if (TestMode) {
-    ens = TestENS;
+  if (DEV_MODE) {
+    ens = SAMPLE_ENS;
   }
 
   const fetchData = useCallback(() => {

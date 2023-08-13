@@ -1,3 +1,4 @@
+import { DEV_MODE } from "@/lib/constant";
 import notion from "@/lib/notion";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -59,10 +60,9 @@ export const POST = async (request: NextRequest) => {
     );
   }
 
-  const db =
-    process.env.NODE_ENV === "development"
-      ? process.env.NOTION_DEV_DATABASE_ID
-      : process.env.NOTION_DATABASE_ID;
+  const db = DEV_MODE
+    ? process.env.NOTION_DEV_DATABASE_ID
+    : process.env.NOTION_DATABASE_ID;
 
   try {
     const response = await notion.pages.create({

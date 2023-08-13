@@ -1,7 +1,7 @@
 "use client";
 
 import TextEdit from "@/app/dashboard/abc/text-edit";
-import { TestENS, TestMode } from "@/lib/constant";
+import { SAMPLE_ENS, DEV_MODE } from "@/lib/constant";
 import { useSIWE } from "connectkit";
 import { AlertTriangle, RotateCw, Save } from "lucide-react";
 import { Suspense, useCallback, useEffect, useState } from "react";
@@ -29,8 +29,8 @@ const EditDetails = ({ data: initialData }: Props) => {
     address,
   });
 
-  if (TestMode) {
-    ens = TestENS;
+  if (DEV_MODE) {
+    ens = SAMPLE_ENS;
   }
 
   const keys = ["Title", "Description", "Source", "Type", "Filetype"];

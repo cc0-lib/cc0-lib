@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import TextEdit from "../../abc/text-edit";
 import NotionUtils from "@/lib/notion/utils";
 import { AlertTriangle, RotateCw, Save } from "lucide-react";
-import { TestENS, TestMode } from "@/lib/constant";
+import { SAMPLE_ENS, DEV_MODE } from "@/lib/constant";
 import { useAccount, useEnsName } from "wagmi";
 import { useSIWE } from "connectkit";
 import Link from "next/link";
@@ -25,8 +25,8 @@ const AddSubmission = (props: Props) => {
     address,
   });
 
-  if (TestMode) {
-    ens = TestENS;
+  if (DEV_MODE) {
+    ens = SAMPLE_ENS;
   }
 
   const initialData: ItemForSubmission = {
@@ -284,7 +284,7 @@ const AddSubmission = (props: Props) => {
             )}
           </div>
         )}
-        {TestMode && submitted && preparedData && (
+        {DEV_MODE && submitted && preparedData && (
           <span className="w-full whitespace-pre-wrap">
             {JSON.stringify(preparedData, null, 2)}
           </span>

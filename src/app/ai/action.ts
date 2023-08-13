@@ -1,17 +1,15 @@
 "use server";
 
+import { HOSTNAME, PREV_HOSTNAME, PREV_MODE } from "@/lib/constant";
+
 const count = 10;
 
 export const getLCResults = async (query: string): Promise<Item[]> => {
   "use server";
 
   try {
-    let url = `https://cc0-lib.wtf/api/lc/search?q=${query}&n=${count}&d=true`;
-
-    // if development, use local api
-    if (process.env.NODE_ENV === "development") {
-      url = `http://localhost:1311/api/lc/search?q=${query}&n=${count}&d=true}`;
-    }
+    const host = PREV_MODE ? PREV_HOSTNAME : HOSTNAME;
+    const url = `${host}/api/lc/search?q=${query}&n=${count}&d=true`;
 
     const res = await fetch(url);
 

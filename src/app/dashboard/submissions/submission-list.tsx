@@ -1,6 +1,6 @@
 "use client";
 
-import { TestENS, TestMode } from "@/lib/constant";
+import { SAMPLE_ENS, DEV_MODE } from "@/lib/constant";
 import { slugify } from "@/lib/utils";
 import {
   Clock4,
@@ -46,8 +46,8 @@ const SubmissionListPage = ({ rawData }: { rawData: Item[] }) => {
     address,
   });
 
-  if (TestMode) {
-    ens = TestENS;
+  if (DEV_MODE) {
+    ens = SAMPLE_ENS;
   }
 
   useEffect(() => {

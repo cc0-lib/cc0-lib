@@ -2,7 +2,7 @@ import { Ratelimit } from "@upstash/ratelimit";
 import { kv } from "@vercel/kv";
 import { getAllItems, getAllRawItems } from "@/lib/utils";
 import { NextRequest, NextResponse } from "next/server";
-import { TestMode } from "@/lib/constant";
+import { DEV_MODE } from "@/lib/constant";
 
 const rateLimit = new Ratelimit({
   redis: kv,
@@ -12,7 +12,7 @@ const rateLimit = new Ratelimit({
 
 export async function GET(request: NextRequest) {
   const id = request.ip ?? "anonymous";
-  const limit = TestMode ? null : await rateLimit.limit(id ?? "anonymous");
+  const limit = DEV_MODE ? null : await rateLimit.limit(id ?? "anonymous");
 
   if (limit && limit.remaining <= 0) {
     return NextResponse.json(

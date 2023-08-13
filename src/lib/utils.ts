@@ -1,6 +1,7 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { z } from "zod";
+import { DEV_MODE, HOSTNAME, PREV_HOSTNAME, PREV_MODE } from "./constant";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -141,10 +142,10 @@ const getParsedItems = async (data: Item[]): Promise<Item[]> => {
 };
 
 export const getAllItems = async () => {
-  const db =
-    process.env.NODE_ENV === "development"
-      ? process.env.NOTION_DEV_DATABASE_ID
-      : process.env.NOTION_DATABASE_ID;
+  const db = DEV_MODE
+    ? process.env.NOTION_DEV_DATABASE_ID
+    : process.env.NOTION_DATABASE_ID;
+
   const res = await fetch(`https://notion-api.splitbee.io/v1/table/${db}`, {
     next: {
       revalidate: 60,
@@ -165,10 +166,10 @@ export const getAllItems = async () => {
 };
 
 export const getAllRawItems = async () => {
-  const db =
-    process.env.NODE_ENV === "development"
-      ? process.env.NOTION_DEV_DATABASE_ID
-      : process.env.NOTION_DATABASE_ID;
+  const db = DEV_MODE
+    ? process.env.NOTION_DEV_DATABASE_ID
+    : process.env.NOTION_DATABASE_ID;
+
   const res = await fetch(`https://notion-api.splitbee.io/v1/table/${db}`, {
     next: {
       revalidate: 1,
@@ -197,11 +198,9 @@ export const getDateFromItem = async (id: string) => {
 };
 
 export const getRepliesFromFC = async (slug: string) => {
-  let url = `https://cc0-lib.wtf/api/fc?slug=${slug}`;
-  // if development, use local api
-  if (process.env.NODE_ENV === "development") {
-    url = `http://localhost:1311/api/fc?slug=${slug}`;
-  }
+  const host = PREV_MODE ? PREV_HOSTNAME : HOSTNAME;
+  const url = `${host}/api/fc?slug=${slug}`;
+
   const res = await fetch(url);
   if (res.status !== 200) {
     return [];
