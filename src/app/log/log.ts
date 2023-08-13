@@ -274,6 +274,14 @@ const Log = () => {
       version: "1.17.2",
       changes: ["arweave url to include filename and extension"],
     },
+    {
+      version: "1.17.3",
+      changes: [
+        "you can now upload in bulk",
+        "bulk submission is live",
+        "ui and ux fixes",
+      ],
+    },
   ];
 
   return log.reverse();
