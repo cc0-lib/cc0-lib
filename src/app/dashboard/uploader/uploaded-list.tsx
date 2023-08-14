@@ -3,6 +3,7 @@
 import { fetchUploadedData } from "./actions";
 import { useCallback, useEffect, useState } from "react";
 import UploaderTableItem from "@/components/dashboard/uploader/table-item";
+import GridCard from "@/components/dashboard/uploader/grid-card";
 
 const UploadedListPage = ({
   ens,
@@ -22,6 +23,75 @@ const UploadedListPage = ({
       setUploadedData(res);
     });
   }, [ens]);
+
+  const exportCSV = useCallback(() => {
+    const data = uploadedData.map(({ node }) => {
+      const name = node.tags.find((tag) => tag.name === "Filename")?.value;
+      const type = node.tags.find((tag) => tag.name === "Content-Type")?.value;
+      const date = new Date(node.timestamp).toLocaleDateString();
+      const time = new Date(node.timestamp).toLocaleTimeString();
+
+      return {
+        name: name,
+        type: type,
+        date: date,
+        time: time,
+        arweaveId: node.id,
+        url: `https://arweave.net/${node.id}/${name}`,
+      };
+    });
+
+    const csvRows: string[] = [];
+    const headers: string[] = Object.keys(data[0]);
+    const headersJoined = headers.join(",");
+    csvRows.push(headersJoined);
+    for (const row of data) {
+      const values = headers.map((header) => {
+        const escaped = ("" + row[header]).replace(/"/g, '\\"');
+        return `"${escaped}"`;
+      });
+      csvRows.push(values.join(","));
+    }
+    const csvData = csvRows.join("\n");
+    const blob = new Blob([csvData], { type: "text/csv" });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.setAttribute("hidden", "");
+    a.setAttribute("href", url);
+    a.setAttribute("download", `uploader-${ens}-${Date.now()}.csv`);
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }, [uploadedData]);
+
+  const exportJSON = useCallback(() => {
+    const data = uploadedData.map(({ node }) => {
+      const name = node.tags.find((tag) => tag.name === "Filename")?.value;
+      const type = node.tags.find((tag) => tag.name === "Content-Type")?.value;
+      const date = new Date(node.timestamp).toLocaleDateString();
+      const time = new Date(node.timestamp).toLocaleTimeString();
+
+      return {
+        name: name,
+        type: type,
+        date: date,
+        time: time,
+        arweaveId: node.id,
+        url: `https://arweave.net/${node.id}/${name}`,
+      };
+    });
+
+    const json = JSON.stringify(data, null, 2);
+    const blob = new Blob([json], { type: "application/json" });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.setAttribute("hidden", "");
+    a.setAttribute("href", url);
+    a.setAttribute("download", `uploader-${ens}-${Date.now()}.json`);
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }, [uploadedData]);
 
   useEffect(() => {
     if (ens) {
@@ -67,6 +137,30 @@ const UploadedListPage = ({
           </div>
         )}
       </div>
+      <GridCard
+        className="text-white"
+        title="Export all data"
+        subtitle={
+          <div className="flex flex-row items-center gap-8 text-lg uppercase text-zinc-200">
+            <button
+              className="hover:text-prim"
+              onClick={() => {
+                exportCSV();
+              }}
+            >
+              CSV
+            </button>
+            <button
+              className="hover:text-prim"
+              onClick={() => {
+                exportJSON();
+              }}
+            >
+              JSON
+            </button>
+          </div>
+        }
+      />
     </>
   );
 };

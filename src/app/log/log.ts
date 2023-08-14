@@ -282,6 +282,13 @@ const Log = () => {
         "ui and ux fixes",
       ],
     },
+    {
+      version: "1.17.4",
+      changes: [
+        "you can export your uploaded content history",
+        "export to json or csv",
+      ],
+    },
   ];
 
   return log.reverse();

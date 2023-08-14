@@ -6,14 +6,18 @@ const GridCard = ({
   children,
   link,
   subtitle,
+  className,
 }: {
   title: string;
   children?: React.ReactNode;
   link?: string;
-  subtitle?: string;
+  subtitle?: React.ReactNode;
+  className?: string;
 }) => {
   return (
-    <div className="flex w-full flex-col items-start border-2 border-zinc-700">
+    <div
+      className={`flex w-full flex-col items-start border-2 border-zinc-700 ${className}`}
+    >
       <div
         className={`self-align-start inset-0 flex w-full flex-col items-start gap-8 
               border-b-2 border-zinc-700 bg-zinc-900 px-16 py-8`}
