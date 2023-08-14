@@ -4,6 +4,9 @@ import { fetchUploadedData } from "./actions";
 import { useCallback, useEffect, useState } from "react";
 import UploaderTableItem from "@/components/dashboard/uploader/table-item";
 import GridCard from "@/components/dashboard/uploader/grid-card";
+import { useSearchParams } from "next/navigation";
+
+type BundlrFilteredData = Array<{ node: BundlrQueryResponseNode }>;
 
 const UploadedListPage = ({
   ens,
@@ -14,18 +17,83 @@ const UploadedListPage = ({
   address: string;
   uploaded: boolean;
 }) => {
-  const [uploadedData, setUploadedData] = useState<BundlrFilteredData>([]);
-  const [uploadedDataCount, setUploadedDataCount] = useState<number>(0);
+  const [filteredData, setFilteredData] = useState<BundlrFilteredData>([]);
+  const [isSorted, setIsSorted] = useState<boolean>(false);
+  const [sortType, setSortType] = useState<
+    "name" | "type" | "date" | "arweaveId"
+  >("date");
+
+  const searchParams = useSearchParams();
+
+  type SortType = "name" | "type" | "date" | "arweaveId";
+
+  const sortBy = searchParams?.get("sortBy") as SortType;
+
+  useEffect(() => {
+    if (sortBy) {
+      setSortType(sortBy);
+    }
+  }, [sortBy]);
 
   const fetchData = useCallback(() => {
     fetchUploadedData(ens).then((res) => {
-      setUploadedDataCount(res.length);
-      setUploadedData(res);
+      setFilteredData(res);
     });
   }, [ens]);
 
+  useEffect(() => {
+    const getTag = (node: BundlrQueryResponseNode, name: string) => {
+      return node.tags.find((tag) => tag.name === name)?.value;
+    };
+
+    const getNodeItem = (node: BundlrQueryResponseNode, item: string) => {
+      return node[item];
+    };
+
+    if (sortType) {
+      const sortedData = filteredData.sort((a, b) => {
+        const nameA = getTag(a.node, "Filename");
+        const nameB = getTag(b.node, "Filename");
+        const typeA = getTag(a.node, "Content-Type");
+        const typeB = getTag(b.node, "Content-Type");
+        const dateA = getNodeItem(a.node, "timestamp");
+        const dateB = getNodeItem(b.node, "timestamp");
+        const arweaveIdA = getNodeItem(a.node, "id");
+        const arweaveIdB = getNodeItem(b.node, "id");
+
+        if (nameA && nameB && sortType === "name") {
+          return nameA.localeCompare(nameB);
+        } else if (typeA && typeB && sortType === "type") {
+          return typeA.localeCompare(typeB);
+        } else if (dateA && dateB && sortType === "date") {
+          return dateB - dateA;
+        } else if (arweaveIdA && arweaveIdB && sortType === "arweaveId") {
+          return arweaveIdA.localeCompare(arweaveIdB);
+        }
+
+        return 0;
+      });
+      setFilteredData(sortedData);
+      setIsSorted(true);
+    } else {
+      setFilteredData(filteredData);
+      setIsSorted(false);
+    }
+
+    return () => {
+      setFilteredData([]);
+      setIsSorted(false);
+    };
+  }, [sortType, filteredData]);
+
+  const handleSortToggle = (type: SortType) => {
+    setSortType(type);
+    setFilteredData(filteredData.reverse());
+    setIsSorted(!isSorted);
+  };
+
   const exportCSV = useCallback(() => {
-    const data = uploadedData.map(({ node }) => {
+    const data = filteredData.map(({ node }) => {
       const name = node.tags.find((tag) => tag.name === "Filename")?.value;
       const type = node.tags.find((tag) => tag.name === "Content-Type")?.value;
       const date = new Date(node.timestamp).toLocaleDateString();
@@ -62,10 +130,10 @@ const UploadedListPage = ({
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
-  }, [uploadedData]);
+  }, [filteredData]);
 
   const exportJSON = useCallback(() => {
-    const data = uploadedData.map(({ node }) => {
+    const data = filteredData.map(({ node }) => {
       const name = node.tags.find((tag) => tag.name === "Filename")?.value;
       const type = node.tags.find((tag) => tag.name === "Content-Type")?.value;
       const date = new Date(node.timestamp).toLocaleDateString();
@@ -91,7 +159,7 @@ const UploadedListPage = ({
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
-  }, [uploadedData]);
+  }, [filteredData]);
 
   useEffect(() => {
     if (ens) {
@@ -107,29 +175,61 @@ const UploadedListPage = ({
             <tr>
               <th className="border border-zinc-800 px-2">+++++</th>
               <th className="w-full border border-zinc-800 px-4 py-4 text-left">
-                Filename
+                <button
+                  onClick={() => handleSortToggle("name")}
+                  className={`${
+                    sortType === "name" && "text-prim"
+                  } uppercase hover:text-prim`}
+                >
+                  Filename
+                </button>
               </th>
-
-              <th className="border border-zinc-800 px-4 text-left">Type</th>
 
               <th className="border border-zinc-800 px-4 text-left">
-                Arweave ID
+                <button
+                  onClick={() => handleSortToggle("type")}
+                  className={`${
+                    sortType === "type" && "text-prim"
+                  } uppercase hover:text-prim`}
+                >
+                  Type
+                </button>
               </th>
-              <th className="border border-zinc-800 px-4 text-right">Date</th>
+
+              <th className="border border-zinc-800 px-4 text-left">
+                <button
+                  onClick={() => handleSortToggle("arweaveId")}
+                  className={`${
+                    sortType === "arweaveId" && "text-prim"
+                  } uppercase hover:text-prim`}
+                >
+                  Arweave ID
+                </button>
+              </th>
+              <th className="border border-zinc-800 px-4 text-right">
+                <button
+                  onClick={() => handleSortToggle("date")}
+                  className={`${
+                    sortType === "date" && "text-prim"
+                  } uppercase hover:text-prim`}
+                >
+                  Date
+                </button>
+              </th>
 
               <th className="border border-zinc-800 px-4 text-left">Actions</th>
             </tr>
           </thead>
           <tbody>
-            {uploadedData &&
-              uploadedData.length > 1 &&
-              uploadedData.map((e) => {
+            {filteredData &&
+              filteredData.length > 1 &&
+              filteredData.map((e) => {
                 return <UploaderTableItem node={e.node} key={e.node.id} />;
               })}
           </tbody>
         </table>
 
-        {uploadedDataCount === 0 && (
+        {filteredData.length === 0 && (
           <div className="flex h-full w-full items-center justify-center">
             <span className="font-jetbrains text-4xl uppercase text-zinc-200">
               No uploads found

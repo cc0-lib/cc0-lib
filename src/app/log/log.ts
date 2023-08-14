@@ -289,6 +289,10 @@ const Log = () => {
         "export to json or csv",
       ],
     },
+    {
+      version: "1.17.5",
+      changes: ["uploader sort by name, type, id and date"],
+    },
   ];
 
   return log.reverse();
