@@ -123,6 +123,20 @@ const ContributePage = () => {
             on polygon network
           </li>
         </ul>
+        <span className="font-rubik text-4xl sm:text-6xl">contributed?</span>
+        <span className="w-full max-w-prose text-lg text-white sm:w-1/2">
+          our dashboard alpha is now live. view and{" "}
+          <Link
+            href={"/dashboard"}
+            className="bg-zinc-800 text-prim underline hover:bg-prim hover:text-zinc-800"
+          >
+            track your submission
+          </Link>
+          .
+        </span>
+        <span className="w-full max-w-prose text-lg text-white sm:w-1/2">
+          we are working on editable submission and uploader too!
+        </span>
         <span className="font-rubik text-4xl sm:text-6xl">mail us</span>
         <span className="w-full max-w-prose text-lg text-white sm:w-1/2">
           mail us: cc0-lib[at]archives.wtf

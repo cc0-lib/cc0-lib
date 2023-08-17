@@ -268,8 +268,9 @@ const Log = () => {
         "changed ticker message on dashboard",
         "added /ai page to the sitemap",
         "og for /ai",
+        "added link to dashboard in contribute page",
+        "dashboard.cc0-lib.wtf redirect to cc0-lib.wtf/dashboard",
       ],
-
     },
   ];
 
