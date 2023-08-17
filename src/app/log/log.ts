@@ -231,6 +231,10 @@ const Log = () => {
       ],
     },
     {
+      version: "1.15.3",
+      changes: ["update ticker"],
+    },
+    {
       version: "1.16.0",
       changes: ["dashboard module"],
     },
@@ -265,6 +269,7 @@ const Log = () => {
         "added /ai page to the sitemap",
         "og for /ai",
       ],
+
     },
   ];
 
