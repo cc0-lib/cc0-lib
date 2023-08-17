@@ -29,7 +29,9 @@ export const HOST = {
 
 export const PREV_MODE: boolean = false;
 export const PREV_HOSTNAME = HOST.PREV.SUBMISSION;
-export const HOSTNAME = DEV_MODE ? HOST.DEV : HOST.PROD;
+export const HOSTNAME = DEV_MODE
+  ? HOST.DEV
+  : process.env.NEXT_PUBLIC_VERCEL_URL || HOST.PROD;
 
 export const DB_LIST_ID = DEV_MODE
   ? "08f754f3471a4101a026e143a21c558a"
