@@ -258,6 +258,14 @@ const Log = () => {
         "fix walletconnect",
       ],
     },
+    {
+      version: "1.16.4",
+      changes: [
+        "changed ticker message on dashboard",
+        "added /ai page to the sitemap",
+        "og for /ai",
+      ],
+    },
   ];
 
   return log.reverse();

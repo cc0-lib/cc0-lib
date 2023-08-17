@@ -24,11 +24,19 @@ const DashboardLayout = ({ children }: Props) => {
               </h1>
             </Link>
             <div className="flex flex-row items-center justify-end gap-4 p-4">
-              <Marquee className="font-jetbrains uppercase">
-                <div className="mr-2">
-                  Super massive long text that will scroll for a while. Very
-                  long text for you to read. This is a test. A yayaya. A test
-                  again.
+              <Marquee className="font-jetbrains uppercase" pauseOnHover={true}>
+                <div className="mr-8">
+                  Dashboard is now in alpha. You can check view your submission,
+                  and check statuses. Please report any bugs at our{" "}
+                  <Link
+                    href="https://cc0-lib.canny.io/feature-request"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                    className=" underline hover:text-prim"
+                  >
+                    Canny page
+                  </Link>
+                  .
                 </div>
               </Marquee>
               <div className="px-4">
