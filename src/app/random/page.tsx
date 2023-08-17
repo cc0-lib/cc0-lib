@@ -1,6 +1,6 @@
 import DownloadFile from "@/components/data/dl";
 import Container from "@/components/ui/container";
-import { getAllItems, slugify } from "@/lib/utils";
+import { getPublishedItems, slugify } from "@/lib/utils";
 import { MoreHorizontal, RefreshCcw } from "lucide-react";
 import { revalidatePath } from "next/cache";
 import Image from "next/image";
@@ -52,7 +52,7 @@ export const generateMetadata = async () => {
 };
 
 const RandomPage = async () => {
-  const data = await getAllItems();
+  const data = await getPublishedItems();
 
   // const filteredData = data.filter(
   //   (item: Item) => item.Type.toLowerCase() === "audio"

@@ -141,20 +141,20 @@ const getParsedItems = async (data: Item[]): Promise<Item[]> => {
   return publishedData;
 };
 
-export const getAllItems = async () => {
-  const db = DEV_MODE
-    ? process.env.NOTION_DEV_DATABASE_ID
-    : process.env.NOTION_DATABASE_ID;
-
-  const res = await fetch(`https://notion-api.splitbee.io/v1/table/${db}`, {
+export const getPublishedItems = async () => {
+  const host = PREV_MODE ? PREV_HOSTNAME : HOSTNAME;
+  const url = `${host}/api/notion`;
+  const res = await fetch(url, {
     next: {
       revalidate: 60,
     },
   });
+
   if (res.status !== 200) {
     throw new Error("Failed to fetch data from DB");
   }
-  const data: Item[] = await res.json();
+
+  const { data } = await res.json();
 
   const parsedData = await getParsedItems(data);
 
@@ -162,25 +162,46 @@ export const getAllItems = async () => {
     throw new Error("Failed to parse data from DB");
   }
 
-  return parsedData;
+  return parsedData as Item[];
 };
 
-export const getAllRawItems = async () => {
-  const db = DEV_MODE
-    ? process.env.NOTION_DEV_DATABASE_ID
-    : process.env.NOTION_DATABASE_ID;
-
-  const res = await fetch(`https://notion-api.splitbee.io/v1/table/${db}`, {
+export const getRawItems = async () => {
+  const host = PREV_MODE ? PREV_HOSTNAME : HOSTNAME;
+  const url = `${host}/api/notion`;
+  const res = await fetch(url, {
     next: {
       revalidate: 1,
     },
   });
+
   if (res.status !== 200) {
     throw new Error("Failed to fetch data from DB");
   }
-  const rawData: Item[] = await res.json();
 
-  return rawData;
+  const { data } = await res.json();
+
+  return data as Item[];
+};
+
+export const getDraftItems = async () => {
+  const host = PREV_MODE ? PREV_HOSTNAME : HOSTNAME;
+  const url = `${host}/api/notion`;
+  const res = await fetch(url, {
+    next: {
+      revalidate: 1,
+    },
+  });
+
+  if (res.status !== 200) {
+    throw new Error("Failed to fetch data from DB");
+  }
+  const { data } = await res.json();
+
+  const draftItems = data.filter((item) => {
+    return item.Status === "draft";
+  });
+
+  return draftItems as Item[];
 };
 
 export const getDateFromItem = async (id: string) => {

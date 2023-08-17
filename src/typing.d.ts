@@ -18,6 +18,8 @@ type Item = {
     | "under-review"
     | "approved"
     | "rejected";
+  ParentDB?: string;
+  ThumbnailURL?: string;
 };
 
 type ItemForSubmission = {

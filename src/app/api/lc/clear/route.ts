@@ -1,4 +1,4 @@
-import { getAllItems } from "@/lib/utils";
+import { getPublishedItems } from "@/lib/utils";
 import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { NextRequest, NextResponse } from "next/server";
 import { PineconeClient } from "@pinecone-database/pinecone";

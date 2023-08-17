@@ -1,4 +1,4 @@
-import { getAllItems } from "@/lib/utils";
+import { getPublishedItems } from "@/lib/utils";
 import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { NextRequest, NextResponse } from "next/server";
 import { JSONLoader } from "langchain/document_loaders/fs/json";
@@ -30,7 +30,7 @@ export const GET = async (request: NextRequest) => {
   try {
     const start = performance.now() / 1000;
 
-    const data = await getAllItems();
+    const data = await getPublishedItems();
 
     const embedText = data.map((item) => {
       return `title:${item.Title} desc:${

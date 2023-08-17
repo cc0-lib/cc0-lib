@@ -1,4 +1,4 @@
-import { getAllItems } from "@/lib/utils";
+import { getPublishedItems } from "@/lib/utils";
 import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { NextRequest, NextResponse } from "next/server";
 import { PineconeClient } from "@pinecone-database/pinecone";
@@ -65,7 +65,7 @@ export const GET = async (request: NextRequest) => {
   try {
     const start = performance.now() / 1000;
 
-    const data = await getAllItems();
+    const data = await getPublishedItems();
 
     const embeddings = new OpenAIEmbeddings({
       modelName: "text-embedding-ada-002",

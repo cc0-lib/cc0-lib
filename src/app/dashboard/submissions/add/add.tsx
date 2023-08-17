@@ -136,6 +136,7 @@ const AddSubmission = (props: Props) => {
       console.log("submission added");
       setSubmitted(true);
     } else {
+      setError(res.data);
       console.log("submission add failed");
     }
 

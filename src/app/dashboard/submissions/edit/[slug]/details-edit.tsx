@@ -112,6 +112,7 @@ const EditDetails = ({ data: initialData }: Props) => {
       console.log("submission updated");
       setSubmitted(true);
     } else {
+      setError(res.data);
       console.log("submission update failed");
     }
 

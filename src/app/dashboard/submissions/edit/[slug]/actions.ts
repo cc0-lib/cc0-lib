@@ -33,6 +33,7 @@ export const updateSubmission = async (id: string, data: {}) => {
     console.error(error);
     return {
       status: 500,
+      data: error,
     };
   }
 };

@@ -15,6 +15,7 @@ export const staticPages: string[] = [
 ];
 
 export const DEV_MODE: boolean = process.env.NODE_ENV === "development";
+// export const DEV_MODE: boolean = false;
 
 export const HOST = {
   PROD: "https://cc0-lib.wtf",
@@ -30,4 +31,8 @@ export const PREV_MODE: boolean = false;
 export const PREV_HOSTNAME = HOST.PREV.SUBMISSION;
 export const HOSTNAME = DEV_MODE ? HOST.DEV : HOST.PROD;
 
-export const SAMPLE_ENS: string = "neroone.eth";
+export const DB_LIST_ID = DEV_MODE
+  ? "08f754f3471a4101a026e143a21c558a"
+  : "08f754f3471a4101a026e143a21c558a";
+
+export const SAMPLE_ENS: string = "voadz.eth";

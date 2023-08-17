@@ -32,6 +32,7 @@ export const addSubmission = async (data: {}) => {
     console.error(error);
     return {
       status: 500,
+      data: error,
     };
   }
 };

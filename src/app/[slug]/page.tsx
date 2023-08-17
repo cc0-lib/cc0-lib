@@ -16,7 +16,7 @@ import AudioPlayer from "@/components/ui/audio-player";
 import VideoPlayer from "@/components/ui/video-player";
 import SocialShare from "@/components/ui/social-share";
 import {
-  getAllItems,
+  getPublishedItems,
   getDateFromItem,
   shortDomainName,
   slugify,
@@ -34,7 +34,7 @@ import { Route } from "next";
 import Image from "next/image";
 
 const getItem = async (slug: string) => {
-  const data = await getAllItems();
+  const data = await getPublishedItems();
 
   const filteredData = data.filter((item) => {
     return slugify(item.Title) === slug;

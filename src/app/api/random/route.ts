@@ -1,6 +1,6 @@
 import { Ratelimit } from "@upstash/ratelimit";
 import { kv } from "@vercel/kv";
-import { getAllItems } from "@/lib/utils";
+import { getPublishedItems } from "@/lib/utils";
 import { NextRequest, NextResponse } from "next/server";
 
 type APIRandomItem = {
@@ -34,7 +34,7 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  const data = await getAllItems();
+  const data = await getPublishedItems();
 
   const createResponse = (items: Item[]): APIRandomItem => {
     const data: Item = items[0];

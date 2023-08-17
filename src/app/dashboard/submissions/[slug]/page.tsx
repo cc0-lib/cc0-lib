@@ -3,13 +3,13 @@ import { notFound } from "next/navigation";
 import Iframe from "react-iframe";
 import AudioPlayer from "@/components/ui/audio-player";
 import VideoPlayer from "@/components/ui/video-player";
-import { getAllRawItems, slugify } from "@/lib/utils";
+import { getRawItems, slugify } from "@/lib/utils";
 import ModelViewer from "@/components/ui/model-viewer";
 import Image from "next/image";
 import { Route } from "next";
 
 const getItem = async (slug: string) => {
-  const data = await getAllRawItems();
+  const data = await getRawItems();
 
   const filteredData = data.filter((item) => {
     return slugify(item.Title) === slug;
@@ -77,7 +77,9 @@ const DetailsPage = async ({ params }: DetailsPageProps) => {
           src={
             data.Thumbnails
               ? data.Thumbnails[0].url
-              : "https://placehold.co/300x300/black/white/?text=Under+Review"
+              : `https://placehold.co/300x300/black/white/?text=${slugify(
+                  data.SubmissionStatus as string
+                )}`
           }
           alt={data.Title}
           width={768}
@@ -91,7 +93,9 @@ const DetailsPage = async ({ params }: DetailsPageProps) => {
           src={
             data.Thumbnails
               ? data.Thumbnails[0].url
-              : "https://placehold.co/300x300/black/white/?text=Under+Review"
+              : `https://placehold.co/300x300/black/white/?text=${slugify(
+                  data.SubmissionStatus as string
+                )}`
           }
           alt={data.Title}
           width={768}

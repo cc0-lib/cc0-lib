@@ -1,6 +1,6 @@
 import { Ratelimit } from "@upstash/ratelimit";
 import { kv } from "@vercel/kv";
-import { getAllItems, getAllRawItems } from "@/lib/utils";
+import { getPublishedItems, getRawItems, getDraftItems } from "@/lib/utils";
 import { NextRequest, NextResponse } from "next/server";
 import { DEV_MODE } from "@/lib/constant";
 
@@ -30,12 +30,33 @@ export async function GET(request: NextRequest) {
   const fileType = searchParams.get("fileType");
   const ens = searchParams.get("ens");
   const raw = searchParams.get("raw");
+  const draft = searchParams.get("draft");
 
-  let data = raw === "true" ? await getAllRawItems() : await getAllItems();
+  let data: Item[] = [];
+
+  if (raw === "true") {
+    data = await getRawItems();
+  }
+
+  if (draft === "true") {
+    data = await getDraftItems();
+  }
+
+  if (!raw && !draft) {
+    data = await getPublishedItems();
+  }
 
   const spKey = searchParams.keys().next().value;
 
-  const allowedKeys = ["title", "tag", "type", "fileType", "ens", "raw"];
+  const allowedKeys = [
+    "title",
+    "tag",
+    "type",
+    "fileType",
+    "ens",
+    "raw",
+    "draft",
+  ];
 
   const createResponse = (query: string, items: Item[]): APIData => {
     const uniqueTypes: string[] = [...new Set(items.map((item) => item.Type))];

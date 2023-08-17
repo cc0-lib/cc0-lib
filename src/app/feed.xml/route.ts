@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import RSS from "rss";
-import { getAllItems, getDateFromItem, slugify } from "@/lib/utils";
+import { getPublishedItems, getDateFromItem, slugify } from "@/lib/utils";
 
 const feed = new RSS({
   title: "CC0-LIB",
@@ -14,7 +14,7 @@ const feed = new RSS({
 });
 
 export async function GET() {
-  const data = await getAllItems();
+  const data = await getPublishedItems();
 
   const datedData: ExtendedItem[] = await Promise.all(
     data.map(async (item) => {

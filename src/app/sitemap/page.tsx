@@ -1,6 +1,6 @@
 import Container from "@/components/ui/container";
 import { staticPages } from "@/lib/constant";
-import { getAllItems, shuffle, slugify } from "@/lib/utils";
+import { getPublishedItems, shuffle, slugify } from "@/lib/utils";
 import Link from "next/link";
 
 export const generateMetadata = async () => {
@@ -40,7 +40,7 @@ export const generateMetadata = async () => {
 };
 
 const SiteMapPage = async () => {
-  const data = await getAllItems();
+  const data = await getPublishedItems();
 
   const tagsList: string[] = shuffle(
     Array.from(

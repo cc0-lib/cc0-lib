@@ -13,9 +13,10 @@ export const getSubmissionData = async (
 
   try {
     const res = await fetch(url, {
-      next: {
-        revalidate: 60,
-      },
+      // next: {
+      //   revalidate: 1,
+      // },
+      cache: "no-cache",
     });
     if (res.status !== 200) {
       return {

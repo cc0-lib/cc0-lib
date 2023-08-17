@@ -278,6 +278,10 @@ const Log = () => {
         "add new submission",
       ],
     },
+    {
+      version: "1.18.1",
+      changes: ["api fixes", "data fixes"],
+    },
   ];
 
   return log.reverse();

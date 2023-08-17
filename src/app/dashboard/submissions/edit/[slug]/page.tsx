@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import Iframe from "react-iframe";
 import AudioPlayer from "@/components/ui/audio-player";
 import VideoPlayer from "@/components/ui/video-player";
-import { getAllRawItems, slugify } from "@/lib/utils";
+import { getRawItems, slugify } from "@/lib/utils";
 import ModelViewer from "@/components/ui/model-viewer";
 import Image from "next/image";
 import { Route } from "next";
@@ -11,7 +11,7 @@ import EditDetails from "./details-edit";
 import { Suspense } from "react";
 
 const getItem = async (slug: string) => {
-  const data = await getAllRawItems();
+  const data = await getRawItems();
 
   const filteredData = data.filter((item) => {
     return slugify(item.Title) === slug;
