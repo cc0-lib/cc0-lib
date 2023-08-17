@@ -144,6 +144,7 @@ const getParsedItems = async (data: Item[]): Promise<Item[]> => {
 export const getPublishedItems = async () => {
   const host = PREV_MODE ? PREV_HOSTNAME : HOSTNAME;
   const url = `${host}/api/notion`;
+  console.log(url);
   const res = await fetch(url, {
     next: {
       revalidate: 60,
