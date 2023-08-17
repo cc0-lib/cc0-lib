@@ -157,6 +157,23 @@ export const getAllItems = async () => {
   return parsedData;
 };
 
+export const getAllRawItems = async () => {
+  const res = await fetch(
+    "https://notion-api.splitbee.io/v1/table/872d317db9c64d3d88195b217cb3dc2f",
+    {
+      next: {
+        revalidate: 60,
+      },
+    }
+  );
+  if (res.status !== 200) {
+    throw new Error("Failed to fetch data from DB");
+  }
+  const rawData: Item[] = await res.json();
+
+  return rawData;
+};
+
 export const getDateFromItem = async (id: string) => {
   const res = await fetch(`https://notion-api.splitbee.io/v1/page/${id}`);
   if (res.status !== 200) {

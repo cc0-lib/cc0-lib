@@ -18,4 +18,12 @@ const addComment = async (id: number, comment: string) => {
   await kv.lpush(`comments:${id}`, comment);
 };
 
-export { addLike, remLike, getLikeFromKV, addComment };
+const getViews = async (id: number) => {
+  return await kv.get(`view:${id}`);
+};
+
+const getComments = async (id: number) => {
+  return await kv.lrange(`comments:${id}`, 0, -1);
+};
+
+export { addLike, remLike, getLikeFromKV, addComment, getViews, getComments };

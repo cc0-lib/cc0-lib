@@ -12,7 +12,12 @@ type Item = {
   Title: string;
   File?: string;
   Status?: "published" | "draft";
-  SubmissionStatus?: "draft" | "submitted" | "approved" | "rejected";
+  SubmissionStatus?:
+    | "draft"
+    | "submitted"
+    | "under-review"
+    | "approved"
+    | "rejected";
 };
 
 type ItemThumbnail = {
@@ -43,4 +48,14 @@ type LCItem = {
   metadata: {
     id: number;
   };
+};
+
+type APIData = {
+  query: string;
+  count: number;
+  types: string[];
+  fileTypes: string[];
+  tags: string[];
+  date: string;
+  data: Item[];
 };

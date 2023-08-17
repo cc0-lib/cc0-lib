@@ -234,6 +234,43 @@ const Log = () => {
       version: "1.15.3",
       changes: ["update ticker"],
     },
+    {
+      version: "1.16.0",
+      changes: ["dashboard module"],
+    },
+    {
+      version: "1.16.1",
+      changes: [
+        "dashboard view fix",
+        "dashboard submission fix",
+        "middleware fix",
+        "type fix",
+      ],
+    },
+    {
+      version: "1.16.2",
+      changes: [
+        "dashboard link fix",
+        "filter submission list based on filters",
+      ],
+    },
+    {
+      version: "1.16.3",
+      changes: [
+        "temp hide dashboard on small screen",
+        "filter and sort for submission list",
+        "fix walletconnect",
+      ],
+    },
+    {
+      version: "1.16.4",
+      changes: [
+        "changed ticker message on dashboard",
+        "added /ai page to the sitemap",
+        "og for /ai",
+      ],
+
+    },
   ];
 
   return log.reverse();

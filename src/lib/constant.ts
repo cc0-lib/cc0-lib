@@ -11,4 +11,9 @@ export const staticPages: string[] = [
   "sitemap",
   "random",
   "fav",
+  "ai",
 ];
+
+// export const TestMode: boolean = false;
+export const TestMode: boolean = process.env.NODE_ENV === "development";
+export const TestENS: string = "voadz.eth";
