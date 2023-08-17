@@ -1,7 +1,13 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { z } from "zod";
-import { DEV_MODE, HOSTNAME, PREV_HOSTNAME, PREV_MODE } from "./constant";
+import {
+  DB_LIST_ID,
+  DEV_MODE,
+  HOSTNAME,
+  PREV_HOSTNAME,
+  PREV_MODE,
+} from "./constant";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -102,6 +108,53 @@ export const getLikedItems = () => {
   return likedItems;
 };
 
+const getData = async (): Promise<any> => {
+  let dbs = [];
+  let data = [];
+
+  try {
+    const url = `https://notion-api.splitbee.io/v1/table/${DB_LIST_ID}`;
+    const res = await fetch(url, {
+      next: {
+        revalidate: 60,
+      },
+    });
+
+    const dbList = await res.json();
+    dbs = dbList.map((item) => item.ID);
+
+    await Promise.all(
+      dbs.map(async (db) => {
+        const url = `https://notion-api.splitbee.io/v1/table/${db}`;
+        const res = await fetch(url, {
+          next: {
+            revalidate: 1,
+          },
+        });
+        const result = await res.json();
+        const editedResult = result.map((item) => {
+          return {
+            ...item,
+            ParentDB: db,
+          };
+        });
+        data = [...data, ...editedResult].flat() as [];
+      })
+    );
+
+    const result = {
+      dbs: dbs,
+      count: data.length,
+      data: data as Item[],
+    };
+    console.log("data.length =>", data.length);
+    return result;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};
+
 const getParsedItems = async (data: Item[]): Promise<Item[]> => {
   const itemSchema = z.object({
     id: z.string(),
@@ -142,63 +195,73 @@ const getParsedItems = async (data: Item[]): Promise<Item[]> => {
 };
 
 export const getPublishedItems = async () => {
-  const host = PREV_MODE ? PREV_HOSTNAME : HOSTNAME;
-  const url = `${host}/api/notion`;
-  console.log(url);
-  const res = await fetch(url, {
-    next: {
-      revalidate: 60,
-    },
-  });
+  // const host = PREV_MODE ? PREV_HOSTNAME : HOSTNAME;
+  // const url = `${host}/api/notion`;
+  // console.log(url);
+  try {
+    // const res = await fetch(url, {
+    //   next: {
+    //     revalidate: 60,
+    //   },
+    // });
 
-  if (res.status !== 200) {
-    throw new Error("Failed to fetch data from DB");
+    // if (res.status !== 200) {
+    //   throw new Error("Failed to fetch data from DB");
+    // }
+
+    // const { data } = await res.json();
+
+    const { data } = await getData();
+    console.log("data.length from getPublishedItems =>", data.length);
+    const parsedData = await getParsedItems(data);
+
+    if (parsedData.length === 0) {
+      throw new Error("Failed to parse data from DB");
+    }
+
+    return parsedData as Item[];
+  } catch (error) {
+    console.log(error);
+    return [];
   }
-
-  const { data } = await res.json();
-
-  const parsedData = await getParsedItems(data);
-
-  if (parsedData.length === 0) {
-    throw new Error("Failed to parse data from DB");
-  }
-
-  return parsedData as Item[];
 };
 
 export const getRawItems = async () => {
-  const host = PREV_MODE ? PREV_HOSTNAME : HOSTNAME;
-  const url = `${host}/api/notion`;
-  const res = await fetch(url, {
-    next: {
-      revalidate: 1,
-    },
-  });
+  // const host = PREV_MODE ? PREV_HOSTNAME : HOSTNAME;
+  // const url = `${host}/api/notion`;
+  // const res = await fetch(url, {
+  //   next: {
+  //     revalidate: 1,
+  //   },
+  // });
 
-  if (res.status !== 200) {
-    throw new Error("Failed to fetch data from DB");
-  }
+  // if (res.status !== 200) {
+  //   throw new Error("Failed to fetch data from DB");
+  // }
 
-  const { data } = await res.json();
+  // const { data } = await res.json();
+  const { data } = await getData();
 
   return data as Item[];
 };
 
 export const getDraftItems = async () => {
-  const host = PREV_MODE ? PREV_HOSTNAME : HOSTNAME;
-  const url = `${host}/api/notion`;
-  const res = await fetch(url, {
-    next: {
-      revalidate: 1,
-    },
-  });
+  // const host = PREV_MODE ? PREV_HOSTNAME : HOSTNAME;
+  // const url = `${host}/api/notion`;
+  // const res = await fetch(url, {
+  //   next: {
+  //     revalidate: 1,
+  //   },
+  // });
 
-  if (res.status !== 200) {
-    throw new Error("Failed to fetch data from DB");
-  }
-  const { data } = await res.json();
+  // if (res.status !== 200) {
+  //   throw new Error("Failed to fetch data from DB");
+  // }
+  // const { data } = await res.json();
 
-  const draftItems = data.filter((item) => {
+  const { data } = await getData();
+
+  const draftItems = await data.filter((item) => {
     return item.Status === "draft";
   });
 
