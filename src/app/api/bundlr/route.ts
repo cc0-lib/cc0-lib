@@ -10,6 +10,12 @@ const bundlr = new Bundlr(bundlrNode, "matic", key, {
   providerUrl: "https://polygon-rpc.com/",
 });
 
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "POST, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type",
+};
+
 export const GET = async () => {
   return NextResponse.json(
     {
@@ -27,7 +33,7 @@ export const POST = async (request: NextRequest) => {
       {
         message: "invalid secret",
       },
-      { status: 400 }
+      { status: 400, headers: corsHeaders }
     );
   }
 
@@ -44,7 +50,7 @@ export const POST = async (request: NextRequest) => {
       {
         message: "invalid type",
       },
-      { status: 400 }
+      { status: 400, headers: corsHeaders }
     );
   }
 
@@ -127,7 +133,7 @@ export const POST = async (request: NextRequest) => {
         {
           message: "invalid data / no data",
         },
-        { status: 400 }
+        { status: 400, headers: corsHeaders }
       );
     }
     if (!data.bytes || data.bytes === 0 || typeof data.bytes !== "number") {
@@ -135,7 +141,7 @@ export const POST = async (request: NextRequest) => {
         {
           message: `getting price failed. bytes is required / must be greater than 0 / must be a number`,
         },
-        { status: 400 }
+        { status: 400, headers: corsHeaders }
       );
     }
     try {
@@ -151,6 +157,7 @@ export const POST = async (request: NextRequest) => {
         },
         {
           status: 200,
+          headers: corsHeaders,
         }
       );
     } catch (error) {
@@ -158,7 +165,7 @@ export const POST = async (request: NextRequest) => {
         {
           message: `getting price failed. ${error}`,
         },
-        { status: 400 }
+        { status: 400, headers: corsHeaders }
       );
     }
   }
@@ -169,7 +176,7 @@ export const POST = async (request: NextRequest) => {
         {
           message: "invalid data / no data",
         },
-        { status: 400 }
+        { status: 400, headers: corsHeaders }
       );
     }
 
@@ -182,7 +189,7 @@ export const POST = async (request: NextRequest) => {
             message:
               "file upload failed. file, name, type, and ens are required",
           },
-          { status: 400 }
+          { status: 400, headers: corsHeaders }
         );
       }
 
@@ -228,6 +235,7 @@ export const POST = async (request: NextRequest) => {
         },
         {
           status: 200,
+          headers: corsHeaders,
         }
       );
     } catch (error) {
@@ -235,7 +243,7 @@ export const POST = async (request: NextRequest) => {
         {
           message: `file upload failed. ${error}`,
         },
-        { status: 400 }
+        { status: 400, headers: corsHeaders }
       );
     }
   }
