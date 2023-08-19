@@ -43,6 +43,7 @@ export const POST = async (request: NextRequest) => {
     "checkPrice",
     "uploadFile",
     "uploadFolder",
+    "neoUploadFile",
   ];
 
   if (!allowedTypes.includes(type) || !type) {
@@ -164,6 +165,70 @@ export const POST = async (request: NextRequest) => {
       return NextResponse.json(
         {
           message: `getting price failed. ${error}`,
+        },
+        { status: 400, headers: corsHeaders }
+      );
+    }
+  }
+
+  if (type === "neoUploadFile") {
+    if (!data) {
+      return NextResponse.json(
+        {
+          message: "invalid data / no data",
+        },
+        { status: 400 }
+      );
+    }
+
+    try {
+      const { path, name, ens } = data;
+
+      if (!path || !name || !ens) {
+        return NextResponse.json(
+          {
+            message:
+              "file upload failed. file, name, type, and ens are required",
+          },
+          { status: 400, headers: corsHeaders }
+        );
+      }
+
+      const tags = [
+        {
+          name: "Filename",
+          value: name,
+        },
+        {
+          name: "Uploader",
+          value: ens,
+        },
+        {
+          name: "App",
+          value: "cc0-lib desktop uploader",
+        },
+      ];
+
+      const { id, timestamp } = await bundlr.uploadFile(path, { tags });
+
+      return NextResponse.json(
+        {
+          message: `file upload successful.`,
+          data: {
+            id: id,
+            url: `https://arweave.net/${id}`,
+            timestamp: timestamp,
+          },
+        },
+        {
+          status: 200,
+          headers: corsHeaders,
+        }
+      );
+    } catch (error) {
+      return NextResponse.json(
+        {
+          message: `file upload failed. ${error}`,
         },
         { status: 400, headers: corsHeaders }
       );
