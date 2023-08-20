@@ -35,6 +35,6 @@ export const HOSTNAME = DEV_MODE
 
 export const DB_LIST_ID = DEV_MODE
   ? "08f754f3471a4101a026e143a21c558a"
-  : "08f754f3471a4101a026e143a21c558a";
+  : "aa37f2c026274d75a45ebf5fabdefbd6";
 
 export const SAMPLE_ENS: string = "voadz.eth";
