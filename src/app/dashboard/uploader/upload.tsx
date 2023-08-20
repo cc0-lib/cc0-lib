@@ -396,6 +396,13 @@ const UploadModule = (props: Props) => {
               </div>
 
               <div className="flex flex-row gap-8">
+                <button
+                  className="rounded-md border-2 border-zinc-700 px-6 py-4 font-jetbrains text-xl uppercase text-prim hover:border-prim hover:bg-prim hover:text-zinc-800"
+                  onClick={handleReset}
+                  title="Reset"
+                >
+                  <RotateCw className="h-6 w-6 items-center" />
+                </button>
                 {!uploaded && fileBuffers && fileBuffers.length > 0 && (
                   <button
                     className="rounded-md border-2 border-zinc-700 px-6 py-4 font-jetbrains text-xl uppercase text-prim hover:border-prim hover:bg-prim hover:text-zinc-800"
@@ -405,13 +412,6 @@ const UploadModule = (props: Props) => {
                     <UploadCloud className="h-6 w-6 items-center" />
                   </button>
                 )}
-                <button
-                  className="rounded-md border-2 border-zinc-700 px-6 py-4 font-jetbrains text-xl uppercase text-prim hover:border-prim hover:bg-prim hover:text-zinc-800"
-                  onClick={handleReset}
-                  title="Reset"
-                >
-                  <RotateCw className="h-6 w-6 items-center" />
-                </button>
               </div>
             </div>
           )}
