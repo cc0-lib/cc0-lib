@@ -15,7 +15,7 @@ import { bytesToString } from "@/lib/utils";
 const secret = process.env.NEXT_PUBLIC_UPLOADER_SECRET_KEY as string;
 
 type Props = {};
-const UploadModule = async (props: Props) => {
+const UploadModule = (props: Props) => {
   const { address } = useAccount();
   const [log, setLog] = useState<string>("");
   const [files, setFiles] = useState<File[] | null>(null);
@@ -24,6 +24,9 @@ const UploadModule = async (props: Props) => {
   const [fileURLs, setFileURLs] = useState<string[]>([]);
   const [fileTimestamps, setFileTimestamps] = useState<string[]>([]);
   const [fileIDs, setFileIDs] = useState<string[]>([]);
+  const [largeFile, setLargeFile] = useState<boolean>(false);
+  const [preview, setPreview] = useState<boolean>(false);
+  const [processingFiles, setProcessingFiles] = useState<boolean>(false);
 
   let { data: ens } = useEnsName({
     address,
@@ -39,8 +42,12 @@ const UploadModule = async (props: Props) => {
     const buffers: any[] = [];
     const files: any[] = [];
 
-    for (const file of acceptedFiles) {
-      files.push(file);
+    const filteredFiles = acceptedFiles.filter((file: File) => {
+      return file.size < 4000000;
+    });
+
+    for (const file of filteredFiles) {
+      console.log(file);
       const reader = new FileReader();
 
       reader.onload = (e) => {
@@ -48,11 +55,18 @@ const UploadModule = async (props: Props) => {
         if (!res) {
           return;
         }
+        files.push(file);
         buffers.push(res);
       };
 
       reader.readAsDataURL(file);
     }
+
+    // wait for all files to be read
+    while (buffers.length < acceptedFiles.length) {
+      await new Promise((resolve) => setTimeout(resolve, 300));
+    }
+
     setLog(`${files.length} ${files.length > 1 ? "files" : "file"} loaded`);
     setFiles(files);
     setFileBuffers(buffers);
@@ -153,6 +167,8 @@ const UploadModule = async (props: Props) => {
     setFileURLs([]);
     setFileIDs([]);
     setFileTimestamps([]);
+    setLargeFile(false);
+    setPreview(false);
   }, []);
 
   useEffect(() => {
@@ -164,8 +180,24 @@ const UploadModule = async (props: Props) => {
       {ens && isSignedIn && (
         <>
           <Dropzone
-            onDrop={(acceptedFiles) => {
-              handleMultipleFiles(acceptedFiles);
+            onDrop={async (acceptedFiles) => {
+              setFiles(null);
+              setFileBuffers(null);
+              setUploaded(false);
+              setProcessingFiles(true);
+              await handleMultipleFiles(acceptedFiles);
+              setPreview(true);
+              setProcessingFiles(false);
+            }}
+            maxSize={4000000}
+            onDropRejected={(err) => {
+              const fileErr = err[0].errors[0].code === "file-too-large";
+              if (fileErr) {
+                setLargeFile(true);
+                setLog(
+                  `File size too large. Please upload files less than 4MB.`
+                );
+              }
             }}
           >
             {({ getRootProps, getInputProps }) => (
@@ -177,7 +209,7 @@ const UploadModule = async (props: Props) => {
                   })}
                 >
                   <input {...getInputProps()} />
-                  {!uploaded && files && fileBuffers && (
+                  {!uploaded && files && fileBuffers && preview && (
                     <div
                       className={`${files.length < 2 && "w-full"} 
                         ${files.length === 2 && "grid grid-cols-2"}
@@ -190,15 +222,18 @@ const UploadModule = async (props: Props) => {
                           key={file.name}
                           className="flex h-full w-full flex-col items-center justify-between gap-8"
                         >
-                          {checkIfImage(file) && (
-                            <Image
-                              src={fileBuffers[files.indexOf(file)]}
-                              width={300}
-                              height={300}
-                              alt={file.name}
-                              className="h-full w-full max-w-md object-contain"
-                            />
-                          )}
+                          <Suspense fallback={<div>Loading...</div>}>
+                            {checkIfImage(file) &&
+                              fileBuffers[files.indexOf(file)] && (
+                                <Image
+                                  src={fileBuffers[files.indexOf(file)]}
+                                  width={300}
+                                  height={300}
+                                  alt={file.name}
+                                  className="h-full w-full max-w-md object-contain"
+                                />
+                              )}
+                          </Suspense>
 
                           {checkIfVideo(file) && (
                             <video
@@ -221,7 +256,7 @@ const UploadModule = async (props: Props) => {
                             className="flex w-full max-w-sm flex-row items-center justify-between gap-4 p-2"
                           >
                             <span className="text-lg text-prim">
-                              {truncateString(file.name, 20)}
+                              {truncateString(file.name, 15)}
                             </span>
                             <span className="text-sm">
                               {bytesToString(file.size)}
@@ -324,10 +359,25 @@ const UploadModule = async (props: Props) => {
                     </div>
                   )}
 
-                  {!uploaded && !files && (
+                  {!uploaded && !files && !largeFile && !processingFiles && (
+                    <div className="flex flex-col gap-4">
+                      <p className="text-center font-jetbrains text-3xl uppercase">
+                        Drag &apos;n&apos; drop files here, or click to select
+                        files.
+                      </p>
+                      <p className="text-center font-jetbrains text-xl uppercase">
+                        Max per file size: 4MB
+                      </p>
+                    </div>
+                  )}
+                  {!uploaded && !files && largeFile && !processingFiles && (
                     <p className="text-center font-jetbrains text-3xl uppercase">
-                      Drag &apos;n&apos; drop files here, or click to select
-                      files
+                      File too large. Please upload files less than 4MB.
+                    </p>
+                  )}
+                  {!uploaded && !files && !fileBuffers && processingFiles && (
+                    <p className="mt-4 text-center font-jetbrains text-3xl uppercase">
+                      Processing files...
                     </p>
                   )}
                 </div>
@@ -346,7 +396,7 @@ const UploadModule = async (props: Props) => {
               </div>
 
               <div className="flex flex-row gap-8">
-                {!uploaded && (
+                {!uploaded && fileBuffers && fileBuffers.length > 0 && (
                   <button
                     className="rounded-md border-2 border-zinc-700 px-6 py-4 font-jetbrains text-xl uppercase text-prim hover:border-prim hover:bg-prim hover:text-zinc-800"
                     onClick={handleMultipleUpload}

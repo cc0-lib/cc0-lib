@@ -293,6 +293,10 @@ const Log = () => {
       version: "1.17.5",
       changes: ["uploader sort by name, type, id and date"],
     },
+    {
+      version: "1.17.6",
+      changes: ["limit uploader to 4mb per file", "ui and ux fixes"],
+    },
   ];
 
   return log.reverse();
