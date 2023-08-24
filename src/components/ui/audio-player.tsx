@@ -21,11 +21,11 @@ const AudioPlayer = ({ format, href, className }: AudioPlayerProps) => {
 
   const isIOS = useCallback(() => {
     return /iPad|iPhone|iPod/.test(navigator.userAgent);
-  }, [navigator.userAgent]);
+  }, []);
 
   const isAndroid = useCallback(() => {
     return /Android/.test(navigator.userAgent);
-  }, [navigator.userAgent]);
+  }, []);
 
   const isAudioFormatSupported = useCallback(
     (fileFormat: string) => {

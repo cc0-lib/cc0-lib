@@ -26,7 +26,8 @@ const DashboardLayout = ({ children }: Props) => {
             <div className="flex flex-row items-center justify-end gap-4 p-4">
               <Marquee className="font-jetbrains uppercase" pauseOnHover={true}>
                 <div className="mr-8">
-                  Dashboard is now in alpha. You can check view your submission,
+
+                  Dashboard is now in beta. You can check view your submission,
                   and check statuses. Please report any bugs at our{" "}
                   <Link
                     href="https://cc0-lib.canny.io/feature-request"
@@ -38,6 +39,9 @@ const DashboardLayout = ({ children }: Props) => {
                   </Link>
                   .
                 </div>
+                <div className="mr-8">
+                  Uploader (alpha) is now available for testing.
+                </div>
               </Marquee>
               <div className="px-4">
                 <ConnectButton />
@@ -48,7 +52,7 @@ const DashboardLayout = ({ children }: Props) => {
         </div>
       </div>
       <div className="flex h-auto min-h-screen w-full flex-col items-center justify-center md:hidden">
-        <span className="font-chakra uppercase">
+        <span className="font-jetbrains uppercase">
           Dashboard is not available on mobile. Please use a desktop browser.
         </span>
       </div>

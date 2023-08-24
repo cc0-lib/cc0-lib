@@ -272,8 +272,47 @@ const Log = () => {
         "dashboard.cc0-lib.wtf redirect to cc0-lib.wtf/dashboard",
       ],
     },
+    {
+      version: "1.17.0",
+      changes: ["uploader module"],
+    },
+    {
+      version: "1.17.1",
+      changes: [
+        "add download button in uploader",
+        "fixes and bug squashing",
+        "update dashboard ticker",
+      ],
+    },
+    {
+      version: "1.17.2",
+      changes: ["arweave url to include filename and extension"],
+    },
+    {
+      version: "1.17.3",
+      changes: [
+        "you can now upload in bulk",
+        "bulk submission is live",
+        "ui and ux fixes",
+      ],
+    },
+    {
+      version: "1.17.4",
+      changes: [
+        "you can export your uploaded content history",
+        "export to json or csv",
+      ],
+    },
+    {
+      version: "1.17.5",
+      changes: ["uploader sort by name, type, id and date"],
+    },
+    {
+      version: "1.17.6",
+      changes: ["limit uploader to 4mb per file", "ui and ux fixes"],
+    },
   ];
-
+  
   return log.reverse();
 };
 
