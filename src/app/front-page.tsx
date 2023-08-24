@@ -585,6 +585,7 @@ const FrontPageTicker = () => {
             cc0 content
           </Link>
         </div>
+        <div className="mr-64 flex flex-row gap-1 ">a nouns thing ⌐◨-◨</div>
         <div className="mr-64 flex flex-row gap-1 ">
           new{" "}
           <Link
@@ -595,6 +596,9 @@ const FrontPageTicker = () => {
             ai-assisted search
           </Link>{" "}
           feature is live
+        </div>
+        <div className="mr-64 flex flex-row gap-1 ">
+          cc0-lib is funded by nouns dao
         </div>
       </div>
     </Ticker>

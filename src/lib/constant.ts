@@ -11,6 +11,7 @@ export const staticPages: string[] = [
   "sitemap",
   "random",
   "fav",
+  "ai",
 ];
 
 export const TestMode: boolean = false;

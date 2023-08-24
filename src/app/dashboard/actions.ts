@@ -6,8 +6,7 @@ export const getSubmissionData = async (
   data: Item[];
   count: number;
 }> => {
-  // let url = `https://cc0-lib.wtf/api/data?ens=${ens}&raw=true`;
-  let url = `https://cc0-lib-git-dashboard-nouns-archive.vercel.app/api/data?ens=${ens}&raw=true`;
+  let url = `https://cc0-lib.wtf/api/data?ens=${ens}&raw=true`;
 
   if (process.env.NODE_ENV === "development") {
     url = `http://localhost:1311/api/data?ens=${ens}&raw=true`;

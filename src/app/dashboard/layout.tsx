@@ -26,7 +26,9 @@ const DashboardLayout = ({ children }: Props) => {
             <div className="flex flex-row items-center justify-end gap-4 p-4">
               <Marquee className="font-jetbrains uppercase" pauseOnHover={true}>
                 <div className="mr-8">
-                  Dashboard is now in beta. Please report any bugs at our{" "}
+
+                  Dashboard is now in beta. You can check view your submission,
+                  and check statuses. Please report any bugs at our{" "}
                   <Link
                     href="https://cc0-lib.canny.io/feature-request"
                     rel="noopener noreferrer"

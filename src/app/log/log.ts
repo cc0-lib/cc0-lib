@@ -231,6 +231,10 @@ const Log = () => {
       ],
     },
     {
+      version: "1.15.3",
+      changes: ["update ticker"],
+    },
+    {
       version: "1.16.0",
       changes: ["dashboard module"],
     },
@@ -256,6 +260,16 @@ const Log = () => {
         "temp hide dashboard on small screen",
         "filter and sort for submission list",
         "fix walletconnect",
+      ],
+    },
+    {
+      version: "1.16.4",
+      changes: [
+        "changed ticker message on dashboard",
+        "added /ai page to the sitemap",
+        "og for /ai",
+        "added link to dashboard in contribute page",
+        "dashboard.cc0-lib.wtf redirect to cc0-lib.wtf/dashboard",
       ],
     },
     {
@@ -298,7 +312,7 @@ const Log = () => {
       changes: ["limit uploader to 4mb per file", "ui and ux fixes"],
     },
   ];
-
+  
   return log.reverse();
 };
 
