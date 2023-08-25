@@ -121,7 +121,7 @@ const getData = async (): Promise<any> => {
     });
 
     const dbList = await res.json();
-    dbs = dbList.map((item) => item.ID);
+    dbs = dbList.map((db: { ID: string }) => db.ID);
 
     await Promise.all(
       dbs.map(async (db) => {
@@ -142,10 +142,22 @@ const getData = async (): Promise<any> => {
       })
     );
 
+    // trim tags and remove empty tags
+    const processedData = data.map((item: Item) => {
+      if (!item.Tags) return item;
+      const tags = item.Tags.map((tag: string) => {
+        return tag.trim();
+      });
+      const filteredTags = tags.filter((tag: string) => {
+        return tag !== "";
+      });
+      return { ...item, Tags: filteredTags };
+    });
+
     const result = {
       dbs: dbs,
       count: data.length,
-      data: data as Item[],
+      data: processedData as Item[],
     };
     console.log("data.length =>", data.length);
     return result;
@@ -240,9 +252,14 @@ export const getRawItems = async () => {
   // }
 
   // const { data } = await res.json();
-  const { data } = await getData();
 
-  return data as Item[];
+  try {
+    const { data } = await getData();
+    return data as Item[];
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
 };
 
 export const getDraftItems = async () => {
@@ -259,13 +276,18 @@ export const getDraftItems = async () => {
   // }
   // const { data } = await res.json();
 
-  const { data } = await getData();
+  try {
+    const { data } = await getData();
 
-  const draftItems = await data.filter((item) => {
-    return item.Status === "draft";
-  });
+    const draftItems = await data.filter((item) => {
+      return item.Status === "draft";
+    });
 
-  return draftItems as Item[];
+    return draftItems as Item[];
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
 };
 
 export const getDateFromItem = async (id: string) => {
