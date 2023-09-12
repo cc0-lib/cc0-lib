@@ -79,7 +79,7 @@ const Sentiment = ({ data }: SentimentProps) => {
         setDisliked(true);
       }
     }
-  }, [data, sentiment]);
+  }, [data]);
 
   useEffect(() => {
     if (liked) {

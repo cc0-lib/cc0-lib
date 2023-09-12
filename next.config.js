@@ -17,6 +17,12 @@ const nextConfig = {
       },
     ],
   },
+  // polyfills for wagmi
+  // https://github.com/wagmi-dev/wagmi/issues/2300
+  webpack: (config) => {
+    config.resolve.fallback = { fs: false, net: false, tls: false };
+    return config;
+  },
 };
 
 module.exports = nextConfig;

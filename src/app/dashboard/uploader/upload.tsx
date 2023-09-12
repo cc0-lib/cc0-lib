@@ -1,7 +1,7 @@
 "use client";
 
 import { useAccount, useEnsName } from "wagmi";
-import { TestENS, TestMode } from "@/lib/constant";
+import { SAMPLE_ENS, DEV_MODE } from "@/lib/constant";
 import { Suspense, useCallback, useEffect, useState } from "react";
 import Dropzone from "react-dropzone";
 import Link from "next/link";
@@ -32,8 +32,8 @@ const UploadModule = (props: Props) => {
     address,
   });
 
-  if (TestMode) {
-    ens = TestENS;
+  if (DEV_MODE) {
+    ens = SAMPLE_ENS;
   }
 
   const { isSignedIn } = useSIWE();

@@ -1,22 +1,23 @@
 "use server";
 
+import { HOSTNAME, PREV_HOSTNAME, PREV_MODE } from "@/lib/constant";
+
 export const getSubmissionData = async (
   ens: string
 ): Promise<{
   data: Item[];
   count: number;
 }> => {
-  let url = `https://cc0-lib.wtf/api/data?ens=${ens}&raw=true`;
 
-  if (process.env.NODE_ENV === "development") {
-    url = `http://localhost:1311/api/data?ens=${ens}&raw=true`;
-  }
+  const host = PREV_MODE ? PREV_HOSTNAME : HOSTNAME;
+  const url = `${host}/api/data?ens=${ens}&raw=true`;
 
   try {
     const res = await fetch(url, {
-      next: {
-        revalidate: 60,
-      },
+      // next: {
+      //   revalidate: 1,
+      // },
+      cache: "no-cache",
     });
     if (res.status !== 200) {
       return {

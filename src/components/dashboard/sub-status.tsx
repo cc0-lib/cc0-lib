@@ -12,7 +12,7 @@ import {
   FileSearch,
   FileX2,
 } from "lucide-react";
-import { TestENS, TestMode } from "@/lib/constant";
+import { SAMPLE_ENS, DEV_MODE } from "@/lib/constant";
 import Link from "next/link";
 import { Route } from "next";
 
@@ -27,8 +27,8 @@ const SubmissionStatusData = async () => {
     address,
   });
 
-  if (TestMode) {
-    ens = TestENS;
+  if (DEV_MODE) {
+    ens = SAMPLE_ENS;
   }
 
   const fetchData = useCallback(async () => {

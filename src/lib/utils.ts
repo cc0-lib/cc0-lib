@@ -1,4 +1,17 @@
+import { type ClassValue, clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
 import { z } from "zod";
+import {
+  DB_LIST_ID,
+  DEV_MODE,
+  HOSTNAME,
+  PREV_HOSTNAME,
+  PREV_MODE,
+} from "./constant";
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
 
 export const slugify = (text: string): string => {
   return text
@@ -95,6 +108,65 @@ export const getLikedItems = () => {
   return likedItems;
 };
 
+const getData = async (): Promise<any> => {
+  let dbs = [];
+  let data = [];
+
+  try {
+    const url = `https://notion-api.splitbee.io/v1/table/${DB_LIST_ID}`;
+    const res = await fetch(url, {
+      next: {
+        revalidate: 60,
+      },
+    });
+
+    const dbList = await res.json();
+    dbs = dbList.map((db: { ID: string }) => db.ID);
+
+    await Promise.all(
+      dbs.map(async (db) => {
+        const url = `https://notion-api.splitbee.io/v1/table/${db}`;
+        const res = await fetch(url, {
+          next: {
+            revalidate: 1,
+          },
+        });
+        const result = await res.json();
+        const editedResult = result.map((item) => {
+          return {
+            ...item,
+            ParentDB: db,
+          };
+        });
+        data = [...data, ...editedResult].flat() as [];
+      })
+    );
+
+    // trim tags and remove empty tags
+    const processedData = data.map((item: Item) => {
+      if (!item.Tags) return item;
+      const tags = item.Tags.map((tag: string) => {
+        return tag.trim();
+      });
+      const filteredTags = tags.filter((tag: string) => {
+        return tag !== "";
+      });
+      return { ...item, Tags: filteredTags };
+    });
+
+    const result = {
+      dbs: dbs,
+      count: data.length,
+      data: processedData as Item[],
+    };
+    console.log("data.length =>", data.length);
+    return result;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};
+
 const getParsedItems = async (data: Item[]): Promise<Item[]> => {
   const itemSchema = z.object({
     id: z.string(),
@@ -134,44 +206,88 @@ const getParsedItems = async (data: Item[]): Promise<Item[]> => {
   return publishedData;
 };
 
-export const getAllItems = async () => {
-  const res = await fetch(
-    "https://notion-api.splitbee.io/v1/table/872d317db9c64d3d88195b217cb3dc2f",
-    {
-      next: {
-        revalidate: 60,
-      },
+export const getPublishedItems = async () => {
+  // const host = PREV_MODE ? PREV_HOSTNAME : HOSTNAME;
+  // const url = `${host}/api/notion`;
+  // console.log(url);
+  try {
+    // const res = await fetch(url, {
+    //   next: {
+    //     revalidate: 60,
+    //   },
+    // });
+
+    // if (res.status !== 200) {
+    //   throw new Error("Failed to fetch data from DB");
+    // }
+
+    // const { data } = await res.json();
+
+    const { data } = await getData();
+    console.log("data.length from getPublishedItems =>", data.length);
+    const parsedData = await getParsedItems(data);
+
+    if (parsedData.length === 0) {
+      throw new Error("Failed to parse data from DB");
     }
-  );
-  if (res.status !== 200) {
-    throw new Error("Failed to fetch data from DB");
+
+    return parsedData as Item[];
+  } catch (error) {
+    console.log(error);
+    return [];
   }
-  const data: Item[] = await res.json();
-
-  const parsedData = await getParsedItems(data);
-
-  if (parsedData.length === 0) {
-    throw new Error("Failed to parse data from DB");
-  }
-
-  return parsedData;
 };
 
-export const getAllRawItems = async () => {
-  const res = await fetch(
-    "https://notion-api.splitbee.io/v1/table/872d317db9c64d3d88195b217cb3dc2f",
-    {
-      next: {
-        revalidate: 60,
-      },
-    }
-  );
-  if (res.status !== 200) {
-    throw new Error("Failed to fetch data from DB");
-  }
-  const rawData: Item[] = await res.json();
+export const getRawItems = async () => {
+  // const host = PREV_MODE ? PREV_HOSTNAME : HOSTNAME;
+  // const url = `${host}/api/notion`;
+  // const res = await fetch(url, {
+  //   next: {
+  //     revalidate: 1,
+  //   },
+  // });
 
-  return rawData;
+  // if (res.status !== 200) {
+  //   throw new Error("Failed to fetch data from DB");
+  // }
+
+  // const { data } = await res.json();
+
+  try {
+    const { data } = await getData();
+    return data as Item[];
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+};
+
+export const getDraftItems = async () => {
+  // const host = PREV_MODE ? PREV_HOSTNAME : HOSTNAME;
+  // const url = `${host}/api/notion`;
+  // const res = await fetch(url, {
+  //   next: {
+  //     revalidate: 1,
+  //   },
+  // });
+
+  // if (res.status !== 200) {
+  //   throw new Error("Failed to fetch data from DB");
+  // }
+  // const { data } = await res.json();
+
+  try {
+    const { data } = await getData();
+
+    const draftItems = await data.filter((item) => {
+      return item.Status === "draft";
+    });
+
+    return draftItems as Item[];
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
 };
 
 export const getDateFromItem = async (id: string) => {
@@ -189,11 +305,9 @@ export const getDateFromItem = async (id: string) => {
 };
 
 export const getRepliesFromFC = async (slug: string) => {
-  let url = `https://cc0-lib.wtf/api/fc?slug=${slug}`;
-  // if development, use local api
-  if (process.env.NODE_ENV === "development") {
-    url = `http://localhost:1311/api/fc?slug=${slug}`;
-  }
+  const host = PREV_MODE ? PREV_HOSTNAME : HOSTNAME;
+  const url = `${host}/api/fc?slug=${slug}`;
+
   const res = await fetch(url);
   if (res.status !== 200) {
     return [];

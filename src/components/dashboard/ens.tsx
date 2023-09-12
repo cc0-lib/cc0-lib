@@ -1,6 +1,6 @@
 "use client";
 
-import { TestENS, TestMode } from "@/lib/constant";
+import { SAMPLE_ENS, DEV_MODE } from "@/lib/constant";
 import { useSIWE } from "connectkit";
 import { useAccount, useEnsName } from "wagmi";
 
@@ -12,8 +12,8 @@ const DashboardENS = () => {
     address,
   });
 
-  if (TestMode) {
-    ens = TestENS;
+  if (DEV_MODE) {
+    ens = SAMPLE_ENS;
   }
 
   const truncatedAddress = address?.slice(0, 6) + "..." + address?.slice(-4);

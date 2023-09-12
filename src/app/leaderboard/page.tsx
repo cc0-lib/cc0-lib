@@ -1,5 +1,5 @@
 import Container from "@/components/ui/container";
-import { getAllItems, handleENSLeaderboard } from "@/lib/utils";
+import { getPublishedItems, handleENSLeaderboard } from "@/lib/utils";
 import { ScrollIcon, Send } from "lucide-react";
 import { Route } from "next";
 import Link from "next/link";
@@ -41,7 +41,7 @@ export const generateMetadata = async () => {
 };
 
 const LeaderboardPage = async () => {
-  const data = await getAllItems();
+  const data = await getPublishedItems();
 
   const top10 = handleENSLeaderboard(data).top10;
   const top10Data = handleENSLeaderboard(data).top10Data;

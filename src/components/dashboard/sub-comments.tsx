@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useAccount, useEnsName } from "wagmi";
 import { getSubmissionData } from "@/app/dashboard/actions";
 import { getComments, getViews } from "@/lib/redis";
-import { TestENS, TestMode } from "@/lib/constant";
+import { SAMPLE_ENS, DEV_MODE } from "@/lib/constant";
 
 const SubmissionComments = async () => {
   const { address } = useAccount();
@@ -16,8 +16,8 @@ const SubmissionComments = async () => {
     address,
   });
 
-  if (TestMode) {
-    ens = TestENS;
+  if (DEV_MODE) {
+    ens = SAMPLE_ENS;
   }
 
   const fetchData = useCallback(async () => {

@@ -1,6 +1,6 @@
 "use client";
 
-import { TestMode } from "@/lib/constant";
+import { DEV_MODE } from "@/lib/constant";
 import { ArrowDownToLine, Loader2 } from "lucide-react";
 import { useState } from "react";
 
@@ -16,7 +16,7 @@ const DownloadButton = ({ node }: { node: BundlrQueryResponseNode }) => {
     )?.value;
     const url = `https://arweave.net/${file.id}`;
 
-    if (TestMode) {
+    if (DEV_MODE) {
       console.log(filename, contentType, url);
     }
 

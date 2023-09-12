@@ -1,14 +1,19 @@
 "use client";
 
-import { TestENS, TestMode } from "@/lib/constant";
+import { SAMPLE_ENS, DEV_MODE } from "@/lib/constant";
 import { slugify } from "@/lib/utils";
 import {
+  Clock4,
+  Eye,
   FileCheck2,
   FileEdit,
   FilePlus2,
   FileQuestion,
   FileSearch,
   FileX2,
+  Pencil,
+  Send,
+  View,
 } from "lucide-react";
 import { Route } from "next";
 import Image from "next/image";
@@ -41,8 +46,8 @@ const SubmissionListPage = ({ rawData }: { rawData: Item[] }) => {
     address,
   });
 
-  if (TestMode) {
-    ens = TestENS;
+  if (DEV_MODE) {
+    ens = SAMPLE_ENS;
   }
 
   useEffect(() => {
@@ -118,14 +123,34 @@ const SubmissionListPage = ({ rawData }: { rawData: Item[] }) => {
   }, [isSorted]);
 
   const act = (status: string) => {
+    const statuses = ["preview", "edit"];
     if (status === "submitted" || status === "under-review") {
-      return "wait";
+      const index = statuses.indexOf("edit");
+      if (index > -1) {
+        statuses.splice(index, 1);
+      }
+      statuses.push("wait");
+    } else if (status === "draft") {
+      statuses.push("submit");
+    } else if (status === "approved") {
+      statuses.push("view");
     }
-    return "edit";
+    return statuses;
   };
 
   return (
-    <GridCard title={`${submissionListType} Submissions by ${ens}`}>
+    <GridCard
+      title={`${submissionListType} Submissions by ${ens}`}
+      subtitle={
+        <Link
+          href="/dashboard/submissions/add"
+          className="flex flex-row items-center gap-2 font-jetbrains uppercase hover:text-prim"
+        >
+          <FilePlus2 size={16} />
+          <span>Add Submission</span>
+        </Link>
+      }
+    >
       <GridCardSmall title="filter">
         <div className="flex flex-row items-center justify-between gap-4 font-jetbrains uppercase">
           <Link
@@ -214,7 +239,7 @@ const SubmissionListPage = ({ rawData }: { rawData: Item[] }) => {
               </Link>
             </th>
 
-            <th className="border border-zinc-800 px-4 text-left">Action</th>
+            <th className="border border-zinc-800 px-4 text-left">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -228,8 +253,12 @@ const SubmissionListPage = ({ rawData }: { rawData: Item[] }) => {
                 id={item.ID}
                 format={item.Filetype}
                 status={item.SubmissionStatus as string}
-                action={act(item.SubmissionStatus as string)}
-                imageUri={item.Thumbnails[0].url}
+                actions={act(item.SubmissionStatus as string)}
+                imageUri={
+                  item.Thumbnails
+                    ? item.Thumbnails[0].url
+                    : "https://placehold.co/300x300/black/white/?text=Under+Review"
+                }
               />
             ))}
         </tbody>
@@ -244,10 +273,12 @@ const GridCard = ({
   title,
   children,
   link,
+  subtitle,
 }: {
   title: string;
   children?: React.ReactNode;
   link?: string;
+  subtitle?: React.ReactNode;
 }) => {
   return (
     <div className="flex w-full flex-col items-start border-2 border-zinc-700">
@@ -255,7 +286,7 @@ const GridCard = ({
         className={`self-align-start inset-0 flex w-full flex-col items-start gap-8 
               border-b-2 border-zinc-700 bg-zinc-900 px-16 py-8`}
       >
-        <div className="flex w-full flex-row justify-between">
+        <div className="flex w-full flex-row items-center justify-between">
           {link ? (
             <Link href={link as Route}>
               <h1 className="font-jetbrains text-lg uppercase hover:text-prim">
@@ -264,6 +295,12 @@ const GridCard = ({
             </Link>
           ) : (
             <span className="font-jetbrains text-lg uppercase">{title}</span>
+          )}
+
+          {subtitle && (
+            <div className="-mr-8 flex max-w-md flex-row items-center justify-center gap-4 text-right font-jetbrains text-sm uppercase text-zinc-400">
+              {subtitle}
+            </div>
           )}
         </div>
       </div>
@@ -310,7 +347,7 @@ const TableItem = ({
   id,
   format,
   status,
-  action,
+  actions,
   imageUri,
 }: {
   title: string;
@@ -318,9 +355,11 @@ const TableItem = ({
   id: number;
   format: string;
   status: string;
-  action: string;
+  actions: string[];
   imageUri: string;
 }) => {
+  const submissionEdit: boolean = true;
+
   return (
     <tr key={id} className="font-spline normal-case">
       <td className="p-2">
@@ -368,28 +407,92 @@ const TableItem = ({
           </span>
         )}
       </td>
-      {title && title.length > 0 && action === "preview" && (
-        <td className="border border-zinc-800 px-4 uppercase text-zinc-700 hover:text-prim">
-          <Link href={`/dashboard/submissions/${slugify(title)}` as Route}>
-            {action}
-          </Link>
-        </td>
-      )}
-      {title && title.length > 0 && action === "view" && (
-        <td className="border border-zinc-800 px-4 uppercase text-zinc-700 hover:text-prim">
-          <Link href={`/${slugify(title)}` as Route}>{action}</Link>
-        </td>
-      )}
-      {title && title.length > 0 && action === "edit" && (
-        <td className="border border-zinc-800 px-4 uppercase text-zinc-700 line-through ">
-          <>{action}</>
-        </td>
-      )}
-      {title && title.length > 0 && action === "wait" && (
-        <td className="border border-zinc-800 px-4 uppercase text-zinc-700">
-          <>{action}</>
-        </td>
-      )}
+      <td className="border border-zinc-800 px-4 uppercase text-zinc-200">
+        <div className="flex flex-row items-center justify-start gap-2">
+          {actions &&
+            title &&
+            title.length > 0 &&
+            actions.map((action) => {
+              if (action === "view") {
+                return (
+                  <span className="text-lg" key={action}>
+                    <Link href={`/${slugify(title)}` as Route}>
+                      <View className="h-5 w-5 hover:text-prim" />
+                    </Link>
+                  </span>
+                );
+              }
+              if (action === "edit") {
+                return (
+                  <span className="text-lg" key={action}>
+                    {submissionEdit ? (
+                      <Link
+                        href={
+                          `/dashboard/submissions/edit/${slugify(
+                            title
+                          )}` as Route
+                        }
+                      >
+                        <Pencil className="h-5 w-5 hover:text-prim" />
+                      </Link>
+                    ) : (
+                      <Pencil className="h-5 w-5 text-zinc-700" />
+                    )}
+                  </span>
+                );
+              }
+              if (action === "preview") {
+                return (
+                  <span className="text-lg" key={action}>
+                    <Link
+                      href={`/dashboard/submissions/${slugify(title)}` as Route}
+                    >
+                      <Eye className="h-5 w-5 hover:text-prim" />
+                    </Link>
+                  </span>
+                );
+              }
+              if (action === "wait") {
+                return (
+                  <span className="text-lg" key={action}>
+                    <Clock4 className="h-5 w-5" />
+                  </span>
+                );
+              }
+            })}
+          {/* {title && title.length > 0 && action === "preview" && (
+            // <td className="border border-zinc-800 px-4 uppercase text-zinc-700 hover:text-prim">
+            <Link href={`/dashboard/submissions/${slugify(title)}` as Route}>
+              {action}
+            </Link>
+            // </td>
+          )}
+          {title && title.length > 0 && action === "view" && (
+            // <td className="border border-zinc-800 px-4 uppercase text-zinc-700 hover:text-prim">
+            <Link href={`/${slugify(title)}` as Route}>{action}</Link>
+            // </td>
+          )}
+          {title && title.length > 0 && action === "edit" && (
+            // <td className="border border-zinc-800 px-4 uppercase text-zinc-700 hover:text-prim ">
+            <Link
+              href={`/dashboard/submissions/edit/${slugify(title)}` as Route}
+            >
+              {action}
+            </Link>
+            // </td>
+          )}
+          {title && title.length > 0 && action === "submit" && (
+            // <td className="border border-zinc-800 px-4 uppercase text-zinc-700 hover:text-prim ">
+            <div className="flex flex-row items-center justify-center gap-2"></div>
+            // </td>
+          )}
+          {title && title.length > 0 && action === "wait" && (
+            // <td className="border border-zinc-800 px-4 uppercase text-zinc-700">
+            <>{action}</>
+            // </td>
+          )} */}
+        </div>
+      </td>
     </tr>
   );
 };

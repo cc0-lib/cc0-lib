@@ -1,4 +1,4 @@
-import { getAllItems } from "@/lib/utils";
+import { getPublishedItems } from "@/lib/utils";
 import FrontPage from "./front-page";
 
 export const generateMetadata = async () => {
@@ -38,7 +38,7 @@ export const generateMetadata = async () => {
 };
 
 export default async function Home() {
-  const data = await getAllItems();
+  const data = await getPublishedItems();
 
   return (
     <>

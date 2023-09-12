@@ -311,6 +311,18 @@ const Log = () => {
       version: "1.17.6",
       changes: ["limit uploader to 4mb per file", "ui and ux fixes"],
     },
+    {
+      version: "1.18.0",
+      changes: [
+        "submission module for contributors",
+        "edit submission",
+        "add new submission",
+      ],
+    },
+    {
+      version: "1.18.1",
+      changes: ["api fixes", "data fixes"],
+    },
   ];
   
   return log.reverse();
