@@ -51,7 +51,7 @@ export const handleENSLeaderboard = (sourceData: Item[]) => {
     return b.count - a.count;
   });
 
-  const topEns = sortedEnsCount.slice(0, 10);
+  const topEns = sortedEnsCount.slice(0, 20);
 
   const topEnsData = topEns.map((ens) => {
     const data = sourceData.filter((item) => {

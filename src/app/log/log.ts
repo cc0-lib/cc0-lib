@@ -323,8 +323,17 @@ const Log = () => {
       version: "1.18.1",
       changes: ["api fixes", "data fixes"],
     },
+    {
+      version: "1.18.2",
+      changes: [
+        "minor typo fix",
+        "ticker update",
+        "link to dashboard",
+        "ui fixes",
+      ],
+    },
   ];
-  
+
   return log.reverse();
 };
 

@@ -565,6 +565,16 @@ const FrontPageTicker = () => {
     <Ticker position="bottom">
       <div className="flex flex-row">
         <div className="mr-64 flex flex-row gap-1 ">
+          <Link
+            href="/dashboard"
+            rel="noreferrer noopener"
+            className="bg-zinc-800 text-prim underline hover:bg-prim hover:text-zinc-800"
+          >
+            dashboard
+          </Link>{" "}
+          is now live. you can add, edit and view your submissions
+        </div>
+        <div className="mr-64 flex flex-row gap-1 ">
           Thank you Nouns DAO contributors and supporters.{" "}
           <Link
             href="https://nouns.wtf/vote/343"

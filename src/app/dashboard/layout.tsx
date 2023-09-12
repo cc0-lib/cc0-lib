@@ -26,9 +26,9 @@ const DashboardLayout = ({ children }: Props) => {
             <div className="flex flex-row items-center justify-end gap-4 p-4">
               <Marquee className="font-jetbrains uppercase" pauseOnHover={true}>
                 <div className="mr-8">
-
-                  Dashboard is now in beta. You can check view your submission,
-                  and check statuses. Please report any bugs at our{" "}
+                  Dashboard is now out of beta. You can check add new
+                  submission, view or edit your submissions and check statuses.
+                  Please report any bugs at our{" "}
                   <Link
                     href="https://cc0-lib.canny.io/feature-request"
                     rel="noopener noreferrer"
@@ -40,7 +40,8 @@ const DashboardLayout = ({ children }: Props) => {
                   .
                 </div>
                 <div className="mr-8">
-                  Uploader (alpha) is now available for testing.
+                  Uploader now support batch uploading. Max size is 4MB per
+                  file.
                 </div>
               </Marquee>
               <div className="px-4">

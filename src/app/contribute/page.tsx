@@ -46,14 +46,41 @@ const ContributePage = () => {
         <span className="font-rubik text-4xl sm:text-6xl">contribute</span>
         <span className="w-full max-w-prose text-lg text-white sm:w-1/2">
           got cc0 content? want to contribute? contribute to cc0-lib, get your
-          name on the leaderboard!
+          name on the{" "}
+          <Link
+            href={"/leaderboard"}
+            className="bg-zinc-800 text-prim underline hover:bg-prim hover:text-zinc-800"
+          >
+            leaderboard
+          </Link>
+          !
         </span>
+
         <span className="font-rubik text-4xl sm:text-6xl">
-          single submission
+          dashboard{" "}
+          <span className="rounded-md px-1 py-[2px] align-top text-base outline outline-1 outline-prim hover:bg-prim hover:text-zinc-800">
+            new
+          </span>
+        </span>
+        <span className="w-full max-w-prose text-lg text-white sm:w-1/2">
+          <Link
+            href={"/dashboard"}
+            className="bg-zinc-800 text-prim underline hover:bg-prim hover:text-zinc-800"
+          >
+            dashboard
+          </Link>{" "}
+          is now live. use it to add, edit and track your submissions.
+        </span>
+
+        {/* <span className="font-rubik text-4xl sm:text-6xl">
+          single submission{" "}
+          <span className="rounded-md px-1 py-[2px] align-top text-base text-zinc-400 outline outline-1 outline-zinc-400 hover:bg-zinc-400 hover:text-zinc-800">
+            old
+          </span>
         </span>
         <span className="w-full max-w-prose text-lg text-white sm:w-1/2">
           single submission is easy, just fill in the form
-        </span>
+        </span> */}
 
         <Link
           href="/submit"
@@ -123,23 +150,20 @@ const ContributePage = () => {
             on polygon network
           </li>
         </ul>
-        <span className="font-rubik text-4xl sm:text-6xl">contributed?</span>
+        {/* <span className="font-rubik text-4xl sm:text-6xl">contributed?</span>
         <span className="w-full max-w-prose text-lg text-white sm:w-1/2">
-          our dashboard alpha is now live. view and{" "}
+          view and{" "}
           <Link
             href={"/dashboard"}
             className="bg-zinc-800 text-prim underline hover:bg-prim hover:text-zinc-800"
           >
             track your submission
-          </Link>
-          .
-        </span>
-        <span className="w-full max-w-prose text-lg text-white sm:w-1/2">
-          we are working on editable submission and uploader too!
-        </span>
+          </Link>{" "}
+          here .
+        </span> */}
         <span className="font-rubik text-4xl sm:text-6xl">mail us</span>
         <span className="w-full max-w-prose text-lg text-white sm:w-1/2">
-          mail us: cc0-lib[at]archives.wtf
+          mail us: submissions[at]cc0-lib.wtf
         </span>
       </div>
     </Container>

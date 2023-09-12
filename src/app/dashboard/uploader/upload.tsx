@@ -366,7 +366,7 @@ const UploadModule = (props: Props) => {
                         files.
                       </p>
                       <p className="text-center font-jetbrains text-xl uppercase">
-                        Max per file size: 4MB
+                        Max size per file: 4MB
                       </p>
                     </div>
                   )}

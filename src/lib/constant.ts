@@ -12,6 +12,7 @@ export const staticPages: string[] = [
   "random",
   "fav",
   "ai",
+  "dashboard",
 ];
 
 export const DEV_MODE: boolean = process.env.NODE_ENV === "development";
