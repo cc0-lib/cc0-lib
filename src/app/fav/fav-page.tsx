@@ -62,6 +62,11 @@ const FavPage = ({ initialData }: FavPageProps) => {
             </p>
           )}
         </div>
+        {data.length == 0 && (
+          <p className="text-2xl lowercase">
+            Add some favorites! Begin browsing and curating your perfect list
+          </p>
+        )}
 
         <Suspense fallback={<div>Loading</div>}>
           {data && (

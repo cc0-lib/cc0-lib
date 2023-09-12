@@ -47,7 +47,7 @@ const TestPage = async (props: Props) => {
                 />
               )}
 
-              {item.ThumbnailURL && (
+              {/* {item.ThumbnailURL && (
                 <Image
                   src={
                     checkIfImage(item.ThumbnailURL)
@@ -58,7 +58,7 @@ const TestPage = async (props: Props) => {
                   width={200}
                   height={200}
                 />
-              )}
+              )} */}
             </div>
           ))}
       </div>

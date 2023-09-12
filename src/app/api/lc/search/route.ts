@@ -91,15 +91,6 @@ export const GET = async (request: NextRequest) => {
 
     console.log(`Took ${(end - start).toFixed(2)}s`);
 
-    return NextResponse.json(
-      {
-        query: q,
-        count: relevantItems.length,
-        data: relevantItemsData,
-      },
-      { status: 200 }
-    );
-
     if (score === "true") {
       return NextResponse.json(
         {
@@ -110,6 +101,16 @@ export const GET = async (request: NextRequest) => {
         { status: 200 }
       );
     }
+    
+    return NextResponse.json(
+      {
+        query: q,
+        count: relevantItems.length,
+        data: relevantItemsData,
+      },
+      { status: 200 }
+    );
+
   } catch (error) {
     console.error(error);
     return NextResponse.json(
