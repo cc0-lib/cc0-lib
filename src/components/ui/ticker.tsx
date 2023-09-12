@@ -17,7 +17,9 @@ const Ticker = ({ children, position, className }: TickerProps) => {
         py-3 font-chakra text-xs uppercase
          text-zinc-300 backdrop-blur-sm`}
     >
-      <Marquee autoFill={true}>{children}</Marquee>
+      <Marquee pauseOnHover autoFill={true}>
+        {children}
+      </Marquee>
     </div>
   );
 };

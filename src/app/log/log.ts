@@ -231,6 +231,10 @@ const Log = () => {
       ],
     },
     {
+      version: "1.15.3",
+      changes: ["update ticker"],
+    },
+    {
       version: "1.16.0",
       changes: ["dashboard module"],
     },
@@ -259,6 +263,16 @@ const Log = () => {
       ],
     },
     {
+      version: "1.16.4",
+      changes: [
+        "changed ticker message on dashboard",
+        "added /ai page to the sitemap",
+        "og for /ai",
+        "added link to dashboard in contribute page",
+        "dashboard.cc0-lib.wtf redirect to cc0-lib.wtf/dashboard",
+      ],
+    },
+    {
       version: "1.17.0",
       changes: ["uploader module"],
     },
@@ -269,6 +283,33 @@ const Log = () => {
         "fixes and bug squashing",
         "update dashboard ticker",
       ],
+    },
+    {
+      version: "1.17.2",
+      changes: ["arweave url to include filename and extension"],
+    },
+    {
+      version: "1.17.3",
+      changes: [
+        "you can now upload in bulk",
+        "bulk submission is live",
+        "ui and ux fixes",
+      ],
+    },
+    {
+      version: "1.17.4",
+      changes: [
+        "you can export your uploaded content history",
+        "export to json or csv",
+      ],
+    },
+    {
+      version: "1.17.5",
+      changes: ["uploader sort by name, type, id and date"],
+    },
+    {
+      version: "1.17.6",
+      changes: ["limit uploader to 4mb per file", "ui and ux fixes"],
     },
     {
       version: "1.18.0",
@@ -283,7 +324,7 @@ const Log = () => {
       changes: ["api fixes", "data fixes"],
     },
   ];
-
+  
   return log.reverse();
 };
 

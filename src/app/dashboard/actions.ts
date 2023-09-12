@@ -8,6 +8,7 @@ export const getSubmissionData = async (
   data: Item[];
   count: number;
 }> => {
+
   const host = PREV_MODE ? PREV_HOSTNAME : HOSTNAME;
   const url = `${host}/api/data?ens=${ens}&raw=true`;
 

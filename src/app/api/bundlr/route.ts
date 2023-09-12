@@ -10,12 +10,18 @@ const bundlr = new Bundlr(bundlrNode, "matic", key, {
   providerUrl: "https://polygon-rpc.com/",
 });
 
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "POST, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type",
+};
+
 export const GET = async () => {
   return NextResponse.json(
     {
       data: "miao",
     },
-    { status: 200 }
+    { status: 200, headers: corsHeaders }
   );
 };
 
@@ -27,7 +33,7 @@ export const POST = async (request: NextRequest) => {
       {
         message: "invalid secret",
       },
-      { status: 400 }
+      { status: 400, headers: corsHeaders }
     );
   }
 
@@ -37,6 +43,7 @@ export const POST = async (request: NextRequest) => {
     "checkPrice",
     "uploadFile",
     "uploadFolder",
+    "neoUploadFile",
   ];
 
   if (!allowedTypes.includes(type) || !type) {
@@ -44,7 +51,7 @@ export const POST = async (request: NextRequest) => {
       {
         message: "invalid type",
       },
-      { status: 400 }
+      { status: 400, headers: corsHeaders }
     );
   }
 
@@ -54,7 +61,7 @@ export const POST = async (request: NextRequest) => {
         {
           message: "invalid data / no data",
         },
-        { status: 400 }
+        { status: 400, headers: corsHeaders }
       );
     }
     try {
@@ -63,7 +70,7 @@ export const POST = async (request: NextRequest) => {
           {
             message: `funding failed. amount is required`,
           },
-          { status: 400 }
+          { status: 400, headers: corsHeaders }
         );
       }
 
@@ -74,14 +81,14 @@ export const POST = async (request: NextRequest) => {
           {
             message: `funding successful. tx: ${res.id} - amount funded ${res.quantity}`,
           },
-          { status: 200 }
+          { status: 200, headers: corsHeaders }
         );
       } else {
         return NextResponse.json(
           {
             message: `funding failed. amount must be greater than 0`,
           },
-          { status: 400 }
+          { status: 400, headers: corsHeaders }
         );
       }
     } catch (error) {
@@ -89,7 +96,7 @@ export const POST = async (request: NextRequest) => {
         {
           message: `funding failed. ${error}`,
         },
-        { status: 400 }
+        { status: 400, headers: corsHeaders }
       );
     }
   }
@@ -109,6 +116,7 @@ export const POST = async (request: NextRequest) => {
         },
         {
           status: 200,
+          headers: corsHeaders,
         }
       );
     } catch (error) {
@@ -116,7 +124,7 @@ export const POST = async (request: NextRequest) => {
         {
           message: `getting balance failed. ${error}`,
         },
-        { status: 400 }
+        { status: 400, headers: corsHeaders }
       );
     }
   }
@@ -127,7 +135,7 @@ export const POST = async (request: NextRequest) => {
         {
           message: "invalid data / no data",
         },
-        { status: 400 }
+        { status: 400, headers: corsHeaders }
       );
     }
     if (!data.bytes || data.bytes === 0 || typeof data.bytes !== "number") {
@@ -135,7 +143,7 @@ export const POST = async (request: NextRequest) => {
         {
           message: `getting price failed. bytes is required / must be greater than 0 / must be a number`,
         },
-        { status: 400 }
+        { status: 400, headers: corsHeaders }
       );
     }
     try {
@@ -151,6 +159,7 @@ export const POST = async (request: NextRequest) => {
         },
         {
           status: 200,
+          headers: corsHeaders,
         }
       );
     } catch (error) {
@@ -158,7 +167,71 @@ export const POST = async (request: NextRequest) => {
         {
           message: `getting price failed. ${error}`,
         },
-        { status: 400 }
+        { status: 400, headers: corsHeaders }
+      );
+    }
+  }
+
+  if (type === "neoUploadFile") {
+    if (!data) {
+      return NextResponse.json(
+        {
+          message: "invalid data / no data",
+        },
+        { status: 400, headers: corsHeaders }
+      );
+    }
+
+    try {
+      const { path, name, ens } = data;
+
+      if (!path || !name || !ens) {
+        return NextResponse.json(
+          {
+            message:
+              "file upload failed. file, name, type, and ens are required",
+          },
+          { status: 400, headers: corsHeaders }
+        );
+      }
+
+      const tags = [
+        {
+          name: "Filename",
+          value: name,
+        },
+        {
+          name: "Uploader",
+          value: ens,
+        },
+        {
+          name: "App",
+          value: "cc0-lib desktop uploader",
+        },
+      ];
+
+      const { id, timestamp } = await bundlr.uploadFile(path, { tags });
+
+      return NextResponse.json(
+        {
+          message: `file upload successful.`,
+          data: {
+            id: id,
+            url: `https://arweave.net/${id}`,
+            timestamp: timestamp,
+          },
+        },
+        {
+          status: 200,
+          headers: corsHeaders,
+        }
+      );
+    } catch (error) {
+      return NextResponse.json(
+        {
+          message: `file upload failed. ${error}`,
+        },
+        { status: 400, headers: corsHeaders }
       );
     }
   }
@@ -169,7 +242,7 @@ export const POST = async (request: NextRequest) => {
         {
           message: "invalid data / no data",
         },
-        { status: 400 }
+        { status: 400, headers: corsHeaders }
       );
     }
 
@@ -182,7 +255,7 @@ export const POST = async (request: NextRequest) => {
             message:
               "file upload failed. file, name, type, and ens are required",
           },
-          { status: 400 }
+          { status: 400, headers: corsHeaders }
         );
       }
 
@@ -228,6 +301,7 @@ export const POST = async (request: NextRequest) => {
         },
         {
           status: 200,
+          headers: corsHeaders,
         }
       );
     } catch (error) {
@@ -235,7 +309,7 @@ export const POST = async (request: NextRequest) => {
         {
           message: `file upload failed. ${error}`,
         },
-        { status: 400 }
+        { status: 400, headers: corsHeaders }
       );
     }
   }
@@ -246,7 +320,7 @@ export const POST = async (request: NextRequest) => {
         {
           message: "invalid data / no data",
         },
-        { status: 400 }
+        { status: 400, headers: corsHeaders }
       );
     }
 
@@ -255,7 +329,7 @@ export const POST = async (request: NextRequest) => {
         {
           message: "uploading folder failed. file is required",
         },
-        { status: 400 }
+        { status: 400, headers: corsHeaders }
       );
     }
 
@@ -267,7 +341,7 @@ export const POST = async (request: NextRequest) => {
           {
             message: "uploading file failed. path and ens are required",
           },
-          { status: 400 }
+          { status: 400, headers: corsHeaders }
         );
       }
 
@@ -284,6 +358,7 @@ export const POST = async (request: NextRequest) => {
         },
         {
           status: 200,
+          headers: corsHeaders,
         }
       );
     } catch (error) {
@@ -291,7 +366,7 @@ export const POST = async (request: NextRequest) => {
         {
           message: `uploading folder failed. ${error}`,
         },
-        { status: 400 }
+        { status: 400, headers: corsHeaders }
       );
     }
   }

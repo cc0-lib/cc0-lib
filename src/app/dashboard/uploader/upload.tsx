@@ -6,7 +6,7 @@ import { Suspense, useCallback, useEffect, useState } from "react";
 import Dropzone from "react-dropzone";
 import Link from "next/link";
 import Image from "next/image";
-import { LinkIcon, RotateCw, UploadCloud } from "lucide-react";
+import { BadgeCheck, RotateCw, UploadCloud } from "lucide-react";
 import UploadedListPage from "./uploaded-list";
 import { Route } from "next";
 import { useSIWE } from "connectkit";
@@ -15,17 +15,18 @@ import { bytesToString } from "@/lib/utils";
 const secret = process.env.NEXT_PUBLIC_UPLOADER_SECRET_KEY as string;
 
 type Props = {};
-const UploadModule = async (props: Props) => {
+const UploadModule = (props: Props) => {
   const { address } = useAccount();
   const [log, setLog] = useState<string>("");
-  const [file, setFile] = useState<File | null>(null);
-  const [fileBuffer, setFileBuffer] = useState<any | null>(null);
+  const [files, setFiles] = useState<File[] | null>(null);
+  const [fileBuffers, setFileBuffers] = useState<any[] | null>(null);
   const [uploaded, setUploaded] = useState<boolean>(false);
-  const [arweaveURL, setArweaveURL] = useState<string>("");
-  const [arweaveTimestamp, setArweaveTimestamp] = useState<string>("");
-  const [arweaveID, setArweaveID] = useState<string>("");
-  const [uploadedIsImage, setUploadedIsImage] = useState<boolean>(false);
-  const [uploadedIsVideo, setUploadedIsVideo] = useState<boolean>(false);
+  const [fileURLs, setFileURLs] = useState<string[]>([]);
+  const [fileTimestamps, setFileTimestamps] = useState<string[]>([]);
+  const [fileIDs, setFileIDs] = useState<string[]>([]);
+  const [largeFile, setLargeFile] = useState<boolean>(false);
+  const [preview, setPreview] = useState<boolean>(false);
+  const [processingFiles, setProcessingFiles] = useState<boolean>(false);
 
   let { data: ens } = useEnsName({
     address,
@@ -37,192 +38,354 @@ const UploadModule = async (props: Props) => {
 
   const { isSignedIn } = useSIWE();
 
-  const handleFile = useCallback(async (acceptedFiles: any) => {
-    const file = acceptedFiles[0];
-    const reader = new FileReader();
-    setFile(file);
+  const handleMultipleFiles = useCallback(async (acceptedFiles: any) => {
+    const buffers: any[] = [];
+    const files: any[] = [];
 
-    reader.onload = (e) => {
-      const res = e.target?.result;
-      if (!res) {
-        return;
-      }
-      setLog(`${file.name} loaded.`);
-      setFileBuffer(res);
-    };
+    const filteredFiles = acceptedFiles.filter((file: File) => {
+      return file.size < 4000000;
+    });
 
-    reader.readAsDataURL(file);
-  }, []);
+    for (const file of filteredFiles) {
+      console.log(file);
+      const reader = new FileReader();
 
-  const handleUpload = useCallback(
-    async (e: any) => {
-      if (!file) {
-        return;
-      }
-      setLog(`Uploading ${file.name}...`);
-
-      const data: UploaderFileRequestData = {
-        name: file.name,
-        type: file.type,
-        ens: ens as string,
-        file: fileBuffer,
+      reader.onload = (e) => {
+        const res = e.target?.result;
+        if (!res) {
+          return;
+        }
+        files.push(file);
+        buffers.push(res);
       };
 
-      const res = await fetch("/api/bundlr", {
-        method: "POST",
-        body: JSON.stringify({
-          type: "uploadFile",
-          secret: secret,
-          data: data,
-        }),
-      });
+      reader.readAsDataURL(file);
+    }
 
-      const { message, data: resData } =
-        (await res.json()) as UploaderFileResponse;
+    // wait for all files to be read
+    while (buffers.length < acceptedFiles.length) {
+      await new Promise((resolve) => setTimeout(resolve, 300));
+    }
 
-      setLog(message);
+    setLog(`${files.length} ${files.length > 1 ? "files" : "file"} loaded`);
+    setFiles(files);
+    setFileBuffers(buffers);
+  }, []);
+
+  const handleMultipleUpload = useCallback(
+    async (e: any) => {
+      if (!files) {
+        return;
+      }
+
+      const arweaveURLs: string[] = [];
+      const arweaveIDs: string[] = [];
+      const arweaveTimestamps: string[] = [];
+
+      for (const file of files) {
+        setLog(
+          `Uploading ${files.length} ${files.length > 1 ? "files" : "file"}...`
+        );
+
+        if (fileBuffers === null) {
+          return;
+        }
+
+        const data: UploaderFileRequestData = {
+          name: file.name,
+          type: file.type,
+          ens: ens as string,
+          file: fileBuffers[files.indexOf(file)],
+        };
+
+        const res = await fetch("/api/bundlr", {
+          method: "POST",
+          body: JSON.stringify({
+            type: "uploadFile",
+            secret: secret,
+            data: data,
+          }),
+        });
+
+        const { message, data: resData } =
+          (await res.json()) as UploaderFileResponse;
+
+        if (!resData) {
+          return;
+        }
+
+        arweaveIDs.push(resData.id);
+        arweaveURLs.push(resData.url);
+        arweaveTimestamps.push(resData.timestamp);
+        setFileURLs(arweaveURLs);
+        setFileIDs(arweaveIDs);
+        setFileTimestamps(arweaveTimestamps);
+      }
+      setLog(`${files.length} ${files.length > 1 ? "files" : "file"} uploaded`);
       setUploaded(true);
-      setArweaveURL(resData.url);
-      setArweaveID(resData.id);
-      setArweaveTimestamp(resData.timestamp);
     },
-    [file]
+    [files]
   );
 
+  const checkIfImage = useCallback((file: File) => {
+    const allowedContentTypes = [
+      "image/jpeg",
+      "image/jpg",
+      "image/png",
+      "image/gif",
+      "image/webp",
+      "image/svg+xml",
+    ];
+
+    if (allowedContentTypes.includes(file.type)) {
+      return true;
+    } else {
+      return false;
+    }
+  }, []);
+
+  const checkIfVideo = useCallback((file: File) => {
+    const allowedContentTypes = ["video/mp4", "video/webm"];
+
+    if (allowedContentTypes.includes(file.type)) {
+      return true;
+    } else {
+      return false;
+    }
+  }, []);
+
+  const truncateString = useCallback((str: string, len: number): string => {
+    const string = str.length > len ? str.slice(0, len) + "..." : str;
+    return string;
+  }, []);
+
   const handleReset = useCallback(() => {
-    setFile(null);
     setLog("");
-    setFileBuffer(null);
+    setFiles(null);
+    setFileBuffers(null);
     setUploaded(false);
-    setArweaveURL("");
-    setArweaveID("");
-    setArweaveTimestamp("");
+    setFileURLs([]);
+    setFileIDs([]);
+    setFileTimestamps([]);
+    setLargeFile(false);
+    setPreview(false);
   }, []);
 
   useEffect(() => {
     handleReset;
   }, []);
 
-  useEffect(() => {
-    if (file) {
-      const checkIfImage = () => {
-        const allowedContentTypes = [
-          "image/jpeg",
-          "image/jpg",
-          "image/png",
-          "image/gif",
-          "image/webp",
-          "image/svg+xml",
-        ];
-
-        if (allowedContentTypes.includes(file.type)) {
-          return true;
-        } else {
-          return false;
-        }
-      };
-
-      const checkIfVideo = () => {
-        const allowedContentTypes = ["video/mp4", "video/webm"];
-
-        if (allowedContentTypes.includes(file.type)) {
-          return true;
-        } else {
-          return false;
-        }
-      };
-
-      setUploadedIsImage(checkIfImage());
-      setUploadedIsVideo(checkIfVideo());
-    }
-  }, [file]);
-
   return (
     <>
       {ens && isSignedIn && (
         <>
-          <Suspense
-            fallback={<span className="text-zinc-200">Loading...</span>}
+          <Dropzone
+            onDrop={async (acceptedFiles) => {
+              setFiles(null);
+              setFileBuffers(null);
+              setUploaded(false);
+              setProcessingFiles(true);
+              await handleMultipleFiles(acceptedFiles);
+              setPreview(true);
+              setProcessingFiles(false);
+            }}
+            maxSize={4000000}
+            onDropRejected={(err) => {
+              const fileErr = err[0].errors[0].code === "file-too-large";
+              if (fileErr) {
+                setLargeFile(true);
+                setLog(
+                  `File size too large. Please upload files less than 4MB.`
+                );
+              }
+            }}
           >
-            <Dropzone
-              onDrop={(acceptedFiles) => {
-                handleFile(acceptedFiles);
-              }}
-            >
-              {({ getRootProps, getInputProps }) => (
-                <section className="w-full">
-                  <div
-                    {...getRootProps({
-                      className:
-                        "border-2 border-dashed border-zinc-700 p-16 text-zinc-200 w-full items-center text-center justify-center",
-                    })}
-                  >
-                    <input {...getInputProps()} />
-                    {!uploaded && file && fileBuffer && uploadedIsImage && (
-                      <div className="mb-8 flex h-auto w-full items-center justify-center">
-                        <Image
-                          src={fileBuffer}
-                          width={300}
-                          height={300}
-                          alt={file.name}
-                          className="h-auto w-full max-w-md object-contain"
-                        />
-                      </div>
-                    )}
-                    {!uploaded && file && fileBuffer && uploadedIsVideo && (
-                      <video
-                        src={fileBuffer}
-                        controls
-                        className="mb-8 h-auto w-full object-contain"
-                      />
-                    )}
-                    {!uploaded && file && (
-                      <div className="flex flex-col items-center justify-center gap-4 text-center font-jetbrains text-3xl uppercase">
-                        <span className="text-2xl text-prim">{file.name}</span>
-                        <span className="text-xl">
-                          {bytesToString(file.size)}
-                        </span>
-                      </div>
-                    )}
-                    {!uploaded && !file && (
-                      <p className="text-center font-jetbrains text-3xl uppercase">
-                        Drag &apos;n&apos; drop file here, or click to select
-                        file
-                      </p>
-                    )}
-                    {uploaded &&
-                      file &&
-                      uploadedIsImage &&
-                      arweaveID &&
-                      arweaveURL && (
-                        <div className="flex h-auto w-full items-center justify-center">
-                          <Image
-                            src={arweaveURL}
-                            width={300}
-                            height={300}
-                            alt={arweaveID}
-                            className="h-auto w-full max-w-md object-contain"
-                          />
-                        </div>
-                      )}
-                    {uploaded &&
-                      file &&
-                      uploadedIsVideo &&
-                      arweaveID &&
-                      arweaveURL && (
-                        <video
-                          src={arweaveURL}
-                          controls
-                          className="h-auto w-full object-contain"
-                        />
-                      )}
-                  </div>
-                </section>
-              )}
-            </Dropzone>
-          </Suspense>
+            {({ getRootProps, getInputProps }) => (
+              <section className="w-full">
+                <div
+                  {...getRootProps({
+                    className:
+                      "border-2 border-dashed border-zinc-700 p-16 text-zinc-200 w-full items-center text-center justify-center",
+                  })}
+                >
+                  <input {...getInputProps()} />
+                  {!uploaded && files && fileBuffers && preview && (
+                    <div
+                      className={`${files.length < 2 && "w-full"} 
+                        ${files.length === 2 && "grid grid-cols-2"}
+                        ${files.length > 2 && "grid grid-cols-3"}
+                        items-center justify-center gap-4 font-jetbrains
+                         `}
+                    >
+                      {files.map((file) => (
+                        <div
+                          key={file.name}
+                          className="flex h-full w-full flex-col items-center justify-between gap-8"
+                        >
+                          <Suspense fallback={<div>Loading...</div>}>
+                            {checkIfImage(file) &&
+                              fileBuffers[files.indexOf(file)] && (
+                                <Image
+                                  src={fileBuffers[files.indexOf(file)]}
+                                  width={300}
+                                  height={300}
+                                  alt={file.name}
+                                  className="h-full w-full max-w-md object-contain"
+                                />
+                              )}
+                          </Suspense>
 
-          {file && (
+                          {checkIfVideo(file) && (
+                            <video
+                              src={fileBuffers[files.indexOf(file)]}
+                              controls
+                              className="mb-8 h-auto w-full object-contain"
+                            />
+                          )}
+                          {!checkIfVideo(file) && !checkIfImage(file) && (
+                            <Image
+                              src={`https://placehold.co/300x300/black/white/?text=${file.type}`}
+                              width={300}
+                              height={300}
+                              alt={file.name}
+                              className="h-auto w-full max-w-md object-contain"
+                            />
+                          )}
+                          <div
+                            key={file.name}
+                            className="flex w-full max-w-sm flex-row items-center justify-between gap-4 p-2"
+                          >
+                            <span className="text-lg text-prim">
+                              {truncateString(file.name, 15)}
+                            </span>
+                            <span className="text-sm">
+                              {bytesToString(file.size)}
+                            </span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  {uploaded && files && fileBuffers && (
+                    <div
+                      className={`${files.length < 2 && "w-full"} 
+                      ${files.length === 2 && "grid grid-cols-2"}
+                      ${files.length > 2 && "grid grid-cols-3"}
+                      items-center justify-center gap-4 font-jetbrains
+                       `}
+                    >
+                      {files.map((file) => (
+                        <div
+                          key={file.name}
+                          className="flex h-full w-full flex-col items-center justify-between gap-8"
+                        >
+                          {checkIfImage(file) && (
+                            <Image
+                              src={fileBuffers[files.indexOf(file)]}
+                              width={300}
+                              height={300}
+                              alt={file.name}
+                              className="h-full w-full max-w-md object-contain"
+                            />
+                          )}
+
+                          {checkIfVideo(file) && (
+                            <video
+                              src={fileBuffers[files.indexOf(file)]}
+                              controls
+                              className="mb-8 h-auto w-full object-contain"
+                            />
+                          )}
+                          {!checkIfVideo(file) && !checkIfImage(file) && (
+                            <Image
+                              src={`https://placehold.co/300x300/black/white/?text=${file.name}`}
+                              width={300}
+                              height={300}
+                              alt={file.name}
+                              className="h-auto w-full max-w-md object-contain"
+                            />
+                          )}
+                          <div className="flex w-full max-w-sm flex-row items-center justify-between gap-4 p-2">
+                            <span className="text-lg text-prim">
+                              {truncateString(file.name, 20)}
+                              <BadgeCheck className="ml-2 inline-block h-6 w-6 items-center" />
+                            </span>
+                            <span className="text-sm">
+                              {bytesToString(file.size)}
+                            </span>
+                            {/* {arweaveURL && arweaveURL.length > 0 && (
+                                <Link
+                                  href={
+                                    arweaveURL.split("\n")[
+                                      files.indexOf(file)
+                                    ] as Route
+                                  }
+                                  rel="noopener noreferrer"
+                                  target="_blank"
+                                  className="hover:text-prim"
+                                >
+                                  <LinkIcon className="h-6 w-6 items-center" />
+                                </Link>
+                              )} */}
+                          </div>
+                          {fileIDs.length > 0 &&
+                            fileURLs.length > 0 &&
+                            fileTimestamps.length > 0 && (
+                              <div className="-mt-8 flex w-full max-w-sm flex-row items-center justify-between gap-2 p-2">
+                                {fileTimestamps && (
+                                  <>
+                                    <span>
+                                      {new Date(
+                                        Number(
+                                          fileTimestamps[files.indexOf(file)]
+                                        )
+                                      ).toLocaleDateString("en-US")}
+                                    </span>
+                                    <span>
+                                      {new Date(
+                                        Number(
+                                          fileTimestamps[files.indexOf(file)]
+                                        )
+                                      ).toLocaleTimeString("en-US", {
+                                        hour12: false,
+                                      })}
+                                    </span>
+                                  </>
+                                )}
+                              </div>
+                            )}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {!uploaded && !files && !largeFile && !processingFiles && (
+                    <div className="flex flex-col gap-4">
+                      <p className="text-center font-jetbrains text-3xl uppercase">
+                        Drag &apos;n&apos; drop files here, or click to select
+                        files.
+                      </p>
+                      <p className="text-center font-jetbrains text-xl uppercase">
+                        Max per file size: 4MB
+                      </p>
+                    </div>
+                  )}
+                  {!uploaded && !files && largeFile && !processingFiles && (
+                    <p className="text-center font-jetbrains text-3xl uppercase">
+                      File too large. Please upload files less than 4MB.
+                    </p>
+                  )}
+                  {!uploaded && !files && !fileBuffers && processingFiles && (
+                    <p className="mt-4 text-center font-jetbrains text-3xl uppercase">
+                      Processing files...
+                    </p>
+                  )}
+                </div>
+              </section>
+            )}
+          </Dropzone>
+
+          {files && (
             <div className="flex w-full flex-row items-center justify-between gap-8 p-2">
               <div className="flex flex-col items-center gap-4">
                 {log && log.length > 0 && (
@@ -233,42 +396,6 @@ const UploadModule = async (props: Props) => {
               </div>
 
               <div className="flex flex-row gap-8">
-                {arweaveURL && arweaveURL.length > 0 && (
-                  <div className="flex flex-row items-center gap-8">
-                    <span className="h-auto whitespace-pre-line font-jetbrains text-zinc-200">
-                      <Link
-                        href={arweaveURL as Route}
-                        rel="noopener noreferrer"
-                        target="_blank"
-                        className="hover:text-prim"
-                      >
-                        <LinkIcon className="h-8 w-8 items-center" />
-                      </Link>
-                    </span>
-                    <span className="flex h-auto flex-col whitespace-pre-line font-jetbrains text-zinc-200">
-                      <span>
-                        {new Date(arweaveTimestamp).toLocaleDateString("en-US")}
-                      </span>
-                      <span>
-                        {new Date(arweaveTimestamp).toLocaleTimeString(
-                          "en-US",
-                          {
-                            hour12: false,
-                          }
-                        )}
-                      </span>
-                    </span>
-                  </div>
-                )}
-                {!uploaded && (
-                  <button
-                    className="rounded-md border-2 border-zinc-700 px-6 py-4 font-jetbrains text-xl uppercase text-prim hover:border-prim hover:bg-prim hover:text-zinc-800"
-                    onClick={handleUpload}
-                    title="Upload"
-                  >
-                    <UploadCloud className="h-6 w-6 items-center" />
-                  </button>
-                )}
                 <button
                   className="rounded-md border-2 border-zinc-700 px-6 py-4 font-jetbrains text-xl uppercase text-prim hover:border-prim hover:bg-prim hover:text-zinc-800"
                   onClick={handleReset}
@@ -276,6 +403,15 @@ const UploadModule = async (props: Props) => {
                 >
                   <RotateCw className="h-6 w-6 items-center" />
                 </button>
+                {!uploaded && fileBuffers && fileBuffers.length > 0 && (
+                  <button
+                    className="rounded-md border-2 border-zinc-700 px-6 py-4 font-jetbrains text-xl uppercase text-prim hover:border-prim hover:bg-prim hover:text-zinc-800"
+                    onClick={handleMultipleUpload}
+                    title="Upload"
+                  >
+                    <UploadCloud className="h-6 w-6 items-center" />
+                  </button>
+                )}
               </div>
             </div>
           )}

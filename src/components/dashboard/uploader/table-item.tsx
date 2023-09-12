@@ -45,6 +45,13 @@ const UploaderTableItem = async ({
     return `${fileName}.${format}` as string;
   };
 
+  const fullFilename = (node: BundlrQueryResponseNode): string => {
+    const tag = node.tags.find(
+      (tag) => tag.name === "Filename"
+    ) as BundlrQueryResponseTag;
+    return tag.value as string;
+  };
+
   return (
     <tr key={node.id} className="font-spline normal-case">
       <td className="border border-zinc-800">
@@ -88,13 +95,15 @@ const UploaderTableItem = async ({
         <div className="flex flex-row items-center justify-center gap-4">
           <button
             onClick={() => {
-              navigator.clipboard.writeText(`https://arweave.net/${node.id}`);
+              navigator.clipboard.writeText(
+                `https://arweave.net/${node.id}/${fullFilename(node)}`
+              );
             }}
           >
             <Clipboard className="h-6 w-6 items-center hover:text-prim" />
           </button>
           <Link
-            href={`https://arweave.net/${node.id}`}
+            href={`https://arweave.net/${node.id}/${fullFilename(node)}`}
             rel="noopener noreferrer"
             target="_blank"
           >
