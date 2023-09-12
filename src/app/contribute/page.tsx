@@ -82,7 +82,7 @@ const ContributePage = () => {
           single submission is easy, just fill in the form
         </span> */}
 
-        <Link
+        {/* <Link
           href="/submit"
           className="-mt-4 w-full max-w-prose text-lg text-white sm:w-1/2"
         >
@@ -91,7 +91,7 @@ const ContributePage = () => {
               submit here
             </span>
           </div>
-        </Link>
+        </Link> */}
 
         <span className="font-rubik text-4xl sm:text-6xl">bulk submission</span>
         <span className="w-full max-w-prose text-lg text-white sm:w-1/2">
