@@ -9,6 +9,12 @@ import SubmissionStatusData from "@/components/dashboard/sub-status";
 import SubmissionViews from "@/components/dashboard/sub-views";
 import SubmissionComments from "@/components/dashboard/sub-comments";
 import UploadedCount from "@/components/dashboard/sub-uploaded";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 type Props = {};
 const DashBoard = (props: Props) => {
@@ -25,12 +31,20 @@ const DashBoard = (props: Props) => {
             </span>
           </div>
           <GridRow>
-            <GridCard title="submissions" link="/dashboard/submissions">
+            <GridCard
+              title="submissions"
+              link="/dashboard/submissions"
+              tooltip="add, view, edit submissions"
+            >
               <Suspense fallback={<GridNumber>XXX</GridNumber>}>
                 <SubmissionCount />
               </Suspense>
             </GridCard>
-            <GridCard title="uploaded" link="/dashboard/uploader">
+            <GridCard
+              title="uploaded"
+              link="/dashboard/uploader"
+              tooltip="upload"
+            >
               <Suspense fallback={<GridNumber>XXX</GridNumber>}>
                 <UploadedCount />
               </Suspense>
@@ -41,6 +55,7 @@ const DashBoard = (props: Props) => {
             <GridCard
               title="live submissions"
               link="/dashboard/submissions?published=true"
+              tooltip="view live submissions"
             >
               <Suspense fallback={<GridNumber>N/A</GridNumber>}>
                 <SubmissionData />
@@ -49,6 +64,7 @@ const DashBoard = (props: Props) => {
             <GridCard
               title="submission status"
               link="/dashboard/submissions?draft=true"
+              tooltip="view draft submissions"
             >
               <Suspense fallback={<GridNumber>N/A</GridNumber>}>
                 <SubmissionStatusData />
@@ -103,10 +119,12 @@ const GridCard = ({
   title,
   children,
   link,
+  tooltip,
 }: {
   title: string;
   children?: React.ReactNode;
   link?: string;
+  tooltip?: string;
 }) => {
   return (
     <div className="flex w-full flex-col items-start border-2 border-zinc-700">
@@ -116,7 +134,21 @@ const GridCard = ({
       >
         <div className="flex w-full flex-row justify-between">
           <span className="font-jetbrains text-lg uppercase">{title}</span>
-          {link && link.length > 0 && (
+          {link && link.length > 0 && tooltip && tooltip.length > 0 && (
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger>
+                  <Link href={link as Route}>
+                    <ArrowUpRight className="h-6 w-6 text-zinc-600 hover:text-prim" />
+                  </Link>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <span>{tooltip}</span>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          )}
+          {link && link.length > 0 && !tooltip && (
             <Link href={link as Route}>
               <ArrowUpRight className="h-6 w-6 text-zinc-600 hover:text-prim" />
             </Link>

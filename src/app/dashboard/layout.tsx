@@ -15,14 +15,17 @@ const DashboardLayout = ({ children }: Props) => {
         <div className="flex h-auto w-full min-w-min max-w-7xl flex-col border-2 border-zinc-700">
           <header className="flex w-full flex-row items-center justify-between border-b-2 border-zinc-700 bg-zinc-900">
             <Link
-              href="/dashboard"
+              href="/"
               className="flex h-full flex-row items-center justify-start gap-8 border-r-2 border-zinc-700 px-16 py-8"
             >
               <Image src="/cc0lib.svg" alt="logo" width={60} height={60} />
-              <h1 className="mr-12 font-jetbrains text-xl uppercase">
-                dashboard
-              </h1>
+              <Link href="/dashboard">
+                <h1 className="mr-12 font-jetbrains text-xl uppercase hover:text-prim">
+                  dashboard
+                </h1>
+              </Link>
             </Link>
+
             <div className="flex flex-row items-center justify-end gap-4 p-4">
               <Marquee className="font-jetbrains uppercase" pauseOnHover={true}>
                 <div className="mr-8">

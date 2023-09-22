@@ -2,6 +2,12 @@ import { Clipboard, LinkIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import DownloadButton from "@/components/dashboard/uploader/file-dl";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 const UploaderTableItem = async ({
   node,
@@ -92,24 +98,51 @@ const UploaderTableItem = async ({
       </td>
 
       <td className="border border-zinc-800 px-4 uppercase ">
-        <div className="flex flex-row items-center justify-center gap-4">
-          <button
-            onClick={() => {
-              navigator.clipboard.writeText(
-                `https://arweave.net/${node.id}/${fullFilename(node)}`
-              );
-            }}
-          >
-            <Clipboard className="h-6 w-6 items-center hover:text-prim" />
-          </button>
-          <Link
-            href={`https://arweave.net/${node.id}/${fullFilename(node)}`}
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            <LinkIcon className="h-6 w-6 items-center hover:text-prim" />
-          </Link>
-          <DownloadButton node={node} />
+        <div className="flex flex-row items-start justify-center gap-4">
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger>
+                <button
+                  onClick={() => {
+                    navigator.clipboard.writeText(
+                      `https://arweave.net/${node.id}/${fullFilename(node)}`
+                    );
+                  }}
+                >
+                  <Clipboard className="h-6 w-6 items-center hover:text-prim" />
+                </button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <span>Copy Arweave ID</span>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger>
+                <Link
+                  href={`https://arweave.net/${node.id}/${fullFilename(node)}`}
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  <LinkIcon className="h-6 w-6 items-center hover:text-prim" />
+                </Link>
+              </TooltipTrigger>
+              <TooltipContent>
+                <span>Arweave Link</span>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger>
+                <DownloadButton node={node} />
+              </TooltipTrigger>
+              <TooltipContent>
+                <span>Download</span>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </div>
       </td>
     </tr>

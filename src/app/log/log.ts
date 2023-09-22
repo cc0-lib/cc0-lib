@@ -332,6 +332,13 @@ const Log = () => {
         "ui fixes",
       ],
     },
+    {
+      version: "1.18.3",
+      changes: [
+        "added tooltips to dashboard, uploader and submission page",
+        "copy fixes",
+      ],
+    },
   ];
 
   return log.reverse();

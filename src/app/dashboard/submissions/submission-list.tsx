@@ -15,6 +15,12 @@ import {
   Send,
   View,
 } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { Route } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -385,26 +391,32 @@ const TableItem = ({
       {/* <td className="border border-zinc-800 px-4">{status}</td> */}
       <td className="border border-zinc-800 px-4">
         {status && status.length > 0 && (
-          <span
-            title={status}
-            className="flex h-auto w-full items-center justify-center p-2"
-          >
-            {status === "rejected" && (
-              <FileX2 className="h-5 w-5 text-red-400" />
-            )}
-            {status === "under-review" && (
-              <FileSearch className="h-5 w-5 text-orange-400" />
-            )}
-            {status === "submitted" && (
-              <FilePlus2 className="h-5 w-5 text-prim" />
-            )}
-            {status === "approved" && (
-              <FileCheck2 className="h-5 w-5 text-green-400" />
-            )}
-            {status === "draft" && (
-              <FileEdit className="h-5 w-5 text-zinc-300" />
-            )}
-          </span>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger>
+                <span className="flex h-auto w-full items-center justify-center p-2">
+                  {status === "rejected" && (
+                    <FileX2 className="h-5 w-5 text-red-400" />
+                  )}
+                  {status === "under-review" && (
+                    <FileSearch className="h-5 w-5 text-orange-400" />
+                  )}
+                  {status === "submitted" && (
+                    <FilePlus2 className="h-5 w-5 text-prim" />
+                  )}
+                  {status === "approved" && (
+                    <FileCheck2 className="h-5 w-5 text-green-400" />
+                  )}
+                  {status === "draft" && (
+                    <FileEdit className="h-5 w-5 text-zinc-300" />
+                  )}
+                </span>
+              </TooltipTrigger>
+              <TooltipContent>
+                <span>{status}</span>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         )}
       </td>
       <td className="border border-zinc-800 px-4 uppercase text-zinc-200">
@@ -416,46 +428,86 @@ const TableItem = ({
               if (action === "view") {
                 return (
                   <span className="text-lg" key={action}>
-                    <Link href={`/${slugify(title)}` as Route}>
-                      <View className="h-5 w-5 hover:text-prim" />
-                    </Link>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger>
+                          <Link href={`/${slugify(title)}` as Route}>
+                            <View className="h-5 w-5 hover:text-prim" />
+                          </Link>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <span>View</span>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
                   </span>
                 );
               }
               if (action === "edit") {
                 return (
                   <span className="text-lg" key={action}>
-                    {submissionEdit ? (
-                      <Link
-                        href={
-                          `/dashboard/submissions/edit/${slugify(
-                            title
-                          )}` as Route
-                        }
-                      >
-                        <Pencil className="h-5 w-5 hover:text-prim" />
-                      </Link>
-                    ) : (
-                      <Pencil className="h-5 w-5 text-zinc-700" />
-                    )}
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger>
+                          {submissionEdit ? (
+                            <Link
+                              href={
+                                `/dashboard/submissions/edit/${slugify(
+                                  title
+                                )}` as Route
+                              }
+                            >
+                              <Pencil className="h-5 w-5 hover:text-prim" />
+                            </Link>
+                          ) : (
+                            <Pencil className="h-5 w-5 text-zinc-700" />
+                          )}
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <span>Edit</span>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
                   </span>
                 );
               }
               if (action === "preview") {
                 return (
                   <span className="text-lg" key={action}>
-                    <Link
-                      href={`/dashboard/submissions/${slugify(title)}` as Route}
-                    >
-                      <Eye className="h-5 w-5 hover:text-prim" />
-                    </Link>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger>
+                          <Link
+                            href={
+                              `/dashboard/submissions/${slugify(
+                                title
+                              )}` as Route
+                            }
+                          >
+                            <Eye className="h-5 w-5 hover:text-prim" />
+                          </Link>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <span>Preview</span>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
                   </span>
                 );
               }
               if (action === "wait") {
                 return (
                   <span className="text-lg" key={action}>
-                    <Clock4 className="h-5 w-5" />
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger>
+                          <Clock4 className="h-5 w-5" />
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <span>Wait</span>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
                   </span>
                 );
               }

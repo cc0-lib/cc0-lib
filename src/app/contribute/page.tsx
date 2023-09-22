@@ -45,15 +45,18 @@ const ContributePage = () => {
       <div className="duration-250 peer flex w-full flex-col gap-8 bg-transparent px-4 py-16 text-prim drop-shadow-md transition-all ease-linear selection:bg-zinc-800 selection:text-sec placeholder:text-zinc-600 focus:rounded-sm focus:bg-zinc-800 focus:bg-opacity-50 focus:outline-none focus:backdrop-blur-md sm:p-16">
         <span className="font-rubik text-4xl sm:text-6xl">contribute</span>
         <span className="w-full max-w-prose text-lg text-white sm:w-1/2">
-          got cc0 content? want to contribute? contribute to cc0-lib, get your
-          name on the{" "}
+          do you have any cc0 materials you&apos;d like to share with us? refer
+          the dashboard section below to get started.
+        </span>
+        <span className="w-full max-w-prose text-lg text-white sm:w-1/2">
+          you could also check the{" "}
           <Link
             href={"/leaderboard"}
             className="bg-zinc-800 text-prim underline hover:bg-prim hover:text-zinc-800"
           >
             leaderboard
-          </Link>
-          !
+          </Link>{" "}
+          to get some inspirations
         </span>
 
         <span className="font-rubik text-4xl sm:text-6xl">
@@ -63,13 +66,18 @@ const ContributePage = () => {
           </span>
         </span>
         <span className="w-full max-w-prose text-lg text-white sm:w-1/2">
+          contributor&apos;s{" "}
           <Link
             href={"/dashboard"}
             className="bg-zinc-800 text-prim underline hover:bg-prim hover:text-zinc-800"
           >
             dashboard
           </Link>{" "}
-          is now live. use it to add, edit and track your submissions.
+          is now live. a one stop center for you to manage your cc0 submissions.
+        </span>
+        <span className="w-full max-w-prose text-lg text-white sm:w-1/2">
+          you can upload files, add and edit submissions, check and track your
+          submission status here.
         </span>
 
         {/* <span className="font-rubik text-4xl sm:text-6xl">
@@ -95,10 +103,10 @@ const ContributePage = () => {
 
         <span className="font-rubik text-4xl sm:text-6xl">bulk submission</span>
         <span className="w-full max-w-prose text-lg text-white sm:w-1/2">
-          too many to submit? bulk submit instead
+          do you have a large dataset to submit at once?
         </span>
-        <span className="flex w-full max-w-prose flex-row gap-2 text-lg text-white sm:w-1/2">
-          download
+        <span className="w-full max-w-prose text-lg text-white sm:w-1/2">
+          use the provided csv file to bulk submit. download
           <FileDownloader
             data={{
               url: "https://arweave.net/MmkebGQjN6kxcW8Hl84w7hXtBsa57QG4T3Mrhe4jLgU",
@@ -106,39 +114,55 @@ const ContributePage = () => {
             }}
           />
         </span>
-        <span className="-mt-8 text-lg text-white">
-          edit the csv and mail us
+        <span className="w-full max-w-prose text-lg text-white sm:w-1/2">
+          you can complete the csv file with all the necessary submission
+          information and email the file back to us.
         </span>
 
         <span className="text-2xl text-prim">guide</span>
         <ul className="-mt-4 w-full max-w-prose text-base text-white sm:w-1/2">
-          <li>
-            <Dot className="inline-block h-8 w-8" />
-            thumbnail image
-          </li>
+          <li className="ml-2">thumbnail image</li>
           <li className="ml-4">
             <Dot className="inline-block h-8 w-8" />
             use direct link (eg: http://site.com/image.png)
           </li>
           <li className="ml-4">
             <Dot className="inline-block h-8 w-8" />
-            alternative: imgur
+            alternative: upload it on{" "}
+            <Link
+              href="https://imgur.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-zinc-800 text-prim underline hover:bg-prim hover:text-zinc-800"
+            >
+              imgur
+            </Link>
           </li>
-          <li>
-            <Dot className="inline-block h-8 w-8" />
-            file
-          </li>
+          <li className="ml-2">file</li>
           <li className="ml-4">
             <Dot className="inline-block h-8 w-8" />
             use direct link (eg: http://site.com/file.zip)
           </li>
           <li className="ml-4">
             <Dot className="inline-block h-8 w-8" />
-            alternative: s3/drive/dropbox/ipfs/arweave
+            alternative: amazon s3 / google drive / dropbox / ipfs / arweave
           </li>
           <li className="ml-4">
             <Dot className="inline-block h-8 w-8" />
-            want to upload to arweave? use{" "}
+            you can upload to arweave using our{" "}
+            <Link
+              href="/dashboard/uploader"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-zinc-800 text-prim underline hover:bg-prim hover:text-zinc-800"
+            >
+              uploader
+            </Link>{" "}
+            here.
+          </li>
+          <li className="ml-4">
+            <Dot className="inline-block h-8 w-8" />
+            you can also upload to arweave on polygon network using{" "}
             <Link
               href="https://uploadr.app"
               target="_blank"
@@ -146,8 +170,8 @@ const ContributePage = () => {
               className="bg-zinc-800 text-prim underline hover:bg-prim hover:text-zinc-800"
             >
               uploadr.app
-            </Link>{" "}
-            on polygon network
+            </Link>
+            . you must have MATIC in your wallet to utilise this dapp.
           </li>
         </ul>
         {/* <span className="font-rubik text-4xl sm:text-6xl">contributed?</span>

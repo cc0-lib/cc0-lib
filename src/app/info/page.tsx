@@ -156,8 +156,9 @@ const InfoPage = () => {
               href="/random"
               className="bg-zinc-800 text-prim underline hover:bg-prim hover:text-zinc-800"
             >
-              content
-            </Link>
+              our content
+            </Link>{" "}
+            in interactive way!
           </Description>
         </Card>
 
@@ -216,6 +217,20 @@ const InfoPage = () => {
         </Card>
 
         <Card>
+          <Title>ideas/request?</Title>
+          <Description>
+            submit your{" "}
+            <Link
+              target="_blank"
+              href="https://cc0-lib.canny.io/feature-request"
+              className="bg-zinc-800 text-prim underline hover:bg-prim hover:text-zinc-800"
+            >
+              ideas
+            </Link>
+          </Description>
+        </Card>
+
+        <Card>
           <Title>disclaimer</Title>
           <Description>
             read our{" "}
@@ -256,20 +271,6 @@ const InfoPage = () => {
               NFT
             </Link>{" "}
             will go towards the development of cc0-lib.
-          </Description>
-        </Card>
-
-        <Card>
-          <Title>ideas/request?</Title>
-          <Description>
-            submit your{" "}
-            <Link
-              target="_blank"
-              href="https://cc0-lib.canny.io/feature-request"
-              className="bg-zinc-800 text-prim underline hover:bg-prim hover:text-zinc-800"
-            >
-              ideas
-            </Link>
           </Description>
         </Card>
       </div>
