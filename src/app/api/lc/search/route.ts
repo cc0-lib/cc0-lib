@@ -101,7 +101,7 @@ export const GET = async (request: NextRequest) => {
         { status: 200 }
       );
     }
-    
+
     return NextResponse.json(
       {
         query: q,
@@ -110,7 +110,6 @@ export const GET = async (request: NextRequest) => {
       },
       { status: 200 }
     );
-
   } catch (error) {
     console.error(error);
     return NextResponse.json(
