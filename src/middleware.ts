@@ -3,6 +3,12 @@ import { NextRequest, NextResponse } from "next/server";
 const testPages = ["/draft", "/rive-test", "/loading-test"];
 
 export const middleware = async (request: NextRequest) => {
+  let response = NextResponse.next({
+    request: {
+      headers: request.headers,
+    },
+  });
+
   const userToken = request.cookies.get("cc0-lib-siwe")?.value;
 
   if (!userToken) {
@@ -18,6 +24,8 @@ export const middleware = async (request: NextRequest) => {
       return NextResponse.redirect(new URL("/", request.url));
     }
   }
+
+  return response;
 };
 
 export const config = {
