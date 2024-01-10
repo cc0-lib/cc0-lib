@@ -5,17 +5,25 @@ const nextConfig = {
     typedRoutes: true,
   },
   images: {
-    unoptimized: true,
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "notion.so",
+        hostname: "www.notion.so",
       },
       {
         protocol: "https",
         hostname: "api.cloudnouns.com",
       },
+      {
+        protocol: "https",
+        hostname: "arweave.net",
+      },
+      {
+        protocol: "https",
+        hostname: "placehold.co",
+      },
     ],
+    dangerouslyAllowSVG: true,
   },
   // polyfills for wagmi
   // https://github.com/wagmi-dev/wagmi/issues/2300
