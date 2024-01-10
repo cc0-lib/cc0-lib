@@ -207,24 +207,14 @@ const getParsedItems = async (data: Item[]): Promise<Item[]> => {
 };
 
 export const getPublishedItems = async () => {
-  // const host = PREV_MODE ? PREV_HOSTNAME : HOSTNAME;
-  // const url = `${host}/api/notion`;
-  // console.log(url);
   try {
-    // const res = await fetch(url, {
-    //   next: {
-    //     revalidate: 60,
-    //   },
-    // });
-
-    // if (res.status !== 200) {
-    //   throw new Error("Failed to fetch data from DB");
-    // }
-
-    // const { data } = await res.json();
-
     const { data } = await getData();
     console.log("data.length from getPublishedItems =>", data.length);
+
+    if (data.length === 0) {
+      throw new Error("Failed to fetch data from DB");
+    }
+
     const parsedData = await getParsedItems(data);
 
     if (parsedData.length === 0) {
@@ -239,20 +229,6 @@ export const getPublishedItems = async () => {
 };
 
 export const getRawItems = async () => {
-  // const host = PREV_MODE ? PREV_HOSTNAME : HOSTNAME;
-  // const url = `${host}/api/notion`;
-  // const res = await fetch(url, {
-  //   next: {
-  //     revalidate: 1,
-  //   },
-  // });
-
-  // if (res.status !== 200) {
-  //   throw new Error("Failed to fetch data from DB");
-  // }
-
-  // const { data } = await res.json();
-
   try {
     const { data } = await getData();
     return data as Item[];
@@ -263,19 +239,6 @@ export const getRawItems = async () => {
 };
 
 export const getDraftItems = async () => {
-  // const host = PREV_MODE ? PREV_HOSTNAME : HOSTNAME;
-  // const url = `${host}/api/notion`;
-  // const res = await fetch(url, {
-  //   next: {
-  //     revalidate: 1,
-  //   },
-  // });
-
-  // if (res.status !== 200) {
-  //   throw new Error("Failed to fetch data from DB");
-  // }
-  // const { data } = await res.json();
-
   try {
     const { data } = await getData();
 

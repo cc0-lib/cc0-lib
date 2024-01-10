@@ -204,6 +204,19 @@ const InfoPage = () => {
         </Card>
 
         <Card>
+          <Title>companion</Title>
+          <Description>
+            want to upload file? use our macOS{" "}
+            <Link
+              href="/companion"
+              className="bg-zinc-800 text-prim underline hover:bg-prim hover:text-zinc-800"
+            >
+              companion app
+            </Link>
+          </Description>
+        </Card>
+
+        <Card>
           <Title>privacy policy</Title>
           <Description>
             read our{" "}

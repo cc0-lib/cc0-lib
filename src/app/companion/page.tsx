@@ -2,6 +2,7 @@ import FileDownloader from "@/components/data/file-dl";
 import Container from "@/components/ui/container";
 
 import Image from "next/image";
+import Link from "next/link";
 
 export const generateMetadata = async () => {
   const title = `Companion | CC0-LIB`;
@@ -47,8 +48,7 @@ const CompanionPage = async () => {
     "https://arweave.net/Kg3ufcJiO1V_QFZCcHZGU9WW2CJFVVWtZf-mIlsaTOc/cc0-lib-uploader-5.png",
   ];
 
-  const dmgURL =
-    "https://pub-e3247d7e22b447139019854186942a65.r2.dev/cc0-lib-uploader_0.4.0_universal.dmg";
+  const dmgURL = "https://r2.nero1.run/cc0-lib-uploader_0.4.0_universal.dmg";
 
   return (
     <Container>
@@ -69,8 +69,23 @@ const CompanionPage = async () => {
         </div>
       </div>
 
-      <div className="mt-16 flex flex-col items-center justify-center gap-8 p-2 text-prim">
-        <span className="font-rubik text-4xl sm:text-6xl">features</span>
+      <div className="mt-16 flex w-full max-w-xl flex-col items-start justify-center gap-8 p-2 text-prim">
+        <span className="font-rubik text-4xl sm:text-6xl">source code</span>
+
+        <Link
+          href="https://github.com/cc0-lib/cc0-lib-companion-app"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hover:bg-prim"
+        >
+          <h1 className="font-rubik text-xl text-white hover:text-zinc-800 sm:text-lg">
+            github.com/cc0-lib/cc0-lib-companion-app
+          </h1>
+        </Link>
+
+        <span className="self-start font-rubik text-4xl sm:text-6xl">
+          features
+        </span>
 
         <ul className="w-full max-w-prose list-inside list-disc text-lg text-white">
           <li>store data permanently</li>
@@ -80,23 +95,24 @@ const CompanionPage = async () => {
           <li>free, just need ENS</li>
         </ul>
       </div>
+      <div className="mt-8 flex w-full max-w-xl flex-col items-start justify-center gap-4 p-2">
+        <span className=" font-rubik text-4xl text-prim sm:text-6xl">
+          download now
+        </span>
 
-      <span className="mt-16 font-rubik text-4xl text-prim sm:text-6xl">
-        download now
-      </span>
+        <div className="mt-8 flex flex-col items-start justify-center">
+          <h1 className="font-rubik text-2xl sm:text-2xl">
+            macOS universal (Intel & Apple Silicon)
+          </h1>
 
-      <div className="mt-8 flex flex-col items-center justify-center">
-        <h1 className="font-rubik text-2xl sm:text-2xl">
-          macOS universal (Intel & Apple Silicon)
-        </h1>
-
-        <FileDownloader
-          data={{
-            url: dmgURL,
-            filename: "cc0-lib-uploader_0.4.0_universal.dmg",
-          }}
-          className="mt-8"
-        />
+          <FileDownloader
+            data={{
+              url: dmgURL,
+              filename: "cc0-lib-uploader_0.4.0_universal.dmg",
+            }}
+            className="mt-8"
+          />
+        </div>
       </div>
     </Container>
   );

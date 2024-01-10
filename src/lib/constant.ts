@@ -13,6 +13,7 @@ export const staticPages: string[] = [
   "fav",
   "ai",
   "dashboard",
+  "companion",
 ];
 
 export const DEV_MODE: boolean = process.env.NODE_ENV === "development";
