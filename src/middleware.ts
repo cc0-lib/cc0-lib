@@ -9,10 +9,12 @@ export const middleware = async (request: NextRequest) => {
     },
   });
 
-  const userToken = request.cookies.get("cc0-lib-siwe")?.value;
+  if (request.nextUrl.pathname === "/dashboard/uploader") {
+    const userToken = request.cookies.get("cc0-lib-siwe")?.value;
 
-  if (!userToken) {
-    return NextResponse.redirect(new URL("/dashboard", request.url));
+    if (!userToken) {
+      return NextResponse.redirect(new URL("/dashboard", request.url));
+    }
   }
 
   /**
@@ -20,7 +22,7 @@ export const middleware = async (request: NextRequest) => {
    */
   if (process.env.NODE_ENV !== "development") {
     if (testPages.some((page) => request.nextUrl.pathname.startsWith(page))) {
-      NextResponse.rewrite(new URL("/", request.url));
+      response = NextResponse.rewrite(new URL("/", request.url)); // assign modified response
       return NextResponse.redirect(new URL("/", request.url));
     }
   }
@@ -29,9 +31,5 @@ export const middleware = async (request: NextRequest) => {
 };
 
 export const config = {
-  matcher: [
-    "/dashboard/submissions/:path*",
-    "/dashboard/uploader",
-    ...testPages,
-  ],
+  matcher: ["/dashboard/uploader", ...testPages],
 };
