@@ -3,7 +3,7 @@ import { getRawItems, getDraftItems } from "@/lib/utils";
 import Image from "next/image";
 
 type Props = {};
-const TestPage = async (props: Props) => {
+const DraftPage = async (props: Props) => {
   const data = await getDraftItems();
   const items = data as Item[];
 
@@ -65,4 +65,4 @@ const TestPage = async (props: Props) => {
     </Container>
   );
 };
-export default TestPage;
+export default DraftPage;

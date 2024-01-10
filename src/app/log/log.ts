@@ -343,6 +343,10 @@ const Log = () => {
       version: "1.19.0",
       changes: ["add companion app landing page at /companion"],
     },
+    {
+      version: "1.19.1",
+      changes: ["image load improvement", "minor fixes"],
+    },
   ];
 
   return log.reverse();
