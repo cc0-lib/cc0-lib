@@ -24,7 +24,6 @@ export const config = {
   matcher: [
     "/dashboard/submissions/:path*",
     "/dashboard/uploader",
-    "/",
     ...testPages,
   ],
 };
