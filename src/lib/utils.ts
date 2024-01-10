@@ -159,7 +159,7 @@ const getData = async (): Promise<any> => {
       count: data.length,
       data: processedData as Item[],
     };
-    console.log("data.length =>", data.length);
+    // console.log("data.length =>", data.length);
     return result;
   } catch (error) {
     console.log(error);
@@ -199,6 +199,10 @@ const getParsedItems = async (data: Item[]): Promise<Item[]> => {
     }
   });
 
+  if (parsedData.length === 0) {
+    throw new Error("Failed to parse data from DB");
+  }
+
   const publishedData = parsedData.filter((item) => {
     return item.Status === "published";
   });
@@ -209,7 +213,10 @@ const getParsedItems = async (data: Item[]): Promise<Item[]> => {
 export const getPublishedItems = async () => {
   try {
     const { data } = await getData();
-    console.log("data.length from getPublishedItems =>", data.length);
+    // console.log("data.length from getPublishedItems =>", data.length);
+    if (!data) {
+      throw new Error("Failed to fetch data from DB");
+    }
 
     if (data.length === 0) {
       throw new Error("Failed to fetch data from DB");
