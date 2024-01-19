@@ -5,6 +5,9 @@ const nextConfig = {
     typedRoutes: true,
   },
   images: {
+    loader: "custom",
+    loaderFile: "src/lib/image-loader.ts",
+    dangerouslyAllowSVG: true,
     remotePatterns: [
       {
         protocol: "https",
@@ -23,7 +26,6 @@ const nextConfig = {
         hostname: "placehold.co",
       },
     ],
-    dangerouslyAllowSVG: true,
   },
   // polyfills for wagmi
   // https://github.com/wagmi-dev/wagmi/issues/2300
