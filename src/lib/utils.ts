@@ -191,7 +191,11 @@ const getParsedItems = async (data: Item[]): Promise<Item[]> => {
 
   const parsedData = data.filter((item) => {
     try {
-      itemSchema.parse(item);
+      const parsedItem = itemSchema.safeParse(item);
+      if (!parsedItem.success) {
+        console.log("parsedItem error =>", parsedItem.error);
+        return false;
+      }
       return true;
     } catch (err) {
       console.log(err);
