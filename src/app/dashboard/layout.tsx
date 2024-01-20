@@ -18,7 +18,12 @@ const DashboardLayout = ({ children }: Props) => {
               href="/"
               className="flex h-full flex-row items-center justify-start gap-8 border-r-2 border-zinc-700 px-16 py-8"
             >
-              <Image src="/cc0lib.svg" alt="logo" width={60} height={60} />
+              <Image
+                src="https://cc0-lib.wtf/cc0lib.svg"
+                alt="logo"
+                width={60}
+                height={60}
+              />
               <Link href="/dashboard">
                 <h1 className="mr-12 font-jetbrains text-xl uppercase hover:text-prim">
                   dashboard

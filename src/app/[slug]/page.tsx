@@ -32,6 +32,7 @@ import ModelViewer from "@/components/ui/model-viewer";
 import { addComment } from "@/lib/redis";
 import { Route } from "next";
 import Image from "next/image";
+import ImageDownloader from "@/components/data/image-dl";
 
 const getItem = async (slug: string) => {
   const data = await getPublishedItems();
@@ -239,6 +240,7 @@ const DetailsPage = async ({ params }: DetailsPageProps) => {
                   <LinkIcon className="h-4 w-4 self-center group-hover:stroke-prim" />
                 </Link>
               )}
+              {data.Type === "Image" && <ImageDownloader data={data} />}
               {data.File && <DownloadFile data={data} showExtension={true} />}
               <SocialShare data={data} />
             </div>
@@ -338,15 +340,17 @@ const DetailsPage = async ({ params }: DetailsPageProps) => {
               </button>
             </form>
 
-            <Suspense
-              fallback={
-                <div className="font-rubik text-lg text-prim">
-                  getting fc comments..
-                </div>
-              }
-            >
-              <FCComments slug={params.slug} />
-            </Suspense>
+            {process.env.NODE_ENV !== "development" && (
+              <Suspense
+                fallback={
+                  <div className="font-rubik text-lg text-prim">
+                    getting fc comments..
+                  </div>
+                }
+              >
+                <FCComments slug={params.slug} />
+              </Suspense>
+            )}
           </div>
 
           {(data?.Type === "Image" ||

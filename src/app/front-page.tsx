@@ -335,14 +335,14 @@ const FrontPage = ({ initialData }: FrontPageProps) => {
       <header className="fixed z-10 flex w-full flex-row items-center justify-between px-8 sm:px-20">
         <Link href="/" className="flex gap-2">
           <Image
-            src="/cc0lib.svg"
+            src="https://cc0-lib.wtf/cc0lib.svg"
             alt="cc0lib logo"
             width={160}
             height={160}
             className="block w-16 sm:hidden"
           />
           <Image
-            src="/cc0lib-h.svg"
+            src="https://cc0-lib.wtf/cc0lib-h.svg"
             alt="cc0lib logo horizontal"
             width={160}
             height={160}

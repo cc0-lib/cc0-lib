@@ -100,7 +100,7 @@ const VideoPlayer = ({ data, src, className }: VideoPlayerProps) => {
       >
         <div className="flex w-full flex-row items-center justify-between p-8">
           <Image
-            src="/cc0lib.svg"
+            src="https://cc0-lib.wtf/cc0lib.svg"
             alt="cc0lib-logo"
             width={32}
             height={32}
