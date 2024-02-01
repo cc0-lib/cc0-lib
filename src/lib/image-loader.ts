@@ -9,6 +9,6 @@ export default function cloudflareLoader({
     quality?: number;
   }) {
     const params = [`width=${width}`, `quality=${quality || 75}`, "format=auto"];
-    return `https://nero1.run/cdn-cgi/image/${params.join(",")}/${src}`;
+    return `https://cc0.wtf/cdn-cgi/image/${params.join(",")}/${src}`;
   }
   
