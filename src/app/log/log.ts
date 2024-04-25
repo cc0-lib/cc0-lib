@@ -347,6 +347,15 @@ const Log = () => {
       version: "1.19.1",
       changes: ["image load improvement", "minor fixes"],
     },
+    {
+      version: "1.20.0",
+      changes: [
+        "cc0 license update",
+        "each asset detail page now have CC0 mark",
+        "update disclaimer with link to creative commons",
+        "ui and ux fixes",
+      ],
+    },
   ];
 
   return log.reverse();
