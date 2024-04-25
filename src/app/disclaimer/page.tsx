@@ -1,5 +1,6 @@
 import Container from "@/components/ui/container";
 import { BookOpen } from "lucide-react";
+import Link from "next/link";
 
 export const generateMetadata = async () => {
   const title = `Disclaimer | CC0-LIB`;
@@ -105,11 +106,35 @@ const DisclaimerPage = () => {
 
           <Divider />
 
+          <span className="text-xl text-prim">References</span>
+          <span>
+            <Link
+              href="https://creativecommons.org/publicdomain/zero/1.0/legalcode.en"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-zinc-800 text-prim underline hover:bg-prim hover:text-zinc-800"
+            >
+              CC0 1.0 LEGAL CODE
+            </Link>
+          </span>
+          <span>
+            <Link
+              href="https://creativecommons.org/publicdomain/zero/1.0/deed.en"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-zinc-800 text-prim underline hover:bg-prim hover:text-zinc-800"
+            >
+              CC0 1.0 DEED
+            </Link>
+          </span>
+
+          <Divider />
+
           <span className="mt-4">
             If you have any questions or concerns regarding this disclaimer,
-            please contact us at cc0-lib[at]archives.wtf.
+            please contact us at content[at]cc0-lib.wtf.
           </span>
-          <span>Last updated: 5th July 2023</span>
+          <span>Last updated: 25th April 2024</span>
         </p>
       </div>
     </Container>
