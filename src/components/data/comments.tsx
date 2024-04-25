@@ -12,7 +12,7 @@ const Comments = async ({ id }: CommentsProps) => {
       {comments && comments.length >= 1 && (
         <div className="flex max-w-sm flex-col gap-2 overflow-hidden">
           <span className="font-rubik text-lg text-prim">comments</span>
-          <div className="max-h-16 overflow-scroll">
+          <div className="max-h-16 overflow-y-scroll scrollbar-thin scrollbar-track-transparent scrollbar-thumb-zinc-500">
             {comments.map((comment) => {
               return (
                 <div
