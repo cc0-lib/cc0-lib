@@ -24,8 +24,9 @@ type MainContainerProps = {
 const MainContainer = ({ children }: MainContainerProps) => {
   return (
     <main
-      className="flex min-h-screen flex-col items-center justify-between bg-zinc-900 bg-grid p-8
-        font-spline text-white selection:bg-zinc-800 selection:text-prim dark:text-white sm:p-12"
+      className="flex min-h-screen flex-col items-center justify-between bg-zinc-900 bg-grid
+        p-8 font-spline text-white selection:bg-zinc-800 selection:text-prim dark:text-white sm:p-12
+        "
     >
       {children}
     </main>

@@ -78,7 +78,7 @@ const EditDetailsPage = async ({ params }: DetailsPageProps) => {
         <Image
           src={
             data.Thumbnails
-              ? data.Thumbnails[0].url
+              ? (data.ThumbnailURL as string)
               : "https://placehold.co/300x300/black/white/?text=Under+Review"
           }
           alt={data.Title}
@@ -92,7 +92,7 @@ const EditDetailsPage = async ({ params }: DetailsPageProps) => {
         <Image
           src={
             data.Thumbnails
-              ? data.Thumbnails[0].url
+              ? (data.ThumbnailURL as string)
               : "https://placehold.co/300x300/black/white/?text=Under+Review"
           }
           alt={data.Title}

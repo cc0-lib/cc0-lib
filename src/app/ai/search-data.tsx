@@ -27,7 +27,7 @@ const SearchData = ({ data }: SearchDataProps) => {
                 className="group relative flex h-auto w-full break-inside-avoid"
               >
                 <Image
-                  src={item.Thumbnails?.[0].url}
+                  src={item.ThumbnailURL as string}
                   alt={item.Title}
                   width={500}
                   height={500}

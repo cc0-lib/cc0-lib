@@ -41,7 +41,7 @@ export async function GET(request: NextRequest) {
 
     return {
       image: {
-        url: data.Thumbnails[0].url,
+        url: data.ThumbnailURL as string,
       },
       data: data,
     };

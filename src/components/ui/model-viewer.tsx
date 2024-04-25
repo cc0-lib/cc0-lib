@@ -22,7 +22,7 @@ const ModelViewer = ({ data }: ModelViewerProps) => {
           touch-action="pan-y"
           auto-rotate
           ar
-          poster={data.Thumbnails[0].url}
+          poster={data.ThumbnailURL}
           style={{
             width: "auto",
             height: "60vh",
