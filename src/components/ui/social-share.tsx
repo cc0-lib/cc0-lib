@@ -14,17 +14,18 @@ type SocialShareProps = {
 const SocialShare = ({ data, className }: SocialShareProps) => {
   return (
     <div
-      className={`${className} group flex w-1/2 cursor-pointer flex-row gap-4`}
+      className={`${className} group flex w-1/2 cursor-pointer flex-row gap-0`}
     >
-      <span className="group flex flex-row gap-1 hover:text-prim">
-        <span>share</span>
-        <Share className="h-4 w-4 self-center group-hover:stroke-prim" />
-      </span>
-      <div className="flex flex-row items-center gap-2 lowercase transition-all duration-100 ease-in-out">
+      <div>
+        <span className="group flex flex-row gap-1 hover:text-prim">
+          <span>share</span>
+          <Share className="h-4 w-4 self-center group-hover:stroke-prim" />
+        </span>
+      </div>
+      <div className="mt-1 flex flex-col items-center gap-2 lowercase transition-all duration-100 ease-in-out sm:ml-4 sm:flex-row">
         <TwitterShareButton
-          title={`Discover this amazing CC0 piece of media: ${data.Title} 🌟`}
+          title={`Check this CC0 asset i found on @cc0lib! ${data.Title}`}
           blankTarget={true}
-          hashtags={data.Tags}
           url={`https://cc0-lib.wtf/${slugify(data.Title)}`}
         >
           <TwitterIcon className="h-4 w-4 self-center opacity-0 hover:stroke-prim hover:text-prim group-hover:opacity-100" />

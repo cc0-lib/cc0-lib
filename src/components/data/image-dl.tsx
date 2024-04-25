@@ -12,7 +12,7 @@ const ImageDownloader = ({ data }: ImageDownloaderProps) => {
   return (
     <>
       <Link
-        href={data?.Thumbnails[0].url as Route}
+        href={data?.ThumbnailURL as Route}
         target="_blank"
         rel="noreferrer noopener"
         className="group flex flex-row gap-1 hover:text-prim"

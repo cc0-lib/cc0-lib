@@ -108,7 +108,7 @@ const Sentiment = ({ data }: SentimentProps) => {
     <div className="mt-4 flex flex-row gap-4">
       <div>
         <HeartIcon
-          className={`peer h-6 w-6 cursor-pointer transition-all duration-200 ease-out active:scale-150 active:stroke-prim ${
+          className={`peer h-6 w-6 cursor-pointer transition-all duration-200 ease-out hover:stroke-prim active:scale-150 active:stroke-prim ${
             liked ? "stroke-prim" : "stroke-white"
           }`}
           onClick={() => {
@@ -126,7 +126,7 @@ const Sentiment = ({ data }: SentimentProps) => {
       </div>
       <div>
         <FlagIcon
-          className={`peer h-6 w-6 cursor-pointer transition-all duration-200 ease-out active:scale-150 active:stroke-red-500 ${
+          className={`peer h-6 w-6 cursor-pointer transition-all duration-200 ease-out hover:stroke-red-500 active:scale-150 active:stroke-red-500 ${
             disliked ? "stroke-red-500" : "stroke-white"
           }`}
           onClick={() => {

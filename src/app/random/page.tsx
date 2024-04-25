@@ -63,7 +63,7 @@ const RandomPage = async () => {
 
     return {
       image: {
-        url: data.Thumbnails[0].url,
+        url: data.ThumbnailURL as string,
       },
       data: data,
     };

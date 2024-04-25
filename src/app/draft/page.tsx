@@ -37,8 +37,8 @@ const DraftPage = async (props: Props) => {
               {item.Thumbnails && item.Thumbnails.length > 0 && (
                 <Image
                   src={
-                    item.Thumbnails[0].url
-                      ? item.Thumbnails[0]?.url
+                    item.ThumbnailURL
+                      ? item.ThumbnailURL
                       : "https://placehold.co/200x200"
                   }
                   alt={item.Title}

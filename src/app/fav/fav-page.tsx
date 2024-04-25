@@ -63,9 +63,19 @@ const FavPage = ({ initialData }: FavPageProps) => {
           )}
         </div>
         {data.length == 0 && (
-          <p className="text-2xl lowercase">
-            Add some favorites! Begin browsing and curating your perfect list
-          </p>
+          <div className="flex w-full flex-col items-center justify-center gap-8">
+            <p className="text-2xl lowercase">
+              Add some favorites! Begin browsing and curating your perfect list
+              now
+            </p>
+
+            <Link
+              href="/"
+              className="w-max bg-zinc-800 text-2xl lowercase text-prim underline hover:bg-prim hover:text-zinc-800"
+            >
+              BROWSE
+            </Link>
+          </div>
         )}
 
         <Suspense fallback={<div>Loading</div>}>
@@ -79,7 +89,7 @@ const FavPage = ({ initialData }: FavPageProps) => {
                     className="group relative flex h-auto w-full break-inside-avoid"
                   >
                     <Image
-                      src={item.Thumbnails?.[0].url}
+                      src={item.ThumbnailURL as string}
                       alt={item.Title}
                       width={500}
                       height={500}

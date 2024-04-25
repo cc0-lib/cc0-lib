@@ -55,7 +55,7 @@ export const generateMetadata = async ({ params }: DetailsPageProps) => {
   return {
     title: `${data?.Title} | CC0-LIB`,
     description: data?.Description,
-    image: data?.Thumbnails?.[0].url || "https://cc0-lib.wtf/og.png",
+    image: data?.ThumbnailURL || "https://cc0-lib.wtf/og.png",
     url: `https://cc0-lib.wtf/${params.slug}`,
     type: "website",
     openGraph: {
@@ -65,7 +65,7 @@ export const generateMetadata = async ({ params }: DetailsPageProps) => {
       type: "website",
       images: [
         {
-          url: data?.Thumbnails?.[0].url || "https://cc0-lib.wtf/og.png",
+          url: data?.ThumbnailURL || "https://cc0-lib.wtf/og.png",
           width: 800,
           height: 400,
           alt: data?.Title,
@@ -77,7 +77,7 @@ export const generateMetadata = async ({ params }: DetailsPageProps) => {
       card: "summary_large_image",
       title: `${data?.Title} | CC0-LIB`,
       description: data?.Description,
-      images: [data?.Thumbnails?.[0].url || "https://cc0-lib.wtf/og.png"],
+      images: [data?.ThumbnailURL || "https://cc0-lib.wtf/og.png"],
     },
   };
 };
@@ -153,7 +153,7 @@ const DetailsPage = async ({ params }: DetailsPageProps) => {
 
       {data && (data?.Type === "Image" || data?.Type === "GIF") && (
         <Image
-          src={data.Thumbnails[0].url}
+          src={data.ThumbnailURL as string}
           alt={data.Title}
           width={768}
           height={768}
@@ -163,7 +163,7 @@ const DetailsPage = async ({ params }: DetailsPageProps) => {
 
       {data && (data?.Type === "3D" || data?.Type === "Working Files") && (
         <Image
-          src={data.Thumbnails[0].url}
+          src={data.ThumbnailURL as string}
           alt={data.Title}
           width={768}
           height={768}
@@ -186,7 +186,7 @@ const DetailsPage = async ({ params }: DetailsPageProps) => {
           data?.Filetype === "Figma") && <MoreDetails />}
 
       {data && (
-        <div className="flex w-full max-w-5xl flex-col items-center justify-between gap-4 p-4 sm:flex-row sm:p-16">
+        <div className="flex w-full max-w-5xl flex-col items-center justify-between gap-4 p-2 sm:flex-row sm:p-16">
           <div className="duration-250 flex w-full flex-col gap-4 font-spline text-2xl text-white transition-all ease-linear">
             <div className="flex flex-row gap-4">
               <span className=" flex flex-row gap-2 text-sm text-zinc-400">
@@ -228,7 +228,7 @@ const DetailsPage = async ({ params }: DetailsPageProps) => {
               {data?.Title}
             </span>
             <span className="max-w-prose text-lg">{data?.Description}</span>
-            <div className="place flex w-full flex-row justify-between gap-4 text-base lowercase sm:w-1/3 sm:text-lg">
+            <div className="place flex h-6 w-full flex-row justify-between gap-4 text-base lowercase sm:w-1/3 sm:text-lg">
               {data?.Source && (
                 <Link
                   href={data?.Source as Route}
@@ -334,7 +334,7 @@ const DetailsPage = async ({ params }: DetailsPageProps) => {
               <button
                 aria-label="submit comment"
                 type="submit"
-                className="text-zinc-600 hover:text-prim peer-focus:text-prim "
+                className="text-zinc-600 peer-focus:text-prim hover:text-prim "
               >
                 <Send className="h-4 w-4 self-center" />
               </button>
@@ -358,7 +358,7 @@ const DetailsPage = async ({ params }: DetailsPageProps) => {
             data?.Type === "Working Files" ||
             data?.Type === "3D") && (
             <Image
-              src={data.Thumbnails[0].url}
+              src={data.ThumbnailURL as string}
               alt={data.Title}
               width={500}
               height={500}
@@ -368,7 +368,7 @@ const DetailsPage = async ({ params }: DetailsPageProps) => {
 
           {data?.Type === "Video" && (
             <Image
-              src={data.Thumbnails[0].url}
+              src={data.ThumbnailURL as string}
               alt={data.Title}
               width={500}
               height={500}
@@ -378,7 +378,7 @@ const DetailsPage = async ({ params }: DetailsPageProps) => {
 
           {data?.Type === "Audio" && (
             <Image
-              src={data.Thumbnails[0].url}
+              src={data.ThumbnailURL as string}
               alt={data.Title}
               width={500}
               height={500}
@@ -408,16 +408,16 @@ const CC0Details = () => {
   return (
     <div
       className="
-    mt-4 flex flex-row items-center justify-center gap-2 text-xs text-zinc-400"
+    mt-4 flex flex-row items-center justify-center gap-2 text-xs text-zinc-600"
     >
       this work is marked with{" "}
       <Link
         href="https://creativecommons.org/publicdomain/zero/1.0/"
         target="_blank"
         rel="noopener noreferrer"
-        className="text-zinc-300 hover:text-prim"
+        className="text-zinc-500 hover:text-prim"
       >
-        CC0 1.0
+        CC0 1.0 Universal
       </Link>
       <a
         href="https://creativecommons.org/publicdomain/zero/1.0/"

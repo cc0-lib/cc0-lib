@@ -400,7 +400,7 @@ const FrontPage = ({ initialData }: FrontPageProps) => {
           } ${
             trimmedData.length > 2 &&
             "md:masonry-md 2xl:masonry-lg my-16 max-w-none"
-          } my-16 space-y-6 `}
+          } my-16 space-y-6`}
         >
           {trimmedData.map((item) => {
             return (
@@ -410,7 +410,7 @@ const FrontPage = ({ initialData }: FrontPageProps) => {
                 className="group relative flex h-auto w-full break-inside-avoid"
               >
                 <Image
-                  src={item.Thumbnails?.[0].url}
+                  src={item.ThumbnailURL as string}
                   alt={item.Title}
                   width={500}
                   height={500}
@@ -467,7 +467,7 @@ const FrontPage = ({ initialData }: FrontPageProps) => {
                     <Link
                       key={type}
                       href={`/?type=${type.toLowerCase()}`}
-                      className="opacity-0 hover:text-prim group-hover:opacity-100"
+                      className="opacity-0 group-hover:opacity-100 hover:text-prim"
                     >
                       {type}
                     </Link>

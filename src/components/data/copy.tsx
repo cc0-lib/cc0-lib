@@ -8,7 +8,7 @@ const CopyToClipboard = ({ data }: CopyToClipboardProps) => {
   const copy = async () => {
     try {
       console.log("Copying to clipboard....");
-      const img = await fetch(data?.Thumbnails[0].url);
+      const img = await fetch(data?.ThumbnailURL as string);
       const imgBlob = await img.blob();
 
       navigator.clipboard.write([

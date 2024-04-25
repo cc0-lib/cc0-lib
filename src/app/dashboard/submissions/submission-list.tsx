@@ -262,7 +262,7 @@ const SubmissionListPage = ({ rawData }: { rawData: Item[] }) => {
                 actions={act(item.SubmissionStatus as string)}
                 imageUri={
                   item.Thumbnails
-                    ? item.Thumbnails[0].url
+                    ? (item.ThumbnailURL as string)
                     : "https://placehold.co/300x300/black/white/?text=Under+Review"
                 }
               />

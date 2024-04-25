@@ -356,6 +356,15 @@ const Log = () => {
         "ui and ux fixes",
       ],
     },
+    {
+      version: "1.20.1",
+      changes: [
+        "fix thumbnail url",
+        "ux improvement",
+        "nicer scrollbar",
+        "fix social sharing on mobile",
+      ],
+    },
   ];
 
   return log.reverse();
