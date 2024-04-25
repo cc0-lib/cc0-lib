@@ -387,6 +387,8 @@ const DetailsPage = async ({ params }: DetailsPageProps) => {
           )}
         </div>
       )}
+
+      <CC0Details />
     </Container>
   );
 };
@@ -398,6 +400,30 @@ const MoreDetails = () => {
       <span>more</span>
       <ChevronsDown className="h-6 w-6 " />
       <span>details</span>
+    </div>
+  );
+};
+
+const CC0Details = () => {
+  return (
+    <div
+      className="
+    mt-4 flex flex-row items-center justify-center gap-2 text-xs text-zinc-400"
+    >
+      this work is marked with{" "}
+      <Link
+        href="https://creativecommons.org/publicdomain/zero/1.0/"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-zinc-300 hover:text-prim"
+      >
+        CC0 1.0
+      </Link>
+      <a
+        href="https://creativecommons.org/publicdomain/zero/1.0/"
+        target="_blank"
+        rel="license noopener noreferrer"
+      ></a>
     </div>
   );
 };

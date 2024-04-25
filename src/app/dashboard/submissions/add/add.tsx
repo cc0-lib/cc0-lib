@@ -251,6 +251,14 @@ const AddSubmission = (props: Props) => {
             )}
             {!error && (
               <>
+                <span className="w-full p-14 text-xs font-extralight">
+                  By submitting, I hereby certify that the submitted asset is
+                  marked under a Creative Commons Zero (CC0) license, thereby
+                  waiving any and all copyright interests in the work. This
+                  certification allows others to freely use, modify, and
+                  distribute the asset without restriction or expectation of
+                  compensation.
+                </span>
                 <button
                   className="rounded-md border-2 border-zinc-700 px-6 py-4 font-jetbrains text-xl uppercase text-prim hover:border-prim hover:bg-prim hover:text-zinc-800"
                   title="Reset"

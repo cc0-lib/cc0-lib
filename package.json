@@ -1,6 +1,6 @@
 {
   "name": "cc0-lib",
-  "version": "0.1.0",
+  "version": "1.20.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -31,7 +31,7 @@
     "framer-motion": "^10.12.16",
     "langchain": "^0.0.119",
     "lucide-react": "^0.265.0",
-    "next": "^13.4.16",
+    "next": "latest",
     "next-share": "^0.20.0",
     "postcss": "8.4.24",
     "react": "18.2.0",
