@@ -61,6 +61,12 @@ export const handleENSLeaderboard = (sourceData: Item[]) => {
 
     const count = sourceData.filter((item) => {
       if (!item.ENS) return false;
+      if (ens.ens?.startsWith("0x") && ens.ens?.length > 20) {
+        // return the first 6 and last 4 characters
+        // format it in 0x1234...5678
+        const formattedEns = `${ens.ens.slice(0, 6)}...${ens.ens.slice(-4)}`;
+        return item.ENS.includes(formattedEns);
+      }
       return item.ENS.includes(ens.ens as string);
     }).length;
 
