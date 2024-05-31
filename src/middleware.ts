@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 const testPages = ["/draft", "/rive-test", "/loading-test"];
 
-export const middleware = async (request: NextRequest) => {
+export async function middleware(request: NextRequest) {
   let response = NextResponse.next({
     request: {
       headers: request.headers,
@@ -22,13 +22,12 @@ export const middleware = async (request: NextRequest) => {
    */
   if (process.env.NODE_ENV !== "development") {
     if (testPages.some((page) => request.nextUrl.pathname.startsWith(page))) {
-      response = NextResponse.rewrite(new URL("/", request.url)); // assign modified response
       return NextResponse.redirect(new URL("/", request.url));
     }
   }
 
   return response;
-};
+}
 
 export const config = {
   matcher: ["/dashboard/uploader", ...testPages],
