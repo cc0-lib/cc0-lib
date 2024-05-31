@@ -120,7 +120,7 @@ const PrivacyPage = () => {
 
           <span className="mt-4">
             If you have any questions or concerns regarding this privacy policy,
-            please contact us at cc0-lib[at]archives.wtf.
+            please contact us at hello[at]cc0-lib.wtf.
           </span>
           <span>Last updated: 5th July 2023</span>
         </p>

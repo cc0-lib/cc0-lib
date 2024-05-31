@@ -132,7 +132,7 @@ const DisclaimerPage = () => {
 
           <span className="mt-4">
             If you have any questions or concerns regarding this disclaimer,
-            please contact us at content[at]cc0-lib.wtf.
+            please contact us at hello[at]cc0-lib.wtf.
           </span>
           <span>Last updated: 25th April 2024</span>
         </p>
