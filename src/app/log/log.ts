@@ -368,10 +368,18 @@ const Log = () => {
     {
       version: "1.21.0",
       changes: [
+        "ux fixes",
         "fix cors for public API",
         "sunset ai search feature",
         "bug fixes",
         "add karbon-kore analytics",
+      ],
+    },
+    {
+      version: "1.22.0",
+      changes: [
+        "new right click feature",
+        "download file, copy file url, see detailed info directly from right click",
       ],
     },
   ];

@@ -22,6 +22,18 @@ import { useInView } from "framer-motion";
 import Image from "next/image";
 import { DEV_MODE } from "@/lib/constant";
 
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuLabel,
+  ContextMenuSeparator,
+  ContextMenuSub,
+  ContextMenuSubContent,
+  ContextMenuSubTrigger,
+  ContextMenuTrigger,
+} from "@/components/ui/context-menu";
+
 type FrontPageProps = {
   initialData: Item[];
 };
@@ -286,7 +298,14 @@ const FrontPage = ({ initialData }: FrontPageProps) => {
     if (initialData && query && !typeSearch && !formatSearch && !tagSearch) {
       handleSearchBar(query);
     }
-  }, [initialData, query, handleSearchBar]);
+  }, [
+    initialData,
+    query,
+    handleSearchBar,
+    typeSearch,
+    formatSearch,
+    tagSearch,
+  ]);
 
   useEffect(() => {
     if (initialData && search) {
@@ -404,23 +423,104 @@ const FrontPage = ({ initialData }: FrontPageProps) => {
         >
           {trimmedData.map((item) => {
             return (
-              <Link
-                key={item.id}
-                href={`/${slugify(item.Title)}`}
-                className="group relative flex h-auto w-full break-inside-avoid"
-              >
-                <Image
-                  src={item.ThumbnailURL as string}
-                  alt={item.Title}
-                  width={500}
-                  height={500}
-                  loading="lazy"
-                  className="h-auto w-full rounded-sm opacity-80 transition-all duration-100 ease-in-out hover:opacity-100 hover:ring-2 hover:ring-prim hover:ring-offset-1 hover:ring-offset-zinc-900"
-                />
-                <h1 className="absolute right-4 top-4 hidden bg-zinc-800 bg-opacity-50 px-3 py-1 font-chakra uppercase text-white backdrop-blur-sm group-hover:block">
-                  {item.Filetype}
-                </h1>
-              </Link>
+              <ContextMenu key={item.id}>
+                <ContextMenuTrigger className="group relative flex h-auto w-full break-inside-avoid">
+                  <Link key={item.id} href={`/${slugify(item.Title)}`}>
+                    <Image
+                      src={item.ThumbnailURL as string}
+                      alt={item.Title}
+                      width={500}
+                      height={500}
+                      loading="lazy"
+                      className="h-auto max-w-sm rounded-sm opacity-80 transition-all duration-100 ease-in-out hover:opacity-100 hover:ring-2 hover:ring-prim hover:ring-offset-1 hover:ring-offset-zinc-900"
+                    />
+                    <h1 className="absolute right-4 top-4 hidden bg-zinc-800 bg-opacity-50 px-3 py-1 font-chakra uppercase text-white backdrop-blur-sm group-hover:block">
+                      {item.Filetype}
+                    </h1>
+                  </Link>
+                </ContextMenuTrigger>
+                <ContextMenuContent className="border-none bg-zinc-800">
+                  <ContextMenuItem
+                    className="cursor-pointer font-jetbrains font-light text-zinc-200 focus:bg-prim"
+                    onClick={() => {
+                      if (item.Type === "Image" || item.Type === "GIF") {
+                        console.log(item.ThumbnailURL);
+                        window.open(item.ThumbnailURL, "_blank");
+                      } else {
+                        window.open(item.File, "_blank");
+                      }
+                    }}
+                  >
+                    Download {item.Filetype}
+                  </ContextMenuItem>
+                  <ContextMenuItem
+                    className="cursor-pointer font-jetbrains font-light text-zinc-200 focus:bg-prim"
+                    onClick={() => {
+                      navigator.clipboard.writeText(
+                        item.Type === "Image" || item.Type === "GIF"
+                          ? item.ThumbnailURL!
+                          : item.File!
+                      );
+                    }}
+                  >
+                    Copy {item.Type} URL
+                  </ContextMenuItem>
+                  <ContextMenuSeparator className="bg-zinc-700 focus:bg-prim" />
+
+                  <ContextMenuSub>
+                    <ContextMenuSubTrigger className="font-jetbrains font-light text-zinc-200 focus:bg-prim">
+                      Tags
+                    </ContextMenuSubTrigger>
+                    <ContextMenuSubContent className="border-none bg-zinc-800">
+                      <ContextMenuLabel className="font-jetbrains font-light text-zinc-200 focus:bg-prim">
+                        {item.Tags.join(", ")}
+                      </ContextMenuLabel>
+                    </ContextMenuSubContent>
+                  </ContextMenuSub>
+                  {item.Source && (
+                    <ContextMenuSub>
+                      <ContextMenuSubTrigger className="font-jetbrains font-light text-zinc-200 focus:bg-prim">
+                        Source
+                      </ContextMenuSubTrigger>
+                      <ContextMenuSubContent className="border-none bg-zinc-800">
+                        <ContextMenuLabel className="font-jetbrains font-light text-zinc-200 focus:bg-prim">
+                          <Link
+                            href={item.Source as string}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="hover:text-prim hover:underline"
+                          >
+                            {item.Source}
+                          </Link>
+                        </ContextMenuLabel>
+                      </ContextMenuSubContent>
+                    </ContextMenuSub>
+                  )}
+                  <ContextMenuSub>
+                    <ContextMenuSubTrigger className="font-jetbrains font-light text-zinc-200 focus:bg-prim">
+                      Submitted by
+                    </ContextMenuSubTrigger>
+                    <ContextMenuSubContent className="border-none bg-zinc-800">
+                      <ContextMenuLabel className="font-jetbrains font-light text-zinc-200 focus:bg-prim">
+                        <Link
+                          href={
+                            item["Social Link"] ? item["Social Link"] : "/info"
+                          }
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="hover:text-prim hover:underline"
+                        >
+                          {item.ENS ?? "cc0-lib"}
+                        </Link>
+                      </ContextMenuLabel>
+                    </ContextMenuSubContent>
+                  </ContextMenuSub>
+                  <ContextMenuSeparator className="bg-zinc-700 focus:bg-prim" />
+                  <ContextMenuItem className="cursor-pointer font-jetbrains font-light text-zinc-200 focus:bg-prim">
+                    <Link href={`/${slugify(item.Title)}`}>More info</Link>
+                  </ContextMenuItem>
+                </ContextMenuContent>
+              </ContextMenu>
             );
           })}
         </div>
