@@ -1,6 +1,7 @@
 import Container from "@/components/ui/container";
 import AISearchPage from "./search";
 import { Suspense } from "react";
+import { redirect } from "next/navigation";
 
 export const generateMetadata = async () => {
   const title = `AI Search | CC0-LIB`;
@@ -39,14 +40,15 @@ export const generateMetadata = async () => {
 };
 
 const AIPage = () => {
-  return (
-    <Container>
-      <div className="flex w-full flex-col items-center gap-8">
-        <Suspense fallback={<div>Loading...</div>}>
-          <AISearchPage />
-        </Suspense>
-      </div>
-    </Container>
-  );
+  return redirect("/");
+  // return (
+  //   <Container>
+  //     <div className="flex w-full flex-col items-center gap-8">
+  //       <Suspense fallback={<div>Loading...</div>}>
+  //         {/* <AISearchPage /> */}
+  //       </Suspense>
+  //     </div>
+  //   </Container>
+  // );
 };
 export default AIPage;

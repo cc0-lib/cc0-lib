@@ -162,7 +162,7 @@ const InfoPage = () => {
           </Description>
         </Card>
 
-        <Card>
+        {/* <Card>
           <Title>intelligent search</Title>
           <Description>
             ai{" "}
@@ -173,7 +173,7 @@ const InfoPage = () => {
               assisted search
             </Link>
           </Description>
-        </Card>
+        </Card> */}
 
         <Card>
           <Title>raycast</Title>
