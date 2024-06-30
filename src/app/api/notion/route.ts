@@ -12,7 +12,7 @@ export const GET = async (request: NextRequest) => {
   const url = `https://notion-api.splitbee.io/v1/table/${DB_LIST_ID}`;
   const res = await fetch(url, {
     next: {
-      revalidate: 60,
+      revalidate: 3600,
     },
   });
 
@@ -24,7 +24,7 @@ export const GET = async (request: NextRequest) => {
       const url = `https://notion-api.splitbee.io/v1/table/${db}`;
       const res = await fetch(url, {
         next: {
-          revalidate: 1,
+          revalidate: 3600,
         },
       });
       const result = await res.json();
@@ -108,7 +108,7 @@ export const POST = async (request: NextRequest) => {
   const url = `https://notion-api.splitbee.io/v1/table/${DB_LIST_ID}`;
   const res = await fetch(url, {
     next: {
-      revalidate: 60,
+      revalidate: 3600,
     },
   });
 

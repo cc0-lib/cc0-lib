@@ -122,7 +122,7 @@ const getData = async (): Promise<any> => {
     const url = `https://notion-api.splitbee.io/v1/table/${DB_LIST_ID}`;
     const res = await fetch(url, {
       next: {
-        revalidate: 60,
+        revalidate: 3600,
       },
     });
 
@@ -134,7 +134,7 @@ const getData = async (): Promise<any> => {
         const url = `https://notion-api.splitbee.io/v1/table/${db}`;
         const res = await fetch(url, {
           next: {
-            revalidate: 1,
+            revalidate: 3600,
           },
         });
         const result = await res.json();
@@ -271,7 +271,11 @@ export const getDraftItems = async () => {
 };
 
 export const getDateFromItem = async (id: string) => {
-  const res = await fetch(`https://notion-api.splitbee.io/v1/page/${id}`);
+  const res = await fetch(`https://notion-api.splitbee.io/v1/page/${id}`, {
+    next: {
+      revalidate: 3600,
+    },
+  });
   if (res.status !== 200) {
     throw new Error("Failed to fetch data from DB");
   }

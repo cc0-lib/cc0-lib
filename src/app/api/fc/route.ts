@@ -3,7 +3,12 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
   const res = await fetch(
-    "https://searchcaster.xyz/api/search?text=cc0-lib.wtf"
+    "https://searchcaster.xyz/api/search?text=cc0-lib.wtf",
+    {
+      next: {
+        revalidate: 3600,
+      },
+    }
   );
   const data: Casts = await res.json();
 
@@ -78,7 +83,12 @@ export async function GET(request: NextRequest) {
   const castReplies = await Promise.all(
     filteredCast.map(async (cast: FilteredCast) => {
       const res = await fetch(
-        `https://searchcaster.xyz/api/search?merkleRoot=${cast.merkle}`
+        `https://searchcaster.xyz/api/search?merkleRoot=${cast.merkle}`,
+        {
+          next: {
+            revalidate: 3600,
+          },
+        }
       );
       const data = await res.json();
 
