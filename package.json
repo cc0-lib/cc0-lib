@@ -1,6 +1,6 @@
 {
   "name": "cc0-lib",
-  "version": "1.22.0",
+  "version": "1.22.1",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -54,6 +54,7 @@
   "devDependencies": {
     "@types/react": "18.2.16",
     "@types/rss": "^0.0.30",
+    "postcss": ">=8.4.31",
     "encoding": "^0.1.13",
     "lokijs": "^1.5.12",
     "pino-pretty": "^10.0.0",

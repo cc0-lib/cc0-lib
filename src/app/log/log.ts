@@ -382,6 +382,10 @@ const Log = () => {
         "download file, copy file url, see detailed info directly from right click",
       ],
     },
+    {
+      version: "1.22.1",
+      changes: ["bug fixes"],
+    },
   ];
 
   return log.reverse();
