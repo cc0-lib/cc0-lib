@@ -1,6 +1,7 @@
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/react";
 import Web3Provider from "@/components/web3/web3-provider";
+import Script from "next/script";
 
 export default function RootLayout({ children }) {
   return (
@@ -9,6 +10,11 @@ export default function RootLayout({ children }) {
         <Web3Provider>
           <MainContainer>
             {children}
+            <Script
+              defer
+              src="https://analytics.karbonko.re/script.js"
+              data-website-id="bde81510-1c80-4029-a56b-979117643070"
+            />
             <Analytics />
           </MainContainer>
         </Web3Provider>

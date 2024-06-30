@@ -365,6 +365,15 @@ const Log = () => {
         "fix social sharing on mobile",
       ],
     },
+    {
+      version: "1.21.0",
+      changes: [
+        "fix cors for public API",
+        "sunset ai search feature",
+        "bug fixes",
+        "add karbon-kore analytics",
+      ],
+    },
   ];
 
   return log.reverse();

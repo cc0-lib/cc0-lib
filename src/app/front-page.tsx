@@ -477,7 +477,7 @@ const FrontPage = ({ initialData }: FrontPageProps) => {
             )}
           </div>
         </div>
-        <div onClick={handleRandomData}>
+        <div onClick={handleRandomData} data-umami-event="random-data">
           <div
             className="group flex cursor-pointer flex-row items-center gap-2"
             id="random"
@@ -597,7 +597,7 @@ const FrontPageTicker = () => {
           </Link>
         </div>
         <div className="mr-64 flex flex-row gap-1 ">a nouns thing ⌐◨-◨</div>
-        <div className="mr-64 flex flex-row gap-1 ">
+        {/* <div className="mr-64 flex flex-row gap-1 ">
           new{" "}
           <Link
             href="/ai"
@@ -607,7 +607,7 @@ const FrontPageTicker = () => {
             ai-assisted search
           </Link>{" "}
           feature is live
-        </div>
+        </div> */}
         <div className="mr-64 flex flex-row gap-1 ">
           cc0-lib is funded by nouns dao
         </div>
