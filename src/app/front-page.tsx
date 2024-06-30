@@ -33,6 +33,7 @@ import {
   ContextMenuSubTrigger,
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
+import { Route } from "next";
 
 type FrontPageProps = {
   initialData: Item[];
@@ -485,7 +486,7 @@ const FrontPage = ({ initialData }: FrontPageProps) => {
                       <ContextMenuSubContent className="border-none bg-zinc-800">
                         <ContextMenuLabel className="font-jetbrains font-light text-zinc-200 focus:bg-prim">
                           <Link
-                            href={item.Source as string}
+                            href={item.Source as Route}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="hover:text-prim hover:underline"
@@ -504,7 +505,9 @@ const FrontPage = ({ initialData }: FrontPageProps) => {
                       <ContextMenuLabel className="font-jetbrains font-light text-zinc-200 focus:bg-prim">
                         <Link
                           href={
-                            item["Social Link"] ? item["Social Link"] : "/info"
+                            item["Social Link"]
+                              ? (item["Social Link"] as Route)
+                              : "/info"
                           }
                           target="_blank"
                           rel="noopener noreferrer"
